@@ -5,14 +5,14 @@
 // to get access to the User model.
 
 const User = require('./user');
-const Room = require('./room');
+const Group = require('./group');
 const Message = require('./message');
 
-User.hasMany(Room, {through: 'room_user'});
-Room.hasMany(User, {through: 'room_user'});
+User.belongsToMany(Group, {through: 'group_user'});
+Group.belongsToMany(User, {through: 'group_user'});
 
-Room.hasMany(Message);
-Message.belongsTo(Room);
+Group.hasMany(Message);
+Message.belongsTo(Group);
 
 User.hasMany(Message);
 Message.belongsTo(User);
@@ -20,4 +20,4 @@ Message.belongsTo(User);
 
 
 
-module.exports = {User, Room, Message}
+module.exports = {User, Group, Message}
