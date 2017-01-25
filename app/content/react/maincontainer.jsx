@@ -6,15 +6,16 @@ class MainContainer extends React.Component{
     super(props);
     this.sideBarStyle = {
       position: 'fixed',
-      right: '0px',
-      top: '0px',
-      width: '30vw',
-      height: '100%',
-      backgroundColor: 'blue',
-      float: 'right',
-      marginLeft: '20px'
+      top: '86vh',
+      left: '92vw',
+      zIndex:'9999',
+      background: '#2c75ea',
+      height: '85px',
+      width: '85px',
+      borderRadius: '50%'
     }
   }
+
 
   render(){
     return (
