@@ -5,8 +5,15 @@ node_modules/*
 !node_modules/APP
 
 # Compiled JS
-public/bundle.js
-public/bundle.js.map
+public/popup.bundle.js
+public/popup.bundle.js.map
+public/background.bundle.js
+public/background.bundle.js.map
+public/content.bundle.js
+public/content.bundle.js.map
+public.crx
+public.pem
+
 
 # NPM errors
 npm-debug.log
