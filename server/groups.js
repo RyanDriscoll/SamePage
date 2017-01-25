@@ -23,7 +23,7 @@ module.exports = require('express').Router()
 		Group.update(req.body, {where:{id: req.params.id}})
 		.then(groupArr => groupArr[1][0]) //class version of update return array of # of rows updated, and the array of modified arrays
 		.then(group => res.json(group))
-		.catch(next)
-	)
+		.catch(next))
+
 	
 	
