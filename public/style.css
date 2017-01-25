@@ -1,0 +1,48 @@
+.chatButton-rakt {
+  position: fixed;
+  top: 86vh;
+  left: 92vw;
+  z-index:9999;
+  background: #2c75ea;
+  height: 85px;
+  width: 85px;
+  border-radius: 50%;
+  border: 2px solid blue;
+}
+
+.chatBoxx-rakt{
+  animation: bounceChatBoxx 1s;
+  position: fixed;
+  top: 5vh;
+  left: 80vw;
+  z-index: 9999;
+  background: #2c75ea;
+  height: 80vh;
+  width: 250px;
+  border-radius: 5px;
+  border: 2px solid blue;
+}
+
+@keyframes bounceChatBoxx{
+  0% {
+    transform: translateX(500px);
+  }
+  20% {
+    transform: translateX(50px);
+  }
+  40% {
+    transform: translateX(0px);
+  }
+  47% {
+    transform: translateX(30px);
+  }
+  60% {
+    transform: translateX(0px);
+  }
+  80% {
+    transform: translateX(15px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
