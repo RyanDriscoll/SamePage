@@ -24,5 +24,6 @@ module.exports = require('express').Router()
 		.then(groupArr => groupArr[1][0]) //class version of update return array of # of rows updated, and the array of modified arrays
 		.then(group => res.json(group))
 		.catch(next))
+
 	
 	
