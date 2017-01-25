@@ -8,7 +8,7 @@ const groupSchema = {
       isUrl: true,
     },
     allowNull: false
-  }
+  },
   name: {
   	type: Sequelize.STRING
   }
@@ -22,4 +22,4 @@ const groupConfig = {
 
 const Group = db.define('groups', groupSchema, groupConfig);
 
-module.exports = group;
+module.exports = Group;
