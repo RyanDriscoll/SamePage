@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import Login from '../../components/Login.jsx';
 
 class Popup extends React.Component{
   constructor(props){
@@ -9,7 +10,9 @@ class Popup extends React.Component{
 
   render(){
     return (
-      <div>Hello World</div>
+      <div>
+        <Login />
+      </div>
     )
   }
 }
