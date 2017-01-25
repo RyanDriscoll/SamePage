@@ -1,0 +1,32 @@
+{
+  "manifest_version": 2,
+  "name": "RAKT",
+  "description": "React, Chrome, and Redux messaging chrome extension",
+  "version": "0.0.0.1",
+  "background": {
+    "scripts": [
+      "background.bundle.js",
+      "content.bundle.js",
+      "popup.bundle.js"
+    ],
+    "persistent": true
+  },
+  "browser_action": {
+    "default_title": "RAKT Chat",
+    "default_popup": "popup.html",
+    "default_icon": "messagebubble.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "css": [
+        
+      ],
+      "js": [
+        "content.bundle.js"
+      ]
+    }
+  ]
+}
