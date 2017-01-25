@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('APP/db')
-const Room = require('./room')
+const Group = require('./group')
 const {expect} = require('chai')
 
 describe('User', () => {
