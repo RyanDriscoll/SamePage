@@ -12,9 +12,16 @@ export const Login = ({ login }) => (
     <input type="submit" value="Login" />
   </form>
 )
+const mapStateToProps = (state) => {
+  return {
 
+  }
+}
 
-export default connect (
-  state => ({}),
-  {login},
-) (Login)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    login
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
