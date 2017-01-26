@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import MainContainer from './react/maincontainer';
+import ButtonComponent from './react/buttoncomponent.jsx';
 
 
 const chatButton = document.createElement('div');
@@ -11,13 +11,8 @@ chatButton.id = '$$chatButton';
 
 
 
-
-
-
-
-
 render(
-  <MainContainer />,
+  <ButtonComponent />,
   document.getElementById('$$chatButton')
 );
 

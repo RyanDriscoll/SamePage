@@ -1,13 +1,29 @@
 .chatButton-rakt {
   position: fixed;
-  top: 86vh;
-  left: 92vw;
+  top: 93vh;
+  left: 96vw;
   z-index:9999;
   background: #2c75ea;
-  height: 85px;
-  width: 85px;
+  height: 110px;
+  width: 110px;
   border-radius: 50%;
   border: 2px solid blue;
+}
+
+.chatbutton-img {
+  position: relative;
+  right: 100px;
+  bottom: 100px;
+}
+
+.sendchat-component {
+  width: 100%;
+}
+
+.sendchat-btn{
+  color: green;
+  border: 2px solid blue;
+  border-radius: 3px;
 }
 
 .chatBoxx-rakt{
@@ -28,19 +44,19 @@
     transform: translateX(500px);
   }
   20% {
-    transform: translateX(50px);
+    transform: translateX(100px);
   }
   40% {
     transform: translateX(0px);
   }
   47% {
-    transform: translateX(30px);
+    transform: translateX(35px);
   }
   60% {
     transform: translateX(0px);
   }
   80% {
-    transform: translateX(15px);
+    transform: translateX(10px);
   }
   100% {
     transform: translateX(0px);
