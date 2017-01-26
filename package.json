@@ -1,9 +1,7 @@
 {
   "name": "rakt",
   "version": "0.0.1",
-
   "description": "chrome extension to chat with everyone on a website",
-
   "main": "index.js",
   "scripts": {
     "test": "check-node-version --node '>= 6.7.0' && bin/setup && mocha --compilers js:babel-register app/**/*.test.js app/**/*.test.jsx db/**/*.test.js server/**/*.test.js",
@@ -21,13 +19,11 @@
   },
   "keywords": [
     "react",
-
     "redux",
     "rakt",
     "chat",
     "chrome",
     "extension"
-
   ],
   "author": "Ryan, Alan, KD, Tom",
   "license": "ISC",
@@ -55,6 +51,7 @@
     "pg": "^6.1.0",
     "pretty-error": "^2.0.2",
     "react": "^15.3.2",
+    "react-chrome-redux": "^1.2.0",
     "react-dom": "^15.3.2",
     "react-redux": "^4.4.5",
     "react-router": "^3.0.0",

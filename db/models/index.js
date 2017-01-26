@@ -17,7 +17,4 @@ Message.belongsTo(Group);
 User.hasMany(Message);
 Message.belongsTo(User);
 
-
-
-
 module.exports = {User, Group, Message}
