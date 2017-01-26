@@ -1,25 +1,38 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import {TweenLite} from 'gsap';
 
 class MainContainer extends React.Component{
   constructor(props){
     super(props);
-    this.sideBarStyle = {
-      position: 'fixed',
-      top: '86vh',
-      left: '92vw',
-      zIndex:'9999',
-      background: '#2c75ea',
-      height: '85px',
-      width: '85px',
-      borderRadius: '50%'
+    this.state = {
+      displayChat: false
     }
+    this.toggleChatDisplay = this.toggleChatDisplay.bind(this);
+  }
+
+  toggleChatDisplay(e){
+    e.preventDefault();
+    this.setState({displayChat: !this.state.displayChat});
+    // if(this.state.displayChat){
+    //   TweenLite.to(this.refs.chatBoxDiv, 1, {scale: 1.5, ease:Bounce.easeOut} );
+    //   TweenLite.to(this.refs.chatBoxDiv, 0.5, {scale: 1, delay: 1} );
+    // }
   }
 
 
   render(){
     return (
-      <div style={this.sideBarStyle}>I just injected you!</div>
+      <div>
+        {
+          this.state.displayChat ?
+          <div ref='chatBoxDiv' className="chatBoxx-rakt"></div>
+          :
+          null
+        }
+        <div className="chatButton-rakt" onClick={this.toggleChatDisplay}>
+        </div>
+      </div>
     )
   }
 }

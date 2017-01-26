@@ -23,7 +23,7 @@
         "*://*/*"
       ],
       "css": [
-        
+        "style.css"
       ],
       "js": [
         "content.bundle.js"
