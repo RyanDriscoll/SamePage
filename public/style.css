@@ -45,8 +45,21 @@
   margin: 5px 0px 5px 0px
 }
 
-.chatBoxx-rakt{
-  /*animation: bounceChatBoxx 1s;*/
+.chatBoxx-rakt-in{
+  animation: bounceChatBoxx 1s;
+  position: fixed;
+  top: 5vh;
+  left: 80vw;
+  z-index: 9999;
+  background: #2c75ea;
+  height: 90vh;
+  width: 250px;
+  border-radius: 5px;
+  border: 2px solid blue;
+}
+
+.chatBoxx-rakt-out{
+  animation: leaveChatBoxx 0.7s;
   position: fixed;
   top: 5vh;
   left: 80vw;
@@ -90,7 +103,7 @@
   margin: 1px 2px 1px 2px;
 }
 
-/*@keyframes bounceChatBoxx{
+@keyframes bounceChatBoxx{
   0% {
     transform: translateX(500px);
   }
@@ -112,4 +125,13 @@
   100% {
     transform: translateX(0px);
   }
-}*/
+}
+
+@keyframes leaveChatBoxx{
+  0% {
+    transform: translateX(0px);
+  }
+  100% {
+    transform: translateX(400px);
+  }
+}
