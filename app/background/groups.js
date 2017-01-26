@@ -4,9 +4,9 @@ import axios from 'axios';
 
 const CREATE_GROUP = 'CREATE_GROUP';
 const UPDATE_GROUP_NAME = 'UPDATE_GROUP_NAME';
-const ADD_GROUP_USER = 'ADD_GROUP_USER'
-const ADD_GROUP_MESSAGE = 'ADD_GROUP_MESSAGE'
-const REMOVE_GROUP_USER = 'REMOVE_GROUP_USER'
+const CREATE_GROUP_USER = 'CREATE_GROUP_USER'
+const CREATE_GROUP_MESSAGE = 'CREATE_GROUP_MESSAGE'
+const DELETE_GROUP_USER = 'DELETE_GROUP_USER'
 const FETCH_GROUP = 'FETCH_GROUP';
 const FETCH_USER_GROUPS = 'FETCH_USER_GROUPS';
 const FETCH_GROUP_MSG_IDS = 'FETCH_GROUP_MSG_IDS';
@@ -16,9 +16,9 @@ const FETCH_GROUP_USER_IDS = 'FETCH_GROUP_USER_IDS';
 
 const create_group = group => ({ type: CREATE_GROUP, 'group': {[group.id]: group}});
 const update_group_name = (groupId, name) => ({ type: UPDATE_GROUP_NAME, groupId, name});
-const add_group_user = (groupId, userId) => ({ type: ADD_GROUP_USER, groupId, userId});
-const add_group_message = (groupId, msgId) => ({ type: ADD_GROUP_MESSAGE, groupId, msgId})
-const remove_group_user = (groupId, userId) => ({ type: REMOVE_GROUP_USER, groupId, userId})
+const create_group_user = (groupId, userId) => ({ type: CREATE_GROUP_USER, groupId, userId});
+const create_group_message = (groupId, msgId) => ({ type: CREATE_GROUP_MESSAGE, groupId, msgId})
+const delete_group_user = (groupId, userId) => ({ type: DELETE_GROUP_USER, groupId, userId})
 const fetch_group = group => ({ type: FETCH_GROUP, 'group': {[group.id]: group}});
 const fetch_user_groups = userGroups => ({ type: FETCH_USER_GROUPS, 'userGroups': Object.assign({},...userGroups.map(group => ({[group.id]: group})))});
 export const fetch_group_msg_ids = (groupId, msgIds) => ({ type: FETCH_GROUP_MSG_IDS, groupId, msgIds });
@@ -30,42 +30,33 @@ export default function reducer (groups = {}, action) {
 
 	switch (action.type) {
 
-		case CREATE_GROUP:
-			return Object.assign({}, groups, action.group);
+		case CREATE_GROUP: return Object.assign({}, groups, action.group);
+		case FETCH_GROUP: return Object.assign({}, groups, action.group)
+		case FETCH_USER_GROUPS:	return Object.assign({}, groups, action.groups)
 
-		case UPDATE_GROUP_NAME:
-			return Object.assign({}, groups, 
+		case UPDATE_GROUP_NAME:	return Object.assign({}, groups, 
 				{[action.groupId]: Object.assign({}, groups[action.groupId], 
-					{name: action.name}
-				)}
-			)
+					{name: action.name})})
 
-		// case ADD_GROUP_USER:
-		// 	return Object.assign({}, groups, {action.groupId: Object.assign({}, groups[action.groupId], {users: [action.userId,...groups[action.groupId].users]})
+		case CREATE_GROUP_USER: return Object.assign({}, groups,   // broadcasted
+			{[action.groupId]: Object.assign({}, groups[action.groupId], 
+				{users: [action.userId,...groups[action.groupId].users]})})
 
-		// case ADD_GROUP_MESSAGE:
-		// 	return Object.assign({}, groups, {action.groupId: Object.assign({}, groups[action.groupId], {messages: [action.messageId,...groups[action.groupId].messages]})
+		case CREATE_GROUP_MESSAGE: return Object.assign({}, groups,   // broadcasted
+			{[action.groupId]: Object.assign({}, groups[action.groupId], 
+				{messages: [action.messageId,...groups[action.groupId].messages]})})
 
-		// case REMOVE_GROUP_USER:
-		// 	return Object.assign({}, groups, {action.groupId: Object.assign({}, groups[action.groupId], {users: groups[action.groupId].users.filter(user => user.id != action.userId)})
-		
-		case FETCH_GROUP:
-			return Object.assign({}, groups, action.group)
-		
-		case FETCH_USER_GROUPS:
-			return Object.assign({}, groups, action.groups)
+		case DELETE_GROUP_USER: return Object.assign({}, groups,   // broadcasted
+			{[action.groupId]: Object.assign({}, groups[action.groupId], 
+				{users: groups[action.groupId].users.filter(user => user.id != action.userId)})})
+	
+		case FETCH_GROUP_MSG_IDS:	return Object.assign({}, groups, 
+			{[action.groupId]: Object.assign({}, groups[action.groupId], 
+				{messages: [...groups[action.groupId].messages, ...action.groupMsgs]})})
 
-		case FETCH_GROUP_MSG_IDS:
-			return Object.assign({}, groups, 
+		case FETCH_GROUP_USER_IDS: return Object.assign({}, groups, 
 				{[action.groupId]: Object.assign({}, groups[action.groupId], 
-					{messages: [...groups[action.groupId].messages, ...action.groupMsgs]})
-			})
-
-		case FETCH_GROUP_USER_IDS:
-			return Object.assign({}, groups, 
-				{[action.groupId]: Object.assign({}, groups[action.groupId], 
-					{users: [...groups[action.groupId].users, ...action.groupUsers]})
-			})
+					{users: [...groups[action.groupId].users, ...action.groupUsers]})})
 
 		default: return groups;
 	}
@@ -89,7 +80,7 @@ export const updateGroupName = (id, name) => dispatch => {
 };
 
 
-// export const addGroupUser = (groupId, userId) => dispatch => {
+// export const createGroupUser = (groupId, userId) => dispatch => {
 // 	axios.put(`api/groups/${groupID}`)
 
 
