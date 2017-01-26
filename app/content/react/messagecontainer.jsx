@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {TweenLite} from 'gsap';
 import MessageComponent from './messagecomponent.jsx';
 
+
 class MessageContainer extends React.Component{
   constructor(props){
     super(props);
@@ -45,4 +46,4 @@ const mapDispatchToProps = function(dispatch){
   }
 }
 
-export default MessageContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(MessageContainer);
