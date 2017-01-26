@@ -18,11 +18,12 @@
   },
   "content_scripts": [
     {
+      "run_at": "document_end",
       "matches": [
         "*://*/*"
       ],
       "css": [
-        
+        "style.css"
       ],
       "js": [
         "content.bundle.js"
