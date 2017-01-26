@@ -3,10 +3,9 @@ import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import {TweenLite} from 'gsap';
 import ReactTransitionGroup from 'react-addons-transition-group';
-import ButtonComponent from './buttoncomponent';
-import MessageContainer from './messagecontainer';
+import ButtonComponent from './buttoncomponent.jsx';
+import MessageContainer from './messagecontainer.jsx';
 
-const findDOMNode = ReactDOM.findDOMNode;
 
 class ChatContainer extends React.Component{
   constructor(props){
@@ -14,13 +13,13 @@ class ChatContainer extends React.Component{
   }
 
   componentDidMount() {
-    console.log('is this being called did mount?')
-    this.self = findDOMNode(this);
-    TweenLite.fromTo(this.self, 0.3, {
-      opacity: 0
-    }, {
-      opacity: 1
-    });
+    // console.log('is this being called did mount?')
+    // this.self = findDOMNode(this);
+    // TweenLite.fromTo(this.self, 0.3, {
+    //   opacity: 0
+    // }, {
+    //   opacity: 1
+    // });
   }
 
 
@@ -35,9 +34,9 @@ class ChatContainer extends React.Component{
   }
 }
 
-function FirstChild(props) {
-  const childrenArray = React.Children.toArray(props.children);
-  return childrenArray[0] || null;
-}
+// function FirstChild(props) {
+//   const childrenArray = React.Children.toArray(props.children);
+//   return childrenArray[0] || null;
+// }
 
 export default ChatContainer;

@@ -7,7 +7,7 @@ class MessageContainer extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      
+      messages: [{content: "hello", sender: 'alan', time: 'now'}]
     }
     
   }
@@ -19,7 +19,7 @@ class MessageContainer extends React.Component{
     return (
       <div>
         {
-          this.props.messages.map(message => {
+          this.state.messages.map(message => {
             return <MessageComponent content={message.content} sender={message.sender} time={message.time} />
           })
         }
@@ -40,4 +40,4 @@ const mapDispatchToProps = function(dispatch){
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MessageContainer);
+export default MessageContainer;

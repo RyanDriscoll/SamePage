@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {TweenLite} from 'gsap';
-import ChatContainer from './ChatContainer';
+import ChatContainer from './ChatContainer.jsx';
 
 class ButtonComponent extends React.Component{
   constructor(props){
@@ -27,8 +27,7 @@ class ButtonComponent extends React.Component{
           :
           null
         }
-        <div className="chatButton-rakt" onClick={this.toggleChatDisplay}>
-        </div>
+        <div className="chatButton-rakt" onClick={this.toggleChatDisplay} />
       </div>
     )
   }
