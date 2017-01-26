@@ -3,6 +3,7 @@
 const debug = require('debug')('oauth')
 const Sequelize = require('sequelize')
 const db = require('APP/db')
+const User = require('./user')
 
 const OAuth = db.define('oauths', {
   uid: Sequelize.STRING,
@@ -15,7 +16,7 @@ const OAuth = db.define('oauths', {
   // OAuth v1 fields
   token: Sequelize.STRING,
   tokenSecret: Sequelize.STRING,
-  
+
   // The whole profile as JSON
   profileJson: Sequelize.JSON,
 }, {
@@ -23,26 +24,26 @@ const OAuth = db.define('oauths', {
 })
 
 OAuth.V2 = (accessToken, refreshToken, profile, done) =>
-  this.findOrCreate({
+  OAuth.findOrCreate({
     where: {
       provider: profile.provider,
       uid: profile.id,
     }})
-    .then(oauth => {
+    .spread(oauth => {
       debug('provider:%s will log in user:{name=%s uid=%s}',
         profile.provider,
         profile.displayName,
-        token.uid)
+        profile.uid)
       oauth.profileJson = profile
       return db.Promise.props({
         oauth,
-        user: token.getUser(),
+        user: oauth.getUser(),
         _saveProfile: oauth.save(),
       })
     })
     .then(({ oauth, user }) => user ||
       User.create({
-        name: profile.displayName,        
+        name: profile.displayName,
       }).then(user => db.Promise.props({
         user,
         _setOauthUser: oauth.setUser(user)
@@ -58,8 +59,8 @@ OAuth.setupStrategy =
   strategy,
   config,
   oauth=OAuth.V2,
-  passport 
-}) => {      
+  passport
+}) => {
   const undefinedKeys = Object.keys(config)
         .map(k => config[k])
         .filter(value => typeof value === 'undefined')
