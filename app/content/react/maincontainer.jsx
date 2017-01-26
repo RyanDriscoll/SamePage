@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {TweenLite} from 'gsap';
+import ChatContainer from './ChatContainer';
 
 class MainContainer extends React.Component{
   constructor(props){
@@ -26,7 +27,7 @@ class MainContainer extends React.Component{
       <div>
         {
           this.state.displayChat ?
-          <div ref='chatBoxDiv' className="chatBoxx-rakt"></div>
+          <ChatContainer />
           :
           null
         }
