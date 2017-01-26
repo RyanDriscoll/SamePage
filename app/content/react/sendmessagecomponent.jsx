@@ -14,7 +14,7 @@ class SendMessageComponent extends React.Component{
 
   sendChat(e){
     e.preventDefault();
-    this.props.dispatch(this.state.currMessage);
+    // this.props.dispatch(this.state.currMessage);
     this.setState({currMessage: ''});
   }
 
@@ -48,4 +48,4 @@ const mapDispatchToProps = function(dispatch){
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SendMessageComponent);
+export default SendMessageComponent;
