@@ -13,7 +13,7 @@ class UserContainer extends React.Component{
 
   render(){
     return (
-      <div >
+      <div className="user-container-box">
         {
           this.state.users.map(user => {
             return <User username={user.username} />;
