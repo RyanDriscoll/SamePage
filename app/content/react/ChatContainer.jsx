@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import {TweenLite} from 'gsap';
 import ReactTransitionGroup from 'react-addons-transition-group';
-import ButtonComponent from './buttoncomponent.jsx';
 import MessageContainer from './messagecontainer.jsx';
+import SendMessageComponent from './sendmessagecomponent.jsx';
 
 
 class ChatContainer extends React.Component{
@@ -28,7 +28,7 @@ class ChatContainer extends React.Component{
     return (
         <div className="chatBoxx-rakt">
           <MessageContainer />
-          <ButtonComponent />
+          <SendMessageComponent />
         </div>
     );
   }
