@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {TweenLite} from 'gsap';
 import ReactTransitionGroup from 'react-addons-transition-group';
 import MessageContainer from './messagecontainer.jsx';
-import UserContainer from './usercontainer.jsx';
+import UserContainer from './UserContainer.jsx';
 import SendMessageComponent from './sendmessagecomponent.jsx';
 
 
