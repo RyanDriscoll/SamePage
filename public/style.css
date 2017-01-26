@@ -11,7 +11,7 @@
 }
 
 .chatBoxx-rakt{
-  animation: bounceChatBoxx 1s;
+  /*animation: bounceChatBoxx 1s;*/
   position: fixed;
   top: 5vh;
   left: 80vw;
@@ -23,7 +23,7 @@
   border: 2px solid blue;
 }
 
-@keyframes bounceChatBoxx{
+/*@keyframes bounceChatBoxx{
   0% {
     transform: translateX(500px);
   }
@@ -45,4 +45,4 @@
   100% {
     transform: translateX(0px);
   }
-}
+}*/
