@@ -35,4 +35,4 @@ const mapDispatchToProps = function(dispatch){
   }
 }
 
-export default UserContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(UserContainer);
