@@ -29,22 +29,11 @@ class ButtonComponent extends React.Component{
       <div>
         {
           this.state.displayChat ?
-          <ChatContainer animation={
-          this.state.animate ?
-            'chatBoxx-rakt-in'
+            <ChatContainer animation={this.state.animate ? 'chatBoxx-rakt-in' : 'chatBoxx-rakt-out'}/>
             :
-            'chatBoxx-rakt-out'
-        }/>
-          :
-          null
+            null
         }
-        <div className={
-          this.state.displayChat ?
-            'chatButton-rakt-clicked'
-            :
-            'chatButton-rakt-unclicked'
-        }
-            onClick={this.toggleChatDisplay} />
+        <div className={this.state.displayChat ? 'chatButton-rakt-clicked' : 'chatButton-rakt-unclicked'} onClick={this.toggleChatDisplay} />
       </div>
     )
   }
