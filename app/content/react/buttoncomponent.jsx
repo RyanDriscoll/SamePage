@@ -7,14 +7,20 @@ class ButtonComponent extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      displayChat: false
+      displayChat: false,
+      animate: false
     }
     this.toggleChatDisplay = this.toggleChatDisplay.bind(this);
   }
 
   toggleChatDisplay(e){
     e.preventDefault();
-    this.setState({displayChat: !this.state.displayChat});
+    this.setState({animate: !this.state.animate})
+    if(this.state.displayChat){
+      setTimeout( () => {
+        this.setState({displayChat: !this.state.displayChat});
+      }, 500)
+    } else this.setState({displayChat: !this.state.displayChat})
   }
 
 
@@ -23,7 +29,12 @@ class ButtonComponent extends React.Component{
       <div>
         {
           this.state.displayChat ?
-          <ChatContainer />
+          <ChatContainer animation={
+          this.state.animate ?
+            'chatBoxx-rakt-in'
+            :
+            'chatBoxx-rakt-out'
+        }/>
           :
           null
         }

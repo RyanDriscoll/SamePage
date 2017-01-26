@@ -27,7 +27,7 @@ class ChatContainer extends React.Component{
 
   render(){
     return (
-        <div className="chatBoxx-rakt">
+        <div className={this.props.animation}>
           <UserContainer />
           <MessageContainer />
           <SendMessageComponent />
