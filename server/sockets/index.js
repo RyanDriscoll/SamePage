@@ -1,7 +1,7 @@
 let sockets = {};
 
 
-module.export = {
+module.exports = {
   set(server) {
     sockets.io = require('socket.io')(server);
     // spelling?
