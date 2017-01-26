@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('APP/db')
+const sockets = require('APP/server/sockets').get();
 
 const messageSchema = {
   content: {
@@ -9,7 +10,12 @@ const messageSchema = {
 }
 
 const messageConfig = {
-  tableName: 'messages'
+  tableName: 'messages',
+  hooks: {
+    beforeCreate(message) {
+      sockets.io.emit('message:create', message);
+    }
+  }
 }
 
 
