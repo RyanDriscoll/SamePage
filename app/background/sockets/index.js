@@ -1,5 +1,7 @@
 import socketTable from './socketTable';
 
 
-socketTable('message')
-socketTable('group_user')
+export default {
+  message: socketTable('message'),
+  group_user: socketTable('group_user')
+}

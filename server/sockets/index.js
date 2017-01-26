@@ -2,13 +2,17 @@ let sockets = {};
 
 
 module.exports = {
-  set(server) {
-    sockets.io = require('socket.io')(server);
-    // spelling?
-    // sockets.io.on('connection', socket => {
-    //   console.log('connected', socket.id);
-    //   socket.join('whatever')
-    // }) 
+  set: function(server) {
+    let io = require('socket.io')(server);
+    console.log("running set function")
+
+    io.on('connect', socket => {
+      console.log('connected_', socket.id);
+      // socket.join('whatever')
+      socket.on('disconnect', () => {
+        console.log("disconnected___", socket.id)
+      })
+    }) 
   },
-  get() { return sockets; }
+  get: function() { return sockets; }
 }

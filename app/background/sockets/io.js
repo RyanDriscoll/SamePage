@@ -1,2 +1,4 @@
 import io from 'socket.io-client';
-export default io();
+
+console.log("front end hello")
+export default io('http://localhost:1337');
