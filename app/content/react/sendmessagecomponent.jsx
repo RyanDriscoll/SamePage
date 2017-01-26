@@ -28,7 +28,7 @@ class SendMessageComponent extends React.Component{
     return (
       <div className="sendchat-component">
         <form action="submit" onSubmit={this.sendChat}>
-          <input type="text" placeholder="Send Message" value={this.state.currMessage} onChange={this.handleChatChange}/>
+          <input type="text" placeholder="Send Message" value={this.state.currMessage} onChange={this.handleChatChange} className="chat-input"/>
           <button className="sendchat-btn" onClick={this.sendChat} >Send</button>
         </form>
       </div>

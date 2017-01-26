@@ -1,9 +1,21 @@
-.chatButton-rakt {
+.chatButton-rakt-unclicked {
   position: fixed;
   top: 93vh;
   left: 96vw;
-  z-index:9999;
+  z-index:99999;
   background: #2c75ea;
+  height: 110px;
+  width: 110px;
+  border-radius: 50%;
+  border: 2px solid blue;
+}
+
+.chatButton-rakt-clicked {
+  position: fixed;
+  top: 93vh;
+  left: 96vw;
+  z-index:99999;
+  background: #ea452c;
   height: 110px;
   width: 110px;
   border-radius: 50%;
@@ -20,10 +32,17 @@
   width: 100%;
 }
 
+.chat-input {
+  width: 85%;
+}
+
 .sendchat-btn{
-  color: green;
+  width: 29%;
+  background-color: green;
+  color: black;
   border: 2px solid blue;
   border-radius: 3px;
+  margin: 5px 0px 5px 0px
 }
 
 .chatBoxx-rakt{
@@ -33,7 +52,7 @@
   left: 80vw;
   z-index: 9999;
   background: #2c75ea;
-  height: 80vh;
+  height: 90vh;
   width: 250px;
   border-radius: 5px;
   border: 2px solid blue;
@@ -41,10 +60,22 @@
 
 .message-container-box {
   width: 97%;
-  height: 30%;
+  height: 57%;
   background-color: lightgrey;
   border: 1px solid grey;
   border-radius: 3px;
+  overflow: scroll;
+  margin: 5px 0px 5px 0px;
+}
+
+.user-container-box {
+  width: 97%;
+  height: 33%;
+  background-color: #a1c4fc;
+  border: 1px solid grey;
+  border-radius: 3px;
+  overflow: scroll;
+  margin: 5px 0px 0px 0px;  
 }
 
 .message-component {

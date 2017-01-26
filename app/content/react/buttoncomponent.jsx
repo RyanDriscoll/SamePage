@@ -27,7 +27,13 @@ class ButtonComponent extends React.Component{
           :
           null
         }
-        <div className="chatButton-rakt" onClick={this.toggleChatDisplay} />
+        <div className={
+          this.state.displayChat ?
+            'chatButton-rakt-clicked'
+            :
+            'chatButton-rakt-unclicked'
+        }
+            onClick={this.toggleChatDisplay} />
       </div>
     )
   }
