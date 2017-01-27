@@ -10,12 +10,12 @@ const messageSchema = {
 }
 
 const messageConfig = {
-  tableName: 'messages',
-  hooks: {
-    beforeCreate(message) {
-      sockets.io.emit('message:create', message);
-    }
-  }
+  // tableName: 'messages',
+  // hooks: {
+  //   beforeCreate(message) {
+  //     sockets.io.emit('message:create', message);
+  //   }
+  // }
 }
 
 
