@@ -27,6 +27,15 @@ const seedGroups = () => db.Promise.map([
   {url: 'https://en.wikipedia.org/wiki/Binary_search_tree', name: 'math-geeks'},
 ], group => db.model('groups').create(group))
 
+const seedGroupUsers = () => db.Promise.map([
+  {user_id: '1', group_id: '1'},
+  {user_id: '2', group_id: '1'},
+  {user_id: '4', group_id: '2'},
+  {user_id: '4', group_id: '3'},
+  {user_id: '5', group_id: '4'},
+  {user_id: '3', group_id: '5'},
+], groupuser => db.model('group_user').create(groupuser))
+
 db.didSync
   .then(() => db.sync({force: true}))
   .then(seedUsers)
@@ -35,5 +44,7 @@ db.didSync
   .then(groups => console.log(`Seeded ${groups.length} groups OK`))
   .then(seedMessages)
   .then(messages => console.log(`Seeded ${messages.length} messages OK`))
+  .then(seedGroupUsers)
+  .then(groupusers => console.log(`Seeded ${groupusers.length} groupusers OK`))
   .catch(error => console.error(error))    
   .finally(() => db.close())
