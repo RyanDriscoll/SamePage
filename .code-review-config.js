@@ -1,7 +1,7 @@
 module.exports = {
   directories: {
-    models: 'app/db/models',
-    routes: 'app/server',
+    models: 'db/models',
+    routes: 'server',
     reducers: 'app/reducers',
     components: 'app/background'
   },
@@ -12,5 +12,5 @@ module.exports = {
     'out.js',
   ],
   reduxStore: 'app/background/store.js',
-  dbInstance: 'app/db/index.js',
+  dbInstance: 'db/index.js',
 }
