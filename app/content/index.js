@@ -10,10 +10,10 @@ document.body.insertBefore(chatButton, null);
 
 chatButton.id = '$$chatButton';
 
-const store = new Store({portName: 'rakt'});
+const proxyStore = new Store({portName: 'rakt'})
 
 render(
-  <Provider store={store}>
+  <Provider store={proxyStore}>
     <ButtonComponent />
   </Provider>,
   document.getElementById('$$chatButton')
