@@ -4,9 +4,13 @@ import axios from 'axios'
 const AUTHENTICATED = 'AUTHENTICATED'
 
 /* ------------   ACTION CREATORS     ------------------ */
-export const authenticated = user => ({
+export const authenticated = user => {
+
+  console.log('in authenticated action creator', user);
+  return {
   type: AUTHENTICATED, user
-})
+}
+}
 
 /* ------------       REDUCERS     ------------------ */
 const reducer = (state=null, action) => {
@@ -20,9 +24,9 @@ const reducer = (state=null, action) => {
 
 /* ------------       DISPATCHERS     ------------------ */
 export const login = (username, password) => {
-console.log('in the login function')
-  return dispatch =>{
-    console.log('in login dispatch')
+  console.log('login dispatcher called', username, password);
+  return dispatch => {
+    console.log('inside dispatch before axios request')
     axios.post('/api/auth/login/local',
       {username, password})
       .then(() => {

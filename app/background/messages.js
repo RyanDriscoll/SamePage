@@ -6,6 +6,7 @@ import { fetch_group_msg_ids, delete_group_msg_ids } from './groups'
 const FETCH_GROUP_MESSAGES = 'FETCH_GROUP_MESSAGES';
 const DELETE_GROUP_MESSAGES = 'DELETE_GROUP_MESSAGES';
 const FETCH_MSGS_WITH_USER = 'FETCH_MSGS_WITH_USER';
+const REMOVE_GROUP_MESSAGES = 'REMOVE_GROUP_MESSAGES';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
@@ -36,7 +37,7 @@ export const fetchGroupMessages = group_id => dispatch => {
 		.catch(err => console.error(`Fetching messages for group ${group_id} unsuccessful`, err));
 };
 
-export const deleteGroupMessages = group_id => dispatch => { 
+export const deleteGroupMessages = group_id => dispatch => {
 	dispatch(delete_group_messages(group_id))
 	dispatch(delete_group_msg_ids(group_id))
 };
