@@ -83,7 +83,7 @@ passport.deserializeUser(
     debug('will deserialize user.id=%d', id)
     User.findById(id)
       .then(user => {
-        debug('deserialize did ok user.id=%d', user.id)
+        // debug('deserialize did ok user.id=%d', user.id)
         done(null, user)
       })
       .catch(err => {
@@ -116,13 +116,17 @@ passport.use(new (require('passport-local').Strategy) (
   }
 ))
 
-auth.get('/whoami', (req, res) => res.send(req.user))
+auth.get('/whoami', (req, res) => {
+  console.log('@@@@@@@@@',req.user);
+  return res.send(req.user)
+})
 
-auth.post('/login/:strategy', (req, res, next) =>
-  passport.authenticate(req.params.strategy, {
+auth.post('/login/:strategy', (req, res, next) => {
+  console.log('in auth post route', req.body)
+  return passport.authenticate(req.params.strategy, {
     successRedirect: '/'
   })(req, res, next)
-)
+})
 
 auth.post('/logout', (req, res, next) => {
   req.logout()
