@@ -28,7 +28,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     login: (username, password) => {
-      dispatch(login(username, password));
+      dispatch({
+        type: 'SEND_LOGIN_REQUEST',
+        username,
+        password,
+      });
     }
   }
 }

@@ -6,6 +6,11 @@ import {Store} from 'react-chrome-redux';
 
 const proxyStore = new Store({portName: 'rakt'})
 
+const log = console.log.bind(console, 'POPUP_MESSAGE >');
+chrome.extension.onConnect.addListener(function(port) {
+  log("Connected .....");
+  port.onMessage.addListener(log);
+});
 
 render(
   <Provider store={proxyStore}>

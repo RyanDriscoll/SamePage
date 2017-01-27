@@ -6,9 +6,9 @@ import auth from './auth.jsx';
 import socketFuncs from './sockets';
 import createLogger from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
+import { alias } from 'react-chrome-redux';
+import aliases from './aliases';
 
-
-console.log("socket funcs", socketFuncs.message)
 const rootReducer = combineReducers({ groups, users, messages, auth });
 
-export default createStore(rootReducer, applyMiddleware(thunkMiddleware, createLogger({collapsed: true})));
+export default createStore(rootReducer, applyMiddleware(alias(aliases), thunkMiddleware, createLogger({collapsed: true})));

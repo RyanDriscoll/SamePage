@@ -95,6 +95,7 @@ passport.deserializeUser(
 
 passport.use(new (require('passport-local').Strategy) (
   (email, password, done) => {
+    console.log('in passport . use')
     debug('will authenticate user(email: "%s")', email)
     User.findOne({where: {email}})
       .then(user => {
@@ -115,6 +116,7 @@ passport.use(new (require('passport-local').Strategy) (
       .catch(done)
   }
 ))
+
 
 auth.get('/whoami', (req, res) => {
   console.log('@@@@@@@@@',req.user);
