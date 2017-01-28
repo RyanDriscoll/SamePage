@@ -9,9 +9,9 @@ export const authenticated = user => {
 
   console.log('in authenticated action creator', user);
   return {
-  type: AUTHENTICATED, user
-}
-}
+    type: AUTHENTICATED, user
+  };
+};
 
 /* ------------       REDUCERS     ------------------ */
 const reducer = (state=null, action) => {
@@ -24,12 +24,12 @@ const reducer = (state=null, action) => {
 }
 
 /* ------------       DISPATCHERS     ------------------ */
-export const login = ({ username, password }) => {
-  console.log('login dispatcher called', username, password);
+export const login = ({ email, password }) => {
+  console.log('login dispatcher called', email, password);
   return dispatch => {
     console.log('inside dispatch before axios request')
-    axios.post(rootPath + 'auth/login/local',
-      {username, password})
+    axios.post(rootPath + 'auth/login',
+      {email, password})
       .then(() => {
         console.log('###############')
         return dispatch(whoami())

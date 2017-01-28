@@ -93,7 +93,9 @@ passport.deserializeUser(
   }
 )
 
-passport.use(new (require('passport-local').Strategy) (
+passport.use(new (require('passport-local').Strategy)({
+  usernameField: 'email'
+},
   (email, password, done) => {
     console.log('in passport . use')
     debug('will authenticate user(email: "%s")', email)
@@ -123,12 +125,19 @@ auth.get('/whoami', (req, res) => {
   return res.send(req.user)
 })
 
-auth.post('/login/:strategy', (req, res, next) => {
-  console.log('in auth post route', req.body)
-  return passport.authenticate(req.params.strategy, {
-    successRedirect: '/'
-  })(req, res, next)
-})
+// auth.post('/login', (req, res, next) => {
+//   console.log('in auth post route', req.body)
+//   return passport.authenticate('local', {
+//     failureRedirect: '/login'
+//   })(req, res, next)
+// })
+
+auth.post('/login',
+  passport.authenticate('local', { failureRedirect: 'api/auth/login' }),
+  function(req, res) {
+    console.log('success!')
+    res.redirect('/api/auth/whoami');
+  });
 
 auth.post('/logout', (req, res, next) => {
   req.logout()

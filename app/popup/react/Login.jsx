@@ -10,10 +10,10 @@ const Login = (props) => {
   return (
     <form onSubmit={evt => {
       evt.preventDefault()
-      console.log('^^^^^^^^^^', evt.target.username.value, evt.target.password.value)
-      props.login(evt.target.username.value, evt.target.password.value)
+      console.log('^^^^^^^^^^', evt.target.email.value, evt.target.password.value)
+      props.login(evt.target.email.value, evt.target.password.value)
     } }>
-      <input name="username" />
+      <input name="email" />
       <input name="password" type="password" />
       <input type="submit" value="Login" />
     </form>
@@ -27,10 +27,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: (username, password) => {
+    login: (email, password) => {
       dispatch({
         type: 'SEND_LOGIN_REQUEST',
-        username,
+        email,
         password,
       });
     }
