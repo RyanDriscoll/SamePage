@@ -13,7 +13,7 @@ console.log(chalk.yellow(`Opening database connection to ${url}`));
 
 // create the database instance
 const db = module.exports = new Sequelize(url, {
-  logging: debug, // export DEBUG=sql in the environment to get SQL queries 
+  logging: debug, // export DEBUG=sql in the environment to get SQL queries
   define: {
     underscored: true,       // use snake_case rather than camelCase column names
     freezeTableName: true,   // don't change table names from the one specified
@@ -26,11 +26,11 @@ require('./models')
 
 // sync the db, creating it if necessary
 function sync(force=app.isTesting, retries=0, maxRetries=5) {
-  return db.sync({force: true})
+  return db.sync({force: false})
     .then(ok => console.log(`Synced models to db ${url}`))
     .catch(fail => {
       // Don't do this auto-create nonsense in prod, or
-      // if we've retried too many times. 
+      // if we've retried too many times.
       if (app.isProduction || retries > maxRetries) {
         console.error(chalk.red(`********** database error ***********`))
         console.error(chalk.red(`    Couldn't connect to ${url}`))

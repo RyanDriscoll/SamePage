@@ -1,4 +1,11 @@
 import { wrapStore } from 'react-chrome-redux'
-import store from './store'
+import store from './store';
 
-wrapStore(store, {portName: 'rakt'})
+const log = console.log.bind(console, 'BACKGROUND_MESSAGE >');
+
+chrome.extension.onConnect.addListener(function(port) {
+  log("Connected .....");
+  port.onMessage.addListener(log);
+});
+
+export default wrapStore(store, {portName: 'rakt'});

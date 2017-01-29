@@ -83,7 +83,7 @@ passport.deserializeUser(
     debug('will deserialize user.id=%d', id)
     User.findById(id)
       .then(user => {
-        debug('deserialize did ok user.id=%d', user.id)
+        // debug('deserialize did ok user.id=%d', user.id)
         done(null, user)
       })
       .catch(err => {
@@ -93,8 +93,11 @@ passport.deserializeUser(
   }
 )
 
-passport.use(new (require('passport-local').Strategy) (
+passport.use(new (require('passport-local').Strategy)({
+  usernameField: 'email'
+},
   (email, password, done) => {
+    console.log('in passport . use')
     debug('will authenticate user(email: "%s")', email)
     User.findOne({where: {email}})
       .then(user => {
@@ -116,17 +119,29 @@ passport.use(new (require('passport-local').Strategy) (
   }
 ))
 
-auth.get('/whoami', (req, res) => res.send(req.user))
 
-auth.post('/login/:strategy', (req, res, next) =>
-  passport.authenticate(req.params.strategy, {
-    successRedirect: '/'
-  })(req, res, next)
-)
+auth.get('/whoami', (req, res) => {
+  console.log('@@@@@@@@@',req.user);
+  return res.send(req.user)
+})
+
+// auth.post('/login', (req, res, next) => {
+//   console.log('in auth post route', req.body)
+//   return passport.authenticate('local', {
+//     failureRedirect: '/login'
+//   })(req, res, next)
+// })
+
+auth.post('/login',
+  passport.authenticate('local', { failureRedirect: 'login' }),
+  function(req, res) {
+    console.log('success!')
+    res.redirect('/api/auth/whoami');
+  });
 
 auth.post('/logout', (req, res, next) => {
   req.logout()
-  res.redirect('/api/auth/whoami')
+  res.redirect('/api/auth/login')
 })
 
 module.exports = auth
