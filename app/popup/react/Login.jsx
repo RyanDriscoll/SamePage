@@ -3,26 +3,57 @@ import {Link} from 'react-router';
 import {connect} from 'react-redux';
 
 const Login = (props) => {
+  const loginBtnStyle = {
+    backgroundColor: 'green',
+    borderRadius: '3px',
+    color: 'white',
+    border: '1px solid black',
+    width: '80%',
+    marginTop: '10px',
+    marginBottom: '5px'
+  }
+  const logoutBtnStyle = {
+    backgroundColor: 'red',
+    borderRadius: '3px',
+    color: 'white',
+    border: '1px solid black',
+    width: '150px',
+  }
+  const inputFieldStyle = {
+    marginTop: '5px',
+    width: '200px',
+    height: '2em'
+  }
+  const welcomeStyle = {
+    color: 'white',
+    width: '95%',
+    textDecoration: 'underline',
+    margin: '5px auto 5px auto',
+    fontSize: '1.5em'
+  }
 
   return (
-    <div>
+    <div style={{textAlign: 'center'}}>
     {
       !props.auth ? (
         <div>
-          <Link to='/signup'>
-            <p>No account? Sign up here!</p>
-          </Link>
+          <div style={welcomeStyle} >Welcome to RAKT Chat</div>
           <form onSubmit={evt => {
             evt.preventDefault()
             props.login(evt.target.email.value, evt.target.password.value)
           } }>
-            <input name="email" />
-            <input name="password" type="password" />
-            <input type="submit" value="Login" />
+            <input name="email" placeholder="email" style={inputFieldStyle}/>
+            <input name="password" type="password" placeholder="password" style={inputFieldStyle}/>
+            <input type="submit" value="Login" style={loginBtnStyle}/>
           </form>
+          <Link to='/signup'>
+            <p>No account? Sign up here!</p>
+          </Link>
         </div>
-      ) : (
-        <button onClick={props.logout}>Logout</button>
+      )
+      :
+      (
+        <button style={logoutBtnStyle} onClick={props.logout}>Logout</button>
       )
     }
     </div>
