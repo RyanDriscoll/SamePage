@@ -133,7 +133,7 @@ auth.get('/whoami', (req, res) => {
 // })
 
 auth.post('/login',
-  passport.authenticate('local', { failureRedirect: 'api/auth/login' }),
+  passport.authenticate('local', { failureRedirect: 'login' }),
   function(req, res) {
     console.log('success!')
     res.redirect('/api/auth/whoami');
@@ -141,7 +141,7 @@ auth.post('/login',
 
 auth.post('/logout', (req, res, next) => {
   req.logout()
-  res.redirect('/api/auth/whoami')
+  res.redirect('/api/auth/login')
 })
 
 module.exports = auth
