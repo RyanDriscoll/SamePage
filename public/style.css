@@ -107,19 +107,46 @@
   0% {
     transform: translateX(500px);
   }
-  20% {
+  15% {
+    transform: translateX(0px);
+  }
+  25% {
+    transform: translateX(175px);
+  }
+  30% {
+    transform: translateX(200px);
+  }
+  35% {
+    transform: translateX(175px);
+  }
+  43% {
+    transform: translateX(0px);
+  }
+  48% {
+    transform: translateX(75px);
+  }
+  53% {
     transform: translateX(100px);
   }
-  40% {
+  58% {
+    transform: translateX(75px);
+  }
+  66% {
     transform: translateX(0px);
   }
-  47% {
-    transform: translateX(35px);
+  71% {
+    transform: translateX(30px);
   }
-  60% {
+  76% {
+    transform: translateX(45px);
+  }
+  81% {
+    transform: translateX(30px);
+  }
+  89% {
     transform: translateX(0px);
   }
-  80% {
+  95% {
     transform: translateX(10px);
   }
   100% {
@@ -134,4 +161,29 @@
   100% {
     transform: translateX(400px);
   }
+}
+
+@keyframes popupEnter{
+  0% {
+    transform: scale(0.1, 0.1);
+  }
+  100%{
+    transform: scale(1,1);
+  }
+}
+
+.login-component-rakt {
+  /*animation: popupEnter 1s;*/
+}
+
+.popup-component-rakt {
+  color: #2c75ea;
+}
+
+.login-btn-rakt {
+  background-color: green;
+}
+
+.logout-btn-rakt {
+  background-color: red;  
 }
