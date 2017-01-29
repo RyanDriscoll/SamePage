@@ -1,40 +1,53 @@
 import React from 'react'
-import {login} from '../../background/auth.jsx'
+import {login, logout} from '../../background/auth.jsx'
+import store from '../../background/store.js'
 import {connect} from 'react-redux'
 
-console.dir(login)
-
 const Login = (props) => {
-    console.log('%%%%%%%%%',props)
 
   return (
-    <form onSubmit={evt => {
-      evt.preventDefault()
-      console.log('^^^^^^^^^^', evt.target.username.value, evt.target.password.value)
-      props.login(evt.target.username.value, evt.target.password.value)
-    } }>
-      <input name="username" />
-      <input name="password" type="password" />
-      <input type="submit" value="Login" />
-    </form>
-  )
+    <div>
+    {
+      !props.auth ? (
+        <form onSubmit={evt => {
+          evt.preventDefault()
+          props.login(evt.target.email.value, evt.target.password.value)
+        } }>
+          <input name="email" />
+          <input name="password" type="password" />
+          <input type="submit" value="Login" />
+        </form>
+      ) : (
+        <button onClick={props.logout}>Logout</button>
+      )
+    }
+    </div>
+  );
 }
+
+
 const mapStateToProps = (state) => {
+  console.log('mstp state', state)
   return {
-    bar: 'foo'
+    auth: state.auth
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: (username, password) => {
+    login: (email, password) => {
       dispatch({
         type: 'SEND_LOGIN_REQUEST',
-        username,
+        email,
         password,
       });
+    },
+    logout: () => {
+      dispatch({
+        type: 'SEND_LOGOUT_REQUEST'
+      });
     }
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

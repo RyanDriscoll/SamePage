@@ -40,9 +40,7 @@ db.didSync
   .then(() => db.sync({force: true}))
   .then(seedUsers)
   .then(users => console.log(`Seeded ${users.length} users OK`))
-<<<<<<< HEAD
   .catch(error => console.error(error))
-=======
   .then(seedGroups)
   .then(groups => console.log(`Seeded ${groups.length} groups OK`))
   .then(seedMessages)
@@ -50,5 +48,4 @@ db.didSync
   .then(seedGroupUsers)
   .then(groupusers => console.log(`Seeded ${groupusers.length} groupusers OK`))
   .catch(error => console.error(error))
->>>>>>> master
   .finally(() => db.close())
