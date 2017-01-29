@@ -24,6 +24,20 @@ const reducer = (state=null, action) => {
 }
 
 /* ------------       DISPATCHERS     ------------------ */
+export const whoami = () => {
+  console.log('whoami before dispatch')
+  return dispatch => {
+    console.log('in whoami after dispatch')
+    return axios.get(rootPath + 'auth/whoami')
+      .then(response => {
+        console.log('user data from whoami', response.data)
+        const user = response.data;
+        dispatch(authenticated(user))
+      })
+      .catch(failed => dispatch(authenticated(null)))
+  }
+}
+
 export const login = ({ email, password }) => {
   console.log('login dispatcher called', email, password);
   return dispatch => {
@@ -40,25 +54,22 @@ export const login = ({ email, password }) => {
       })
     }
 }
-export const logout = () =>
-  dispatch =>
-    axios.post(rootPath + 'auth/logout')
-      .then(() => dispatch(whoami()))
-      .catch(() => dispatch(whoami()))
-
-export const whoami = () => {
-  console.log('whoami before dispatch')
+export const logout = () => {
+  console.log('in logout')
   return dispatch => {
-    console.log('in whoami after dispatch')
-    return axios.get(rootPath + 'auth/whoami')
-      .then(response => {
-        console.log('user data from whoami', response.data)
-        const user = response.data
-        dispatch(authenticated(user))
+    console.log('in logout dispatch')
+    return axios.post(rootPath + 'auth/logout')
+      .then(() => {
+        console.log('successful logout?')
+        const noUser = null;
+        return dispatch(authenticated(noUser))})
+      .catch(() => {
+        console.log('failed to logout user')
+        dispatch(whoami())
       })
-      .catch(failed => dispatch(authenticated(null)))
   }
 }
+
 
 export const signup = ({ email, username, password }) => {
   console.log('in signup')
@@ -67,7 +78,7 @@ export const signup = ({ email, username, password }) => {
       {email, username, password})
       .then((res) => {
         console.log('successfully created user', res.data)
-        return dispatch(login(email, password));
+        return dispatch(login({email, password}));
       })
       .catch((err) => {
         console.error(err.stack);

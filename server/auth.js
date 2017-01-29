@@ -140,7 +140,9 @@ auth.post('/login',
   });
 
 auth.post('/logout', (req, res, next) => {
+  console.log('^^^^^^^^^^^^^^^^is logout happening?', req.user)
   req.logout()
+  console.log('^^^^^^^^^^^^^^^^who is req.user?', req.user)
 })
 
 module.exports = auth
