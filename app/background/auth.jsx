@@ -60,4 +60,19 @@ export const whoami = () => {
   }
 }
 
+export const signup = ({ email, username, password }) => {
+  console.log('in signup')
+  return dispatch => {
+    axios.post(rootPath + 'users',
+      {email, username, password})
+      .then((res) => {
+        console.log('successfully created user', res.data)
+        return dispatch(login(email, password));
+      })
+      .catch((err) => {
+        console.error(err.stack);
+      });
+    };
+}
+
 export default reducer

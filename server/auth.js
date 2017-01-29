@@ -141,7 +141,6 @@ auth.post('/login',
 
 auth.post('/logout', (req, res, next) => {
   req.logout()
-  res.redirect('/api/auth/login')
 })
 
 module.exports = auth

@@ -1,7 +1,6 @@
-import React from 'react'
-import {login, logout} from '../../background/auth.jsx'
-import store from '../../background/store.js'
-import {connect} from 'react-redux'
+import React from 'react';
+import {Link} from 'react-router';
+import {connect} from 'react-redux';
 
 const Login = (props) => {
 
@@ -9,14 +8,19 @@ const Login = (props) => {
     <div>
     {
       !props.auth ? (
-        <form onSubmit={evt => {
-          evt.preventDefault()
-          props.login(evt.target.email.value, evt.target.password.value)
-        } }>
-          <input name="email" />
-          <input name="password" type="password" />
-          <input type="submit" value="Login" />
-        </form>
+        <div>
+          <Link to='/signup'>
+            <p>No account? Sign up here!</p>
+          </Link>
+          <form onSubmit={evt => {
+            evt.preventDefault()
+            props.login(evt.target.email.value, evt.target.password.value)
+          } }>
+            <input name="email" />
+            <input name="password" type="password" />
+            <input type="submit" value="Login" />
+          </form>
+        </div>
       ) : (
         <button onClick={props.logout}>Logout</button>
       )
