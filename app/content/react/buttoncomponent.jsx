@@ -25,6 +25,7 @@ class ButtonComponent extends React.Component{
 
 
   render(){
+    console.log("button component", this.props.user)
     return (
       <div>
         {
@@ -33,10 +34,27 @@ class ButtonComponent extends React.Component{
             :
             null
         }
-        <div className={this.state.displayChat ? 'chatButton-rakt-clicked' : 'chatButton-rakt-unclicked'} onClick={this.toggleChatDisplay} />
+        {
+          this.props.user ?
+            <div className={this.state.displayChat ? 'chatButton-rakt-clicked' : 'chatButton-rakt-unclicked'} onClick={this.toggleChatDisplay} />
+            :
+            null
+        }
       </div>
     )
   }
 }
 
-export default ButtonComponent;
+const mapStateToProps = function(state){
+  return {
+    user: state.auth
+  }
+}
+
+const mapDispatchToProps = function(dispatch){
+  return {
+
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ButtonComponent);
