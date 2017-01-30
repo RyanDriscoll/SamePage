@@ -6,7 +6,7 @@ class UserContainer extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      users: [{username: 'coolguy85'}, {username: '6969696969'}]
+      users: [{username: 'coolguy85'}, {username: '6969696969'}, {username: 'av969696969'}]
     }
 
   }
@@ -15,8 +15,8 @@ class UserContainer extends React.Component{
     return (
       <div className="user-container-box">
         {
-          this.state.users.map(user => {
-            return <User username={user.username} />;
+          this.state.users.sort((a, b)=> a.username.localeCompare(b.username)).map(user => { //state
+            return <User key={user.id} username={user.username} />;
           })
         }
       </div>
