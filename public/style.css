@@ -98,6 +98,18 @@
   border: 1px solid grey;
 }
 
+.message-component-part-owner {
+  display: inline-block;
+  margin: 1px 2px 1px 2px;
+  text-align: 'right';
+}
+
+.message-component-part-receiver {
+  display: inline-block;
+  margin: 1px 2px 1px 2px;
+  text-align: 'left'
+}
+
 .message-component-part {
   display: inline-block;
   margin: 1px 2px 1px 2px;
