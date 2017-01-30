@@ -15,6 +15,31 @@ class SendMessageComponent extends React.Component{
     }
     this.sendChat = this.sendChat.bind(this);
     this.handleChatChange = this.handleChatChange.bind(this);
+
+    this.sendChatComponent = {
+      width: '100%',
+      textAlign: 'center',
+      height: '8%',
+      padding: '5px'
+    }
+    this.chatInput = {
+      width: '85%',
+      height: '35%',
+      margin: 'auto',
+      fontSize: '11px'
+    }
+    this.sendChatBtn = {
+      width: '29%',
+      backgroundColor: 'green',
+      color: 'black',
+      border: '2px solid blue',
+      borderRadius: '3px',
+      margin: 'auto',
+      height: '35%',
+      fontSize: '11px',
+      padding: '2px',
+      lineHeight: 'normal'
+    }
   }
 
   sendChat(e){
@@ -33,10 +58,15 @@ class SendMessageComponent extends React.Component{
 
   render(){
     return (
-      <div className="sendchat-component">
-        <form action="submit" onSubmit={this.sendChat}>
-          <input type="text" name="msg" placeholder="Send Message" value={this.state.currMessage} onChange={this.handleChatChange} className="chat-input"/>
-          <button className="sendchat-btn" onClick={this.sendChat} >Send</button>
+      <div style={this.sendChatComponent}>
+        <form action="submit" onSubmit={this.sendChat} style={{height: '100%'}}>
+          <input type="text" 
+                name="msg" 
+                placeholder="Send Message" 
+                value={this.state.currMessage} 
+                onChange={this.handleChatChange} 
+                style={this.chatInput}/>
+          <button style={this.sendChatBtn} onClick={this.sendChat} >Send</button>
         </form>
       </div>
     )
