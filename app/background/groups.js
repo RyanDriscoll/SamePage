@@ -120,11 +120,13 @@ chrome.runtime.onMessage.addListener(function(request, sender, response){
 })
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-  if (changeInfo.url) {
+  if (changeInfo.url && urlsOfTabs[tabId]) {
 		urlsOfTabs[tabId] = changeInfo.url;		
   }
 });
 
 chrome.tabs.onRemoved.addListener(function(tabId){
-	delete urlsOfTabs[tabId];
+	if (urlsOfTabs[tabId]) {
+		delete urlsOfTabs[tabId];
+  }
 })
