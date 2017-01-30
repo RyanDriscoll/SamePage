@@ -37,12 +37,16 @@ class ButtonComponent extends React.Component{
 
   toggleChatDisplay(e){
     e.preventDefault();
+    
+    chrome.runtime.sendMessage({type: 'joinRoom'}, null)
+
     this.setState({animate: !this.state.animate})
     if(this.state.displayChat){
       setTimeout( () => {
         this.setState({displayChat: !this.state.displayChat});
       }, 500)
-    } else this.setState({displayChat: !this.state.displayChat})
+    } else this.setState({displayChat: !this.state.displayChat});
+
   }
 
 
