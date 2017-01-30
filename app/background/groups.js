@@ -30,11 +30,11 @@ export default function reducer (groups = {}, action) {
 
 	switch (action.type) {
 
-		case CREATE_GROUP: return Object.assign({}, groups, action.group);
+		case CREATE_GROUP: return Object.assign({}, groups, action.group); //broadcast
 		case FETCH_GROUP: return Object.assign({}, groups, action.group)
 		case FETCH_USER_GROUPS:	return Object.assign({}, groups, action.groups)
 
-		case UPDATE_GROUP_NAME:	return Object.assign({}, groups, 
+		case UPDATE_GROUP_NAME:	return Object.assign({}, groups, //
 				{[action.groupId]: Object.assign({}, groups[action.groupId], 
 					{name: action.name})})
 
@@ -80,9 +80,11 @@ export const updateGroupName = (id, name) => dispatch => {
 };
 
 
+// export const createGroupMsg = (groupId, msgId) => dispatch => {
+// 	axios.put(`api/messages/${groupID}`, )
+
 // export const createGroupUser = (groupId, userId) => dispatch => {
 // 	axios.put(`api/groups/${groupID}`)
-
 
 
 
