@@ -8,11 +8,21 @@ class UserContainer extends React.Component{
     this.state = {
     }
 
+    this.userContainerBox = {
+      width: '97%',
+      height: '33%',
+      backgroundColor: '#a1c4fc',
+      border: '1px solid grey',
+      borderRadius: '3px',
+      overflow: 'scroll',
+      margin: '5px auto 0px auto',
+    }
+
   }
 
   render(){
     return (
-      <div className="user-container-box">
+      <div style={this.userContainerBox}>
         {
           this.props.users.sort((a, b)=> a.username.localeCompare(b.username)).map(user => {
             return (

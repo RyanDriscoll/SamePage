@@ -10,6 +10,16 @@ class MessageContainer extends React.Component{
     this.state = {
       
     }
+
+    this.messageContainerBox = {
+      width: '97%',
+      height: '57%',
+      backgroundColor: 'lightgrey',
+      border: '1px solid grey',
+      borderRadius: '3px',
+      overflow: 'scroll',
+      margin: '5px auto 0px auto',
+    }
     
   }
 
@@ -19,7 +29,7 @@ class MessageContainer extends React.Component{
   render(){
     console.log(this.props.messages)
     return (
-      <div className="message-container-box">
+      <div style={this.messageContainerBox}>
         {
           this.props.messages.map(message => {
             return (

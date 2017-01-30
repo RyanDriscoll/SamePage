@@ -1,48 +1,8 @@
-.chatButton-rakt-unclicked {
-  position: fixed;
-  top: 93vh;
-  left: 96vw;
-  z-index:99999;
-  background: #2c75ea;
-  height: 110px;
-  width: 110px;
-  border-radius: 50%;
-  border: 2px solid blue;
-}
-
-.chatButton-rakt-clicked {
-  position: fixed;
-  top: 93vh;
-  left: 96vw;
-  z-index:99999;
-  background: #ea452c;
-  height: 110px;
-  width: 110px;
-  border-radius: 50%;
-  border: 2px solid blue;
-}
 
 .chatbutton-img {
   position: relative;
   right: 100px;
   bottom: 100px;
-}
-
-.sendchat-component {
-  width: 100%;
-}
-
-.chat-input {
-  width: 85%;
-}
-
-.sendchat-btn{
-  width: 29%;
-  background-color: green;
-  color: black;
-  border: 2px solid blue;
-  border-radius: 3px;
-  margin: 5px 0px 5px 0px
 }
 
 .chatBoxx-rakt-in{
@@ -69,26 +29,6 @@
   width: 250px;
   border-radius: 5px;
   border: 2px solid blue;
-}
-
-.message-container-box {
-  width: 97%;
-  height: 57%;
-  background-color: lightgrey;
-  border: 1px solid grey;
-  border-radius: 3px;
-  overflow: scroll;
-  margin: 5px 0px 5px 0px;
-}
-
-.user-container-box {
-  width: 97%;
-  height: 33%;
-  background-color: #a1c4fc;
-  border: 1px solid grey;
-  border-radius: 3px;
-  overflow: scroll;
-  margin: 5px 0px 0px 0px;  
 }
 
 .message-component {
@@ -175,27 +115,3 @@
   }
 }
 
-@keyframes popupEnter{
-  0% {
-    transform: scale(0.1, 0.1);
-  }
-  100%{
-    transform: scale(1,1);
-  }
-}
-
-.login-component-rakt {
-  /*animation: popupEnter 1s;*/
-}
-
-.popup-component-rakt {
-  color: #2c75ea;
-}
-
-.login-btn-rakt {
-  background-color: green;
-}
-
-.logout-btn-rakt {
-  background-color: red;  
-}

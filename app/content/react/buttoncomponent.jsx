@@ -11,6 +11,28 @@ class ButtonComponent extends React.Component{
       animate: false
     }
     this.toggleChatDisplay = this.toggleChatDisplay.bind(this);
+    this.chatButtonRaktUnclicked = {
+      position: 'fixed',
+      top: '93vh',
+      left: '96vw',
+      zIndex: 99999,
+      background: '#2c75ea',
+      height: '110px',
+      width: '110px',
+      borderRadius: '50%',
+      border: '2px solid blue',
+    }
+    this.chatButtonRaktClicked = {
+      position: 'fixed',
+      top: '93vh',
+      left: '96vw',
+      zIndex: 99999,
+      background: '#ea452c',
+      height: '110px',
+      width: '110px',
+      borderRadius: '50%',
+      border: '2px solid blue',
+    }
   }
 
   toggleChatDisplay(e){
@@ -35,7 +57,7 @@ class ButtonComponent extends React.Component{
         }
         {
           this.props.user ?
-            <div className={this.state.displayChat ? 'chatButton-rakt-clicked' : 'chatButton-rakt-unclicked'} onClick={this.toggleChatDisplay} />
+            <div style={this.state.displayChat ? this.chatButtonRaktClicked : this.chatButtonRaktUnclicked} onClick={this.toggleChatDisplay} />
             :
             null
         }
