@@ -8,12 +8,17 @@ class MessageContainer extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      messages: [
-        {content: "hello", sender: 'alan', time: 'now'},
-        {content: "goodbye", sender: 'ryan', time: 'yesterday'},
-        {content: "whatsup", sender: 'tom', time: 'tomorrow'},
-        {content: "seeya", sender: 'kd', time: 'next tuesday'},
-      ]
+      
+    }
+
+    this.messageContainerBox = {
+      width: '97%',
+      height: '57%',
+      backgroundColor: 'lightgrey',
+      border: '1px solid grey',
+      borderRadius: '3px',
+      overflow: 'scroll',
+      margin: '5px auto 0px auto',
     }
     
   }
@@ -22,11 +27,19 @@ class MessageContainer extends React.Component{
 
 
   render(){
+    console.log(this.props.messages)
     return (
-      <div className="message-container-box">
+      <div style={this.messageContainerBox}>
         {
-          this.props.messages.map(message => { //state
-            return <MessageComponent content={message.content} sender={message.user.username} time={message.created_at} />
+          this.props.messages.map(message => {
+            return (
+              <div key={`${this.props.sender}${this.props.time}`}>
+                <MessageComponent content={message.content} 
+                                    sender={message.user.username} 
+                                    time={message.created_at} 
+                                    messageOwner={this.props.user.user_id === message.sender}/>
+              </div>
+            )
           })
         }
       </div>
@@ -36,7 +49,8 @@ class MessageContainer extends React.Component{
 
 const mapStateToProps = function(state){
   return {
-    messages: state.messages
+    messages: state.messages,
+    user: state.auth
   }
 }
 

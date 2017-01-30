@@ -6,7 +6,16 @@ class UserContainer extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      users: [{username: 'coolguy85'}, {username: '6969696969'}, {username: 'av969696969'}]
+    }
+
+    this.userContainerBox = {
+      width: '97%',
+      height: '33%',
+      backgroundColor: '#a1c4fc',
+      border: '1px solid grey',
+      borderRadius: '3px',
+      overflow: 'scroll',
+      margin: '5px auto 0px auto',
     }
 
   }
