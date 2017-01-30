@@ -15,8 +15,12 @@ class UserContainer extends React.Component{
     return (
       <div className="user-container-box">
         {
-          this.state.users.sort((a, b)=> a.username.localeCompare(b.username)).map(user => { //state
-            return <User key={user.id} username={user.username} />;
+          this.state.users.sort((a, b)=> a.username.localeCompare(b.username)).map(user => {
+            return (
+              <div key={user.username}>
+                <User  username={user.username} />
+              </div>
+            )
           })
         }
       </div>
