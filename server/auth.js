@@ -121,28 +121,20 @@ passport.use(new (require('passport-local').Strategy)({
 
 
 auth.get('/whoami', (req, res) => {
-  console.log('@@@@@@@@@',req.user);
+  // console.log('@@@@@@@@@',req.user);
   return res.send(req.user)
-})
-
-// auth.post('/login', (req, res, next) => {
-//   console.log('in auth post route', req.body)
-//   return passport.authenticate('local', {
-//     failureRedirect: '/login'
-//   })(req, res, next)
-// })
+});
 
 auth.post('/login',
   passport.authenticate('local', { failureRedirect: 'login' }),
   function(req, res) {
-    console.log('success!')
     res.redirect('/api/auth/whoami');
   });
 
 auth.post('/logout', (req, res, next) => {
   req.logout()
-  res.redirect('/api/auth/login')
-})
+  res.redirect('/api/auth/login');
+});
 
 module.exports = auth
 

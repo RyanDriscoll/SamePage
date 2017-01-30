@@ -1,7 +1,6 @@
-import React from 'react'
-import {login, logout} from '../../background/auth.jsx'
-import store from '../../background/store.js'
-import {connect} from 'react-redux'
+import React from 'react';
+import {Link} from 'react-router';
+import {connect} from 'react-redux';
 
 const Login = (props) => {
   const loginBtnStyle = {
@@ -47,9 +46,12 @@ const Login = (props) => {
             <input name="password" type="password" placeholder="password" style={inputFieldStyle}/>
             <input type="submit" value="Login" style={loginBtnStyle}/>
           </form>
+          <Link to='/signup'>
+            <p>No account? Sign up here!</p>
+          </Link>
         </div>
-      ) 
-      : 
+      )
+      :
       (
         <button style={logoutBtnStyle} onClick={props.logout}>Logout</button>
       )
@@ -60,7 +62,6 @@ const Login = (props) => {
 
 
 const mapStateToProps = (state) => {
-  console.log('mstp state', state)
   return {
     auth: state.auth
   }

@@ -28,13 +28,18 @@ const User = db.define('users', {
     beforeUpdate: setEmailAndPassword,
   },
   instanceMethods: {
+    toJSON() {
+      const obj = Object.assign(this.dataValues);
+      delete obj.password_digest;
+      return obj;
+    },
     authenticate(plaintext) {
       return new Promise((resolve, reject) =>
         bcrypt.compare(plaintext, this.password_digest,
           (err, result) =>
             err ? reject(err) : resolve(result))
         )
-    }    
+    }
   }
 })
 
