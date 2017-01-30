@@ -1,5 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {Link} from 'react-router';
+
 
 const Signup = (props) => {
 
@@ -12,7 +14,9 @@ const Signup = (props) => {
         <input name="email" placeholder="email" />
         <input name="username" placeholder="username" />
         <input name="password" placeholder="password" type="password" />
-        <input type="submit" value="Sign up" />
+        <Link to="/landing">
+          <input type="submit" value="Sign up" />
+        </Link>
       </form>
     </div>
   );
