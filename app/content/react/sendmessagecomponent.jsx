@@ -19,9 +19,8 @@ class SendMessageComponent extends React.Component{
 
   sendChat(e){
     e.preventDefault();
-    console.log("ki")
     //socket.emit('create:message', {content: this.state.currMessage, user_id: 1, group_id: 1} );m platform with both dual and quad core (35W and 65W options) available to consumers along with the
-    axios.post(rootPath+'messages', {content: this.state.currMessage, user_id: 1, group_id: 1} )//window.location.protocol + "://" + window.location.host + "/" + window.location.pathname
+    axios.post(rootPath+'messages', {content: this.state.currMessage, user_id: this.props.user.user_id, group_id: 1} )//window.location.protocol + "://" + window.location.host + "/" + window.location.pathname
     // this.props.dispatch(this.state.currMessage);
     this.setState({currMessage: ''});
   }
@@ -46,7 +45,7 @@ class SendMessageComponent extends React.Component{
 
 const mapStateToProps = function(state){
   return {
-
+    user: state.auth
   }
 }
 
@@ -56,4 +55,4 @@ const mapDispatchToProps = function(dispatch){
   }
 }
 
-export default SendMessageComponent;
+export default connect(mapStateToProps, mapDispatchToProps)(SendMessageComponent);

@@ -16,10 +16,21 @@ class MessageComponent extends React.Component{
 
   render(){
     return (
-      <div className="message-component">
-        <div className="message-component-part" >{this.props.sender}</div>
-        <div className="message-component-part" >{this.props.time}</div>
-        <div className="message-component-part" >{this.props.content}</div>
+      <div className="message-component" >
+        {
+          this.props.messageOwner ?
+          <div className="message-component-part-owner">
+            <div className="message-component-part" >{this.props.sender}</div>
+            <div className="message-component-part" >{this.props.time}</div>
+            <div className="message-component-part" >{this.props.content}</div>
+          </div>
+          :
+          <div className="message-component-part-receiver">
+            <div className="message-component-part" >{this.props.sender}</div>
+            <div className="message-component-part" >{this.props.time}</div>
+            <div className="message-component-part" >{this.props.content}</div>
+          </div>
+        }
       </div>
     )
   }
