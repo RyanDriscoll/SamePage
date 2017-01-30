@@ -117,16 +117,20 @@ chrome.runtime.onMessage.addListener(function(request, sender, response){
   if(request.type === 'joinRoom'){
 		urlsOfTabs[sender.tab.id] = sender.url;
   }
+	console.log("onMessage", urlsOfTabs)
 })
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-  if (changeInfo.url && urlsOfTabs[tabId]) {
-		urlsOfTabs[tabId] = changeInfo.url;		
-  }
+  // if (changeInfo.url && urlsOfTabs[tabId]) {
+	// 	urlsOfTabs[tabId] = changeInfo.url;		
+  // }
+	console.log("onUpdate", urlsOfTabs)
 });
 
 chrome.tabs.onRemoved.addListener(function(tabId){
 	if (urlsOfTabs[tabId]) {
 		delete urlsOfTabs[tabId];
   }
+	console.log("onRemove", urlsOfTabs)
+	
 })
