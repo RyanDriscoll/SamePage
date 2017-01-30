@@ -2,6 +2,8 @@
 
 const db = require('APP/db')
 const Group = db.model('groups')
+const GroupUser = db.model('group_user')
+const User = db.model('users')
 
 module.exports = require('express').Router()
 	// .get('/url/:url', (req, res, next) => 
@@ -18,11 +20,17 @@ module.exports = require('express').Router()
 		.then(group => res.json(group))
 		.catch(next))
 
+	.get('/group_users', (req, res, next) => {
+		GroupUser.findAll({where:{group_id:req.query.group_id}, include:[User]})
+		.then(groupUsers => res.json(groupUsers))
+		.catch(next)
+	})
+
 	.get('/:id', (req, res, next) =>
 		Group.findById(req.params.id)
 		.then(group => res.json(group))
 		.catch(next))
-	
+
 	.get('/user/:userId', (req, res, next) =>
 		User.findById(req.params.userId).getGroups()
 		.then(groups => res.json(groups))

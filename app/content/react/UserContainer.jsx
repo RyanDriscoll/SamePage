@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import User from './User';
+import User from './User.jsx';
 
 class UserContainer extends React.Component{
   constructor(props){
@@ -12,11 +12,16 @@ class UserContainer extends React.Component{
   }
 
   render(){
-    return (
+    console.log("testing user: ", this.props.users[0])
+    return (   
       <div className="user-container-box">
         {
-          this.state.users.sort((a, b)=> a.username.localeCompare(b.username)).map(user => { //state
-            return <User key={user.id} username={user.username} />;
+          this.props.users.map(user => { //state
+            return (
+              <div key={user.id} >
+                <User username={user.user.username} />
+              </div>
+            )
           })
         }
       </div>

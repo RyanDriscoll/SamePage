@@ -26,7 +26,7 @@ class MessageContainer extends React.Component{
       <div className="message-container-box">
         {
           this.props.messages.map(message => { //state
-            return <MessageComponent content={message.content} sender={message.sender} time={message.time} />
+            return <MessageComponent content={message.content} sender={message.user.username} time={message.created_at} />
           })
         }
       </div>

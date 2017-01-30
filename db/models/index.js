@@ -8,9 +8,16 @@ const User = require('./user');
 const Group = require('./group');
 const Message = require('./message');
 const OAuth = require('./oauth')
+const GroupUser = require('./groupuser')
 
-User.belongsToMany(Group, {through: 'group_user'});
-Group.belongsToMany(User, {through: 'group_user'});
+User.belongsToMany(Group, {through: GroupUser});
+Group.belongsToMany(User, {through: GroupUser});
+
+GroupUser.belongsTo(User)
+User.hasMany(GroupUser)
+
+GroupUser.belongsTo(Group)
+Group.hasMany(GroupUser)
 
 Group.hasMany(Message);
 Message.belongsTo(Group);
@@ -24,4 +31,4 @@ User.hasOne(OAuth)
 
 
 
-module.exports = {User, Group, Message}
+module.exports = {User, Group, Message, GroupUser}

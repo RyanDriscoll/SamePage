@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { fetch_group_user_ids, delete_group_user_ids } from './groups'
+import rootPath from './httpServer.jsx'
 
 /* -----------------    ACTIONS     ------------------ */
 
@@ -25,11 +26,12 @@ export default function reducer (users = [], action) {
 /* ------------       DISPATCHERS     ------------------ */
 
 export const fetchGroupUsers = group_id => dispatch => {
-	axios.get('/users', {group_id})
+	axios.get(rootPath + 'groups/group_users', {params:{group_id}})
 		.then(res => res.data)
-		.then(user => {
+		.then(users => {
+			console.log("yooo", users)
 			dispatch(fetch_group_users(users));
-			dispatch(fetch_group_user_ids(group_id, user.map(user => user.id)));
+			// dispatch(fetch_group_user_ids(group_id, user.map(user => user.id)));
 		})
 		.catch(err => console.error(`Fetching users for group ${group_id} unsuccessful`, err));
 };
