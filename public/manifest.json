@@ -16,6 +16,7 @@
     "default_popup": "popup.html",
     "default_icon": "messagebubble.png"
   },
+  "permissions": ["tabs"],
   "content_scripts": [
     {
       "run_at": "document_end",

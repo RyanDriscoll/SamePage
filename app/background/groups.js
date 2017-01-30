@@ -109,3 +109,22 @@ export const fetchGroup = id => dispatch => {
 // 	.then(userGroups => dispatch(fetch_user_groups(userGroups)))
 // 	.catch(err => console.error(`Fetching groups for user ${userId} unsuccessful`, err));
 // };
+
+
+let urlsOfTabs = {};
+
+chrome.runtime.onMessage.addListener(function(request, sender, response){
+  if(request.type === 'joinRoom'){
+		urlsOfTabs[sender.tab.id] = sender.url;
+  }
+})
+
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+  if (changeInfo.url) {
+		urlsOfTabs[tabId] = changeInfo.url;		
+  }
+});
+
+chrome.tabs.onRemoved.addListener(function(tabId){
+	delete urlsOfTabs[tabId];
+})
