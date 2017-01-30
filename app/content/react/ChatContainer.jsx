@@ -13,16 +13,6 @@ class ChatContainer extends React.Component{
     super(props);
   }
 
-  componentDidMount() {
-    // console.log('is this being called did mount?')
-    // this.self = findDOMNode(this);
-    // TweenLite.fromTo(this.self, 0.3, {
-    //   opacity: 0
-    // }, {
-    //   opacity: 1
-    // });
-  }
-
 
 
   render(){
@@ -35,10 +25,5 @@ class ChatContainer extends React.Component{
     );
   }
 }
-
-// function FirstChild(props) {
-//   const childrenArray = React.Children.toArray(props.children);
-//   return childrenArray[0] || null;
-// }
 
 export default ChatContainer;

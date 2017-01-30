@@ -25,7 +25,6 @@ class ButtonComponent extends React.Component{
 
 
   render(){
-    console.log("button component", this.props.user)
     return (
       <div>
         {

@@ -62,7 +62,6 @@ const Login = (props) => {
 
 
 const mapStateToProps = (state) => {
-  console.log('mstp state', state)
   return {
     auth: state.auth
   }
