@@ -6,17 +6,30 @@ class UserContainer extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      users: [{username: 'coolguy85'}, {username: '6969696969'}]
+    }
+
+    this.userContainerBox = {
+      width: '97%',
+      height: '33%',
+      backgroundColor: '#a1c4fc',
+      border: '1px solid grey',
+      borderRadius: '3px',
+      overflow: 'scroll',
+      margin: '5px auto 0px auto',
     }
 
   }
 
   render(){
     return (
-      <div className="user-container-box">
+      <div style={this.userContainerBox}>
         {
-          this.state.users.map(user => {
-            return <User username={user.username} />;
+          this.props.users.sort((a, b)=> a.username.localeCompare(b.username)).map(user => {
+            return (
+              <div key={user.user_id}>
+                <User  username={user.username} />
+              </div>
+            )
           })
         }
       </div>

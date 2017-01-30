@@ -7,6 +7,7 @@ const FETCH_GROUP_MESSAGES = 'FETCH_GROUP_MESSAGES';
 const DELETE_GROUP_MESSAGES = 'DELETE_GROUP_MESSAGES';
 const FETCH_MSGS_WITH_USER = 'FETCH_MSGS_WITH_USER';
 const REMOVE_GROUP_MESSAGES = 'REMOVE_GROUP_MESSAGES';
+const CREATE_MESSAGE = 'CREATE_MESSAGE';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
@@ -21,6 +22,7 @@ export default function reducer (messages = [], action) {
 		case FETCH_GROUP_MESSAGES: return messages.concat(action.groupMsgs);
 		case REMOVE_GROUP_MESSAGES: return messages.filter(msg => msg.groupId != action.groupId); //too expensive unless mesgs contain groupId
 		case FETCH_MSGS_WITH_USER: return messages.concat(action.userMsgs);
+		case CREATE_MESSAGE: {console.log("hii", action.message);return messages.concat(action.message);}
 		default: return messages;
 	}
 }

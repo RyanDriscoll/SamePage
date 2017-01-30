@@ -30,11 +30,11 @@ export default function reducer (groups = {}, action) {
 
 	switch (action.type) {
 
-		case CREATE_GROUP: return Object.assign({}, groups, action.group);
+		case CREATE_GROUP: return Object.assign({}, groups, action.group); //broadcast
 		case FETCH_GROUP: return Object.assign({}, groups, action.group)
 		case FETCH_USER_GROUPS:	return Object.assign({}, groups, action.groups)
 
-		case UPDATE_GROUP_NAME:	return Object.assign({}, groups, 
+		case UPDATE_GROUP_NAME:	return Object.assign({}, groups, //
 				{[action.groupId]: Object.assign({}, groups[action.groupId], 
 					{name: action.name})})
 
@@ -80,9 +80,11 @@ export const updateGroupName = (id, name) => dispatch => {
 };
 
 
+// export const createGroupMsg = (groupId, msgId) => dispatch => {
+// 	axios.put(`api/messages/${groupID}`, )
+
 // export const createGroupUser = (groupId, userId) => dispatch => {
 // 	axios.put(`api/groups/${groupID}`)
-
 
 
 
@@ -107,3 +109,28 @@ export const fetchGroup = id => dispatch => {
 // 	.then(userGroups => dispatch(fetch_user_groups(userGroups)))
 // 	.catch(err => console.error(`Fetching groups for user ${userId} unsuccessful`, err));
 // };
+
+
+let urlsOfTabs = {};
+
+chrome.runtime.onMessage.addListener(function(request, sender, response){
+  if(request.type === 'joinRoom'){
+		urlsOfTabs[sender.tab.id] = sender.url;
+  }
+	console.log("onMessage", urlsOfTabs)
+})
+
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+  // if (changeInfo.url && urlsOfTabs[tabId]) {
+	// 	urlsOfTabs[tabId] = changeInfo.url;		
+  // }
+	console.log("onUpdate", urlsOfTabs)
+});
+
+chrome.tabs.onRemoved.addListener(function(tabId){
+	if (urlsOfTabs[tabId]) {
+		delete urlsOfTabs[tabId];
+  }
+	console.log("onRemove", urlsOfTabs)
+	
+})
