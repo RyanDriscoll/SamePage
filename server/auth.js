@@ -121,7 +121,7 @@ passport.use(new (require('passport-local').Strategy)({
 
 
 auth.get('/whoami', (req, res) => {
-  // console.log('@@@@@@@@@',req.user);
+   // console.log('@@@@@@@@@',req.user);
   return res.send(req.user)
 });
 

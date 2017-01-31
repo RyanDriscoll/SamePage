@@ -12,7 +12,7 @@ const messageSchema = {
 const messageConfig = {
   tableName: 'messages',
   hooks: {
-    beforeCreate(message) {
+    afterCreate(message) {
       console.log("emit msg")
       sockets.io.emit('create:message', message);
     }

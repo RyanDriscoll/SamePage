@@ -11,9 +11,6 @@ class MessageComponent extends React.Component{
     
   }
 
-  
-
-
   render(){
     return (
       <div className="message-component" >
