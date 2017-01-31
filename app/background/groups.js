@@ -1,4 +1,5 @@
 import axios from 'axios';
+import store from './store.js';
 
 /* -----------------    ACTIONS     ------------------ */
 
@@ -102,7 +103,9 @@ export const fetchGroup = id => dispatch => {
 		.catch(err => console.error(`Fetching group ${id} unsuccessful`, err));
 };
 
-
+export const removeGroupUser = (groupId, userId) => {
+	axios.delete('/api/groups/users', {groupId, userId})
+}
 
 // export const fetchUserGroups = userId => dispatch => {
 // 	axios.get(`/api/groups/user/${userId}`)
@@ -118,6 +121,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, response){
   if(request.type === 'joinRoom'){
 		urlsOfTabs[sender.tab.id] = sender.url;
 		createGroup(sender.url, sender.url, request.user);
+		
   }
 	console.log("onMessage", urlsOfTabs)
 })
@@ -131,8 +135,9 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 
 chrome.tabs.onRemoved.addListener(function(tabId){
 	if (urlsOfTabs[tabId]) {
-		delete urlsOfTabs[tabId];
 
+		// removeGroupUser(groupId, store.auth.user.id)
+		delete urlsOfTabs[tabId];
   }
 	console.log("onRemove", urlsOfTabs)
 	

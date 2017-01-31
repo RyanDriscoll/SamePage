@@ -46,6 +46,12 @@ module.exports = require('express').Router()
 		})
 		.catch(next)
 	})
+
+	.delete('/users', (req, res, next) => {
+		GroupUser.destroy({where: {group_id: req.body.groupId, user_id: req.body.userId}})
+		.then(result => res.send(result))
+		.catch(err => console.log(err))
+	})
 	// .get('/:id', mustBeLoggedIn, (req, res, next) => 
 	// 	Group.findById(req.params.id)
 	// 	.then(group => res.json(group))
