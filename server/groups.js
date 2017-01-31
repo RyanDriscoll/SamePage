@@ -36,10 +36,16 @@ module.exports = require('express').Router()
 		.then(groups => res.json(groups))
 		.catch(next))
 
-	.post('/', (req, res, next) =>
-		Group.create(req.body)
-		.then(group => res.status(201).json(group))
-		.catch(next))
+	.post('/', (req, res, next) => {
+		let url = req.body.url;
+		let name = req.body.name
+		Group.findOrCreate({url, name})
+		.then(group => {
+			group.addUser(req.body.userId)
+			res.status(201).json(group)
+		})
+		.catch(next)
+	})
 	// .get('/:id', mustBeLoggedIn, (req, res, next) => 
 	// 	Group.findById(req.params.id)
 	// 	.then(group => res.json(group))
