@@ -27,17 +27,15 @@ class MessageContainer extends React.Component{
 
 
   render(){
-    console.log(this.props.messages)
     return (
       <div style={this.messageContainerBox}>
         {
           this.props.messages.map(message => {
-            console.log("testingggggg232", this.props, message)
             return (
               <div key={`${message.id}`}>
                 <MessageComponent content={message.content} 
-                                    sender={this.props.users.find(user=>user.id==message.user_id)} 
-                                    time={message.created_at} 
+                                    sender={message.user.username} 
+                                    time={message.created_at}
                                     messageOwner={this.props.user.id === message.user_id}/>
               </div>
             )

@@ -51,6 +51,7 @@ class ButtonComponent extends React.Component{
 
 
   render(){
+    console.log("button state", this.state)
     return (
       <div>
         {

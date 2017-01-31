@@ -21,13 +21,12 @@ class UserContainer extends React.Component{
   }
 
   render(){
-    console.log("testing user: ", this.props.users[0])
     return (   
-      <div className="user-container-box">
+      <div style={this.userContainerBox}>
         {
-          this.props.users.map(user => { //state
+          this.props.users.map(user => {
             return (
-              <div key={user.id} >
+              <div key={user.user_id} >
                 <User username={user.user.username} />
               </div>
             )
