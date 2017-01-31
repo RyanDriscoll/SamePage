@@ -11,10 +11,10 @@ const groupUserSchema = {
 const groupUserConfig = {
   tableName: 'group_user',
   hooks: {
-    beforeCreate(group_user){ 
+    afterCreate(group_user){ 
       sockets.io.emit('create:group_user', group_user)
     },
-    beforeDestroy(group_user){ 
+    afterDestroy(group_user){ 
       sockets.io.emit('delete:group_user', group_user)
     },
   }

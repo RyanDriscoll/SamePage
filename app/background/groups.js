@@ -65,9 +65,9 @@ export default function reducer (groups = {}, action) {
 /* ------------       DISPATCHERS     ------------------ */
 
 //CREATE_GROUP
-export const createGroup = (url, name) => dispatch => {
+export const createGroup = (url, name, userId) => dispatch => {
 	if (name == undefined) name = url;
-	axios.post('/api/groups', {name, url})
+	axios.post('/api/groups', {name, url, userId})
 		.then(res => res.data)
 		.then(group => dispatch(create_group(group)))
 		.catch(err => console.error(`Creating group ${name} for ${url} unsuccessful`, err));
@@ -83,7 +83,7 @@ export const updateGroupName = (id, name) => dispatch => {
 // export const createGroupMsg = (groupId, msgId) => dispatch => {
 // 	axios.put(`api/messages/${groupID}`, )
 
-// export const createGroupUser = (groupId, userId) => dispatch => {
+// export const createGroupUser = (group, userId) => dispatch => {
 // 	axios.put(`api/groups/${groupID}`)
 
 
@@ -103,6 +103,7 @@ export const fetchGroup = id => dispatch => {
 };
 
 
+
 // export const fetchUserGroups = userId => dispatch => {
 // 	axios.get(`/api/groups/user/${userId}`)
 // 	.then(res => res.data)
@@ -116,6 +117,7 @@ let urlsOfTabs = {};
 chrome.runtime.onMessage.addListener(function(request, sender, response){
   if(request.type === 'joinRoom'){
 		urlsOfTabs[sender.tab.id] = sender.url;
+		createGroup(sender.url, sender.url, request.user);
   }
 	console.log("onMessage", urlsOfTabs)
 })
@@ -130,6 +132,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 chrome.tabs.onRemoved.addListener(function(tabId){
 	if (urlsOfTabs[tabId]) {
 		delete urlsOfTabs[tabId];
+
   }
 	console.log("onRemove", urlsOfTabs)
 	
