@@ -7,7 +7,6 @@ const User = db.model('users')
 module.exports = require('express').Router()
 	
 	.get('/', (req, res, next) => {
-		console.log("messagess..../get...")
 		Message.findAll({where: req.query, include:[User]})
 		.then(messages => res.status(201).json(messages))
 		.catch(next)
@@ -18,10 +17,10 @@ module.exports = require('express').Router()
 	// 	.then(message => res.status(201).json(message))
 	// 	.catch(next))
 
-	.post('/', (req, res, next) =>{
-		console.log("post")
+	.post('/', (req, res, next) =>
 		Message.create(req.body)
-		.then(message => res.status(201).json(message))
-		.catch(next)})
+		.then(message => Message.findById(message.id, {include:[User]}))
+		.then(messageWuser => {console.log("messageWuser", messageWuser);res.status(201).json(messageWuser)})
+		.catch(next))
 
 	

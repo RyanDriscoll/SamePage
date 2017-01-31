@@ -32,13 +32,13 @@ class MessageContainer extends React.Component{
       <div style={this.messageContainerBox}>
         {
           this.props.messages.map(message => {
-            console.log("testingggggg232", this.props.user, message.user)
+            console.log("testingggggg232", this.props, message)
             return (
-              <div key={`${this.props.sender}${this.props.time}`}>
+              <div key={`${message.id}`}>
                 <MessageComponent content={message.content} 
-                                    sender={message.user.username} 
+                                    sender={this.props.users.find(user=>user.id==message.user_id)} 
                                     time={message.created_at} 
-                                    messageOwner={this.props.user.id === message.user.id}/>
+                                    messageOwner={this.props.user.id === message.user_id}/>
               </div>
             )
           })
@@ -51,7 +51,8 @@ class MessageContainer extends React.Component{
 const mapStateToProps = function(state){
   return {
     messages: state.messages,
-    user: state.auth
+    user: state.auth,
+    users: state.users
   }
 }
 
