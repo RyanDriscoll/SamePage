@@ -123,14 +123,14 @@ chrome.runtime.onMessage.addListener(function(request, sender, response){
 		// urlsOfTabs[sender.tab.id] = sender.url;
 		addGroup(sender.url, sender.tab.id, request.user)
   }
-	console.log("onMessage", urlsOfTabs)
+	// console.log("onMessage", urlsOfTabs)
 })
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
   // if (changeInfo.url && urlsOfTabs[tabId]) {
 	// 	urlsOfTabs[tabId] = changeInfo.url;		
   // }
-	console.log("onUpdate", urlsOfTabs)
+	// console.log("onUpdate", urlsOfTabs)
 });
 
 chrome.tabs.onRemoved.addListener(function(tabId){
@@ -139,6 +139,6 @@ chrome.tabs.onRemoved.addListener(function(tabId){
 	// 	// removeGroupUser(groupId, store.auth.user.id)
 	// 	delete urlsOfTabs[tabId];
   // }
-	console.log("onRemove", urlsOfTabs)
+	// console.log("onRemove", urlsOfTabs)
 	
 })

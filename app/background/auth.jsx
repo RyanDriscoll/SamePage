@@ -17,7 +17,7 @@ export const authenticated = user => {
 
 /* ------------       REDUCERS     ------------------ */
 const reducer = (state=null, action) => {
-  console.log('Action.user ^^^^^^^^^^',action.user)
+  // console.log('Action.user ^^^^^^^^^^',action.user)
   switch (action.type) {
   case AUTHENTICATED:
     return action.user;

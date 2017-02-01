@@ -30,8 +30,8 @@ export default function reducer (tabs = {}, action) {
       return newObj;
     case ADD_MSG:
       return Object.assign({}, tabs, {[action.tabId]: 
-              Object.assign({}, tabs[action.tabId][action.groupId], {[action.groupId]:
-                Object.assign({}, tabs[action.tabId][action.groupId][messages], {[action.messageId]: 1})}
+              Object.assign({}, tabs[action.tabId][action.message.group_id], {[action.message.group_id]:
+                Object.assign({}, tabs[action.tabId][action.message.group_id].messages, {[action.message.id]: 1})}
             )})
     default:
       return tabs;
@@ -69,12 +69,11 @@ export const add_user = (tabId, groupId, userId) => {
   }
 }
 
-export const add_msg = (tabId, groupId, messageId) => {
+export const add_msg = (message, tabId) => {
   return {
     type: ADD_MSG,
-    messageId: messageId,
-    groupId: groupId,
-    tabId: tabId
+    tabId: tabId,
+    message: message,
   }
 }
 
