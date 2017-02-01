@@ -45,7 +45,7 @@ export const add_group = (tabId, group) => {
       [tabId]: {
         [group.id]: {
           users: group.users,
-          messages: group.messages,
+          messages: group.messages
         }
       }
     }
@@ -94,7 +94,9 @@ export const addGroup = (groupUrl, tabId, userId) => {
   return (dispatch) => {
     axios.post('api/groups', {url: groupUrl, name: groupUrl, userId: userId})
     .then(response => response.data)
-    .then(group => dispatch(add_group(tabId, group)))
+    .then(group => {
+      dispatch(add_group(tabId, group));
+    })
     .catch(err => console.error(err.stack))
   }
 }
@@ -106,3 +108,11 @@ export const removeGroup = (tabId, groupId) => {
     .catch(err => console.error(err.stack))
   }
 }
+
+// export const createGroup = (url, name, userId) => dispatch => {
+// 	if (name == undefined) name = url;
+// 	axios.post('/api/groups', {name, url, userId})
+// 		.then(res => res.data)
+// 		.then(group => dispatch(add_group(group)))
+// 		.catch(err => console.error(`Creating group ${name} for ${url} unsuccessful`, err));
+// };

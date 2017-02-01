@@ -1,9 +1,10 @@
 import axios from 'axios';
 import store from './store.js';
+import {addGroup} from './tabs.js';
 
 /* -----------------    ACTIONS     ------------------ */
 
-const CREATE_GROUP = 'CREATE_GROUP';
+const ADD_GROUP = 'ADD_GROUP';
 const UPDATE_GROUP_NAME = 'UPDATE_GROUP_NAME';
 const CREATE_GROUP_USER = 'CREATE_GROUP_USER'
 const CREATE_GROUP_MESSAGE = 'CREATE_GROUP_MESSAGE'
@@ -15,7 +16,7 @@ const FETCH_GROUP_USER_IDS = 'FETCH_GROUP_USER_IDS';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
-const create_group = group => ({ type: CREATE_GROUP, 'group': {[group.id]: group}});
+// const create_group = group => ({ type: ADD_GROUP, 'group': {[group.id]: group}});
 const update_group_name = (groupId, name) => ({ type: UPDATE_GROUP_NAME, groupId, name});
 const create_group_user = (groupId, userId) => ({ type: CREATE_GROUP_USER, groupId, userId});
 const create_group_message = (groupId, msgId) => ({ type: CREATE_GROUP_MESSAGE, groupId, msgId})
@@ -31,7 +32,7 @@ export default function reducer (groups = {}, action) {
 
 	switch (action.type) {
 
-		case CREATE_GROUP: return Object.assign({}, groups, action.group); //broadcast
+		case ADD_GROUP: return Object.assign({}, groups, action.group); //broadcast
 		case FETCH_GROUP: return Object.assign({}, groups, action.group)
 		case FETCH_USER_GROUPS:	return Object.assign({}, groups, action.groups)
 
@@ -66,13 +67,13 @@ export default function reducer (groups = {}, action) {
 /* ------------       DISPATCHERS     ------------------ */
 
 //CREATE_GROUP
-export const createGroup = (url, name, userId) => dispatch => {
-	if (name == undefined) name = url;
-	axios.post('/api/groups', {name, url, userId})
-		.then(res => res.data)
-		.then(group => dispatch(create_group(group)))
-		.catch(err => console.error(`Creating group ${name} for ${url} unsuccessful`, err));
-};
+// export const createGroup = (url, name, userId) => dispatch => {
+// 	if (name == undefined) name = url;
+// 	axios.post('/api/groups', {name, url, userId})
+// 		.then(res => res.data)
+// 		.then(group => dispatch(add_group(group)))
+// 		.catch(err => console.error(`Creating group ${name} for ${url} unsuccessful`, err));
+// };
 
 export const updateGroupName = (id, name) => dispatch => {
 	axios.put(`/api/groups/${id}`, {name})
@@ -115,13 +116,12 @@ export const removeGroupUser = (groupId, userId) => {
 // };
 
 
-let urlsOfTabs = {};
+// let urlsOfTabs = {};
 
 chrome.runtime.onMessage.addListener(function(request, sender, response){
   if(request.type === 'joinRoom'){
-		urlsOfTabs[sender.tab.id] = sender.url;
-		createGroup(sender.url, sender.url, request.user);
-		
+		// urlsOfTabs[sender.tab.id] = sender.url;
+		addGroup(sender.url, sender.tab.id, request.user)
   }
 	console.log("onMessage", urlsOfTabs)
 })
@@ -134,11 +134,11 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 });
 
 chrome.tabs.onRemoved.addListener(function(tabId){
-	if (urlsOfTabs[tabId]) {
+	// if (urlsOfTabs[tabId]) {
 
-		// removeGroupUser(groupId, store.auth.user.id)
-		delete urlsOfTabs[tabId];
-  }
+	// 	// removeGroupUser(groupId, store.auth.user.id)
+	// 	delete urlsOfTabs[tabId];
+  // }
 	console.log("onRemove", urlsOfTabs)
 	
 })
