@@ -1,13 +1,15 @@
 import rootPath from './httpServer.jsx'
 import axios from 'axios';
-import {activeRaktTabId} from './groups.js'
-
+import {activeRaktTabId} from './chromelisteners.js';
+import store from './store.js';
 
 const ADD_GROUP = 'ADD_GROUP';
 const REMOVE_GROUP = 'REMOVE_GROUP';
 const ADD_USER = 'ADD_USER';
 const REMOVE_USER = 'REMOVE_USER';
 const ADD_MSG = 'ADD_MSG';
+const ADD_TAB = 'ADD_TAB';
+const CHANGE_ACTIVE = 'CHANGE_ACTIVE';
 //const REMOVE_MSG = 'REMOVE_MSG';
 
 export default function reducer (tabs = {}, action) {
@@ -30,13 +32,15 @@ export default function reducer (tabs = {}, action) {
       delete newObj[action.tabId][action.groupId][users][action.userId];
       return newObj;
     case ADD_MSG:
-      // console.log("--------------------------", action, activeRaktTabId)
-      return Object.assign({}, tabs, {[activeRaktTabId]: 
-              Object.assign({}, tabs[activeRaktTabId][action.msg.group_id], {[action.msg.group_id]:
-                Object.assign({}, tabs[activeRaktTabId][action.msg.group_id].msg, {[action.msg.id]: 1})}
+      console.log("--------------------------", action, tabs)
+      return Object.assign({}, tabs, {[tabs.active]: 
+              Object.assign({}, tabs[tabs.active][action.msg.group_id], {[action.msg.group_id]:
+                Object.assign({}, tabs[tabs.active][action.msg.group_id].messages, {[action.msg.id]: 1})}
             )})
     case ADD_TAB:
-      return Object.assign({}, tabs, {[action.tabId]:{}})
+      return Object.assign({}, tabs, {[action.tabId]:{'foo': {}}}, {active: action.tabId})
+    case CHANGE_ACTIVE:
+      return Object.assign({}, tabs, {active: action.tabId})
     default:
       return tabs;
   }
@@ -90,26 +94,33 @@ export const remove_user = (tabId, groupId, userId) => {
   }
 }
 
-
-//----------------    dispatchers   -------------------
-
-export const addGroup = (groupUrl, tabId, userId) => {
-  return (dispatch) => {
-    axios.post('api/groups', {url: groupUrl, name: groupUrl, userId: userId})
-    .then(response => response.data)
-    .then(group => {
-      dispatch(add_group(tabId, group));
-    })
-    .catch(err => console.error(err.stack))
+export const change_active = (tabId) => {
+  return {
+    type: CHANGE_ACTIVE,
+    tabId: tabId
   }
 }
 
-export const removeGroup = (tabId, groupId) => {
-  return (dispatch) => {
-    axios.delete(`api/groups/${groupId}`)
-    .then(() => dispatch(remove_group(tabId, groupId)))
+
+//----------------    dispatchers   -------------------
+
+export const addGroup = (groupUrl, tabId, user_id) => {
+  // return (dispatch) => {
+    axios.post(rootPath + 'groups', {url: groupUrl, name: groupUrl, user_id: user_id})
+    .then(response => response.data)
+    .then(group => {
+      store.dispatch(add_group(tabId, group));
+    })
     .catch(err => console.error(err.stack))
-  }
+  // }
+}
+
+export const removeGroup = (tabId, groupId) => {
+  // return (dispatch) => {
+    axios.delete(rootPath + `groups/${groupId}`)
+    .then(() => store.dispatch(remove_group(tabId, groupId)))
+    .catch(err => console.error(err.stack))
+  // }
 }
 
 // export const createGroup = (url, name, userId) => dispatch => {

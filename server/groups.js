@@ -39,7 +39,7 @@ module.exports = require('express').Router()
 		.catch(next))
 
 	.post('/', (req, res, next) => {
-		Group.findOrCreate({where: req.body})
+		Group.findOrCreate({where: {url: req.body.url, name: req.body.name}})
 		.then(([group, created]) => {
 			if (!created) {
 				sockets.io.emit('add:group', group)

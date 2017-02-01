@@ -119,16 +119,16 @@ export const removeGroupUser = (groupId, userId) => {
 
 
 
-chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+// chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 
   // if (changeInfo.url && urlsOfTabs[tabId]) {
 	// 	urlsOfTabs[tabId] = changeInfo.url;		
   // }
 	// console.log("onUpdate args: ", arguments)
-});
+// });
 
 
-chrome.tabs.onRemoved.addListener(function(tabId){
+// chrome.tabs.onRemoved.addListener(function(tabId){
 	// if (urlsOfTabs[tabId]) {
 
 	// 	// removeGroupUser(groupId, store.auth.user.id)
@@ -136,4 +136,4 @@ chrome.tabs.onRemoved.addListener(function(tabId){
   // }
 	// console.log("onRemove", urlsOfTabs)
 	
-})
+// })

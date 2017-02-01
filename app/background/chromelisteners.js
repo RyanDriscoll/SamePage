@@ -1,0 +1,38 @@
+import store from './store.js';
+import {addGroup, change_active} from './tabs.js';
+
+
+
+export var activeRaktTabId;
+
+// const log = console.log.bind(console, 'POPUP_MESSAGE >');
+// chrome.extension.onConnect.addListener(function(port) {
+//   log("Connected .....");
+//   port.onMessage.addListener(log);
+// });
+
+// chrome.runtime.onMessage.addListener(function(request, sender, response){
+//   if(request.type === 'joinRoom'){
+//     log("SENDER------>>>>>>", sender.url)
+//   }
+// })
+// chrome.tabs.onUpdate.addListener(function(sender){
+// 	activeRaktTabId = tabId;
+//   // console.log("------store", store.getState(), tabId)
+//   if(!store.getState().tabs[tabId]) store.dispatch({type:'ADD_TAB', tabId});
+// })
+
+chrome.tabs.onActivated.addListener(function({tabId, windowId}){
+	activeRaktTabId = tabId;
+  store.dispatch(change_active(tabId));
+  // console.log("------store", store.getState(), tabId)
+  if(!store.getState().tabs[tabId]) store.dispatch({type:'ADD_TAB', tabId});
+})
+
+chrome.runtime.onMessage.addListener(function(request, sender, response){
+  if(request.type === 'joinRoom'){
+		// urlsOfTabs[sender.tab.id] = sender.url;
+		addGroup(sender.url, sender.tab.id, request.user)
+  }
+	// console.log("onMessage", urlsOfTabs)
+})

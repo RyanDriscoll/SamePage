@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {TweenLite} from 'gsap';
 import axios from 'axios';
-//import io from 'socket.io-emitter';
-// var socket = io()
 import rootPath from '../../background/httpServer.jsx';
 
 
@@ -44,9 +42,10 @@ class SendMessageComponent extends React.Component{
 
   sendChat(e){
     e.preventDefault();
+    
     console.log("sending props", this.props)
     //send active tab to background
-    axios.post(rootPath+'messages', {content: this.state.currMessage, user_id: this.props.user.id, group_id: 1} )
+    axios.post(rootPath+'messages', {content: this.state.currMessage, user_id: this.props.user.id, group_id: 9, tabId: this.props.active} )
     this.setState({currMessage: ''});
   }
 
@@ -75,7 +74,8 @@ class SendMessageComponent extends React.Component{
 
 const mapStateToProps = function(state){
   return {
-    user: state.auth
+    user: state.auth,
+    active: state.active
   }
 }
 
