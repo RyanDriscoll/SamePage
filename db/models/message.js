@@ -11,12 +11,12 @@ const messageSchema = {
 
 const messageConfig = {
   tableName: 'messages',
-  hooks: {
-    afterCreate(message) {
-      console.log("add msg")
-      sockets.io.emit('add:msg', message);
-    }
-  }
+  // hooks: {
+  //   afterCreate(message) {
+  //     console.log("add msg", message)
+  //     sockets.io.emit('add:msg', message);
+  //   }
+  // }
 }
 
 

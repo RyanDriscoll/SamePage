@@ -1,6 +1,5 @@
 import axios from 'axios';
 import store from './store.js';
-import {addGroup} from './tabs.js';
 
 /* -----------------    ACTIONS     ------------------ */
 
@@ -118,20 +117,16 @@ export const removeGroupUser = (groupId, userId) => {
 
 // let urlsOfTabs = {};
 
-chrome.runtime.onMessage.addListener(function(request, sender, response){
-  if(request.type === 'joinRoom'){
-		// urlsOfTabs[sender.tab.id] = sender.url;
-		addGroup(sender.url, sender.tab.id, request.user)
-  }
-	// console.log("onMessage", urlsOfTabs)
-})
+
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+
   // if (changeInfo.url && urlsOfTabs[tabId]) {
 	// 	urlsOfTabs[tabId] = changeInfo.url;		
   // }
-	// console.log("onUpdate", urlsOfTabs)
+	// console.log("onUpdate args: ", arguments)
 });
+
 
 chrome.tabs.onRemoved.addListener(function(tabId){
 	// if (urlsOfTabs[tabId]) {

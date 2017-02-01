@@ -3,6 +3,8 @@
 const db = require('APP/db')
 const Message = db.model('messages')
 const User = db.model('users')
+const sockets = require('APP/server/sockets').get();
+
 
 module.exports = require('express').Router()
 	
@@ -20,7 +22,12 @@ module.exports = require('express').Router()
 	.post('/', (req, res, next) =>
 		Message.create(req.body)
 		.then(message => Message.findById(message.id, {include:[User]}))
-		.then(messageWuser => {console.log("messageWuser", messageWuser);res.status(201).json(messageWuser)})
+		.then(messageWuser => {
+			console.log("messageWuser", req.body.tabId)
+			messageWuser.dataValues.tabId = req.body.tabId
+			sockets.io.emit("add:msg", messageWuser)
+			res.status(201).json(messageWuser)
+		})
 		.catch(next))
 
 	

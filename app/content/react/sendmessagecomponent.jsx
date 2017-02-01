@@ -45,9 +45,8 @@ class SendMessageComponent extends React.Component{
   sendChat(e){
     e.preventDefault();
     console.log("sending props", this.props)
-    //socket.emit('create:message', {content: this.state.currMessage, user_id: 1, group_id: 1} );m platform with both dual and quad core (35W and 65W options) available to consumers along with the
-    axios.post(rootPath+'messages', {content: this.state.currMessage, user_id: this.props.user.id, group_id: 1} )//window.location.protocol + "://" + window.location.host + "/" + window.location.pathname
-    // this.props.dispatch(this.state.currMessage);
+    //send active tab to background
+    axios.post(rootPath+'messages', {content: this.state.currMessage, user_id: this.props.user.id, group_id: 1} )
     this.setState({currMessage: ''});
   }
 

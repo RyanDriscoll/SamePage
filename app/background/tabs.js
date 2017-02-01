@@ -1,5 +1,6 @@
 import rootPath from './httpServer.jsx'
 import axios from 'axios';
+import {activeRaktTabId} from './groups.js'
 
 
 const ADD_GROUP = 'ADD_GROUP';
@@ -29,10 +30,13 @@ export default function reducer (tabs = {}, action) {
       delete newObj[action.tabId][action.groupId][users][action.userId];
       return newObj;
     case ADD_MSG:
-      return Object.assign({}, tabs, {[action.tabId]: 
-              Object.assign({}, tabs[action.tabId][action.message.group_id], {[action.message.group_id]:
-                Object.assign({}, tabs[action.tabId][action.message.group_id].messages, {[action.message.id]: 1})}
+      // console.log("--------------------------", action, activeRaktTabId)
+      return Object.assign({}, tabs, {[activeRaktTabId]: 
+              Object.assign({}, tabs[activeRaktTabId][action.msg.group_id], {[action.msg.group_id]:
+                Object.assign({}, tabs[activeRaktTabId][action.msg.group_id].msg, {[action.msg.id]: 1})}
             )})
+    case ADD_TAB:
+      return Object.assign({}, tabs, {[action.tabId]:{}})
     default:
       return tabs;
   }
@@ -69,13 +73,13 @@ export const add_user = (tabId, groupId, userId) => {
   }
 }
 
-export const add_msg = (message, tabId) => {
-  return {
-    type: ADD_MSG,
-    tabId: tabId,
-    message: message,
-  }
-}
+// export const add_msg = (message) => {
+//   return {
+//     type: ADD_MSG,
+//     message: message.msg,
+//     tabId: message.tabId
+//   }
+// }
 
 export const remove_user = (tabId, groupId, userId) => {
   return {
