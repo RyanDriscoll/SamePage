@@ -3,7 +3,7 @@ import groups from './groups';
 import users from './users';
 import messages from './messages';
 import auth from './auth.jsx';
-import socketFuncs from './sockets';
+import socketFuncs from './sockets/index.js';
 import createLogger from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import { alias } from 'react-chrome-redux';

@@ -13,8 +13,8 @@ const messageConfig = {
   tableName: 'messages',
   hooks: {
     afterCreate(message) {
-      console.log("emit msg")
-      sockets.io.emit('create:message', message);
+      console.log("add msg")
+      sockets.io.emit('add:msg', message);
     }
   }
 }

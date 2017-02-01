@@ -4,6 +4,8 @@ const db = require('APP/db')
 const Group = db.model('groups')
 const GroupUser = db.model('group_user')
 const User = db.model('users')
+const sockets = require('APP/server/sockets').get();
+
 
 module.exports = require('express').Router()
 	// .get('/url/:url', (req, res, next) => 
@@ -37,12 +39,22 @@ module.exports = require('express').Router()
 		.catch(next))
 
 	.post('/', (req, res, next) => {
-		let url = req.body.url;
-		let name = req.body.name
-		Group.findOrCreate({url, name})
-		.then(group => {
+		Group.findOrCreate({where: req.body})
+		.then(([group, created]) => {
+			if (!created) {
+				sockets.io.emit('add:group', group)
+			}
 			group.addUser(req.body.userId)
 			res.status(201).json(group)
+		})
+		.catch(next)
+	})
+
+	.delete('/:groupId', (req, res, next) => {
+		let groupId = req.params.groupId;
+		Group.destroy({where: {id: groupId}})
+		.then(() => {
+			res.sendStatus(200)
 		})
 		.catch(next)
 	})

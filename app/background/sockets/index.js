@@ -2,6 +2,6 @@ import socketTable from './socketTable';
 
 
 export default {
-  message: socketTable('message'),
+  message: socketTable('msg'),
   group_user: socketTable('group_user')
 }

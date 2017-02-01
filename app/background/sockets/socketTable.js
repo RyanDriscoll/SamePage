@@ -1,6 +1,6 @@
 import socket from './io';
 import store from '../store';
-const actions = ['create', 'update', 'delete'];
+const actions = ['add', 'update', 'remove'];
 
 
 export default function(table) {
