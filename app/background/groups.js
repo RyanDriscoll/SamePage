@@ -26,8 +26,10 @@ const ADD_GROUP = 'ADD_GROUP';
 // export const fetch_group_user_ids = (groupId, userIds) => ({ type: FETCH_GROUP_USER_IDS, groupId, userIds });
 
 /* ------------       REDUCERS     ------------------ */
-
-export default function reducer (groups = {}, action) {
+const initialState = {
+	0: {}
+}
+export default function reducer (groups = initialState, action) {
 
 	switch (action.type) {
 

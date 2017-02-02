@@ -8,7 +8,7 @@ class MessageContainer extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      
+
     }
 
     this.messageContainerBox = {
@@ -20,23 +20,31 @@ class MessageContainer extends React.Component{
       overflow: 'scroll',
       margin: '5px auto 0px auto',
     }
-    
+
   }
 
-  
+
 
 
   render(){
+    const tabs = this.props.tabs;
+    let activeGroup = Object.keys(tabs[tabs.active]);
+    if (!activeGroup.length) activeGroup = '-1';
+    else activeGroup = activeGroup[0];
+    const group = tabs[tabs.active][activeGroup]
+    const messages = this.props.messages
+    const users = this.props.users
+    console.log("-----", activeGroup, group, tabs)
     return (
       <div style={this.messageContainerBox}>
         {
-          this.props.messages.map(message => {
+          group && group.messages && group.messages.map(id => {
             return (
-              <div key={`${message.id}`}>
-                <MessageComponent content={message.content} 
-                                    sender={message.user.username} 
-                                    time={message.created_at}
-                                    messageOwner={this.props.user.id === message.user_id}/>
+              <div key={id}>
+                <MessageComponent content={messages[id].content}
+                                  sender={users[messages[id].user_id].username}
+                                  time={messages[id].created_at}
+                                  messageOwner={this.props.user.id === users[messages[id].user_id].id}/>
               </div>
             )
           })
@@ -50,7 +58,8 @@ const mapStateToProps = function(state){
   return {
     messages: state.messages,
     user: state.auth,
-    users: state.users
+    users: state.users,
+    tabs: state.tabs
   }
 }
 

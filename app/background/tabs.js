@@ -10,8 +10,11 @@ export const GET_MSG = 'GET_MSG';
 // const ADD_TAB = 'ADD_TAB';
 export const CHANGE_ACTIVE = 'CHANGE_ACTIVE';
 //const REMOVE_MSG = 'REMOVE_MSG';
-
-export default function reducer (tabs = {}, action) {
+const initialState = {
+  active: 0,
+  0: {}
+}
+export default function reducer (tabs = initialState, action) {
 	switch (action.type) {
     // case ADD_GROUP:
     //   return Object.assign({}, tabs, action.payload)

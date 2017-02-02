@@ -31,8 +31,8 @@ export const whoami = () => {
     return axios.get(rootPath + 'auth/whoami')
       .then(response => {
         const user = response.data;
-        dispatch(fetchGroupMessages(1))
-        dispatch(fetchGroupUsers(1))
+        // dispatch(fetchGroupMessages(1))
+        // dispatch(fetchGroupUsers(1))
         dispatch(authenticated(user))
       })
       .catch(failed => dispatch(authenticated(null)))

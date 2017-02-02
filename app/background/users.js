@@ -13,8 +13,12 @@ const REMOVE_USER = 'REMOVE_USER';
 // const add_group_user = (groupId, )
 
 /* ------------       REDUCERS     ------------------ */
-
-export default function reducer (users = {}, action) {
+const initialState = {
+	0: {
+		0: ({})
+	}
+}
+export default function reducer (users = initialState, action) {
 	switch (action.type) {
 		case GET_USER: {
 			const groupUsers = action.users.reduce((obj, user) => {

@@ -18,8 +18,10 @@ const GET_MSG = 'GET_MSG';
 // const fetch_msgs_with_user = userMsgs => ({ type: FETCH_MSGS_WITH_USER, userMsgs });
 
 /* ------------       REDUCERS     ------------------ */
-
-export default function reducer (messages = {}, action) {
+const initialState = {
+	0: {}
+}
+export default function reducer (messages = initialState, action) {
 	switch (action.type) {
 		case GET_MSG: {
 			const groupMessages = action.groupMessages.reduce((obj, message) => {

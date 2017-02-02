@@ -62,18 +62,23 @@ export const getMsg = (tabId, groupId) => {
 export const addGroup = (url, name) => {
 	if (name === undefined) name = url;
   const currentStore = store.getState();
-	axios.post('/api/groups', {name: name, url: url, userId: currentStore.auth.id})
+	axios.post(rootPath + 'groups', {name: name, url: url, userId: currentStore.auth.id})
 		.then(res => res.data)
 		.then((group) => {
       store.dispatch({
-        type: ADD_GROUP,
+        type: 'ADD_GROUP',
         group: group,
         tabId: currentStore.tabs.active
-      }
-      .then(() => store.dispatch({
-        type: ADD_USER,
-        groupId: group.id,
-        userId: currentStore.auth.id
+      })
+      .then(() => {
+        store.dispatch(getUser(currentStore.tabs.active, group.id));
+        store.dispatch(getMsg(currentStore.tabs.active, group.id));
+        store.dispatch({
+          type: 'ADD_USER',
+          groupId: group.id,
+          userId: currentStore.auth.id
+        });
     })
 		.catch(err => console.error(`Creating group ${name} for ${url} unsuccessful`, err));
+  });
 };
