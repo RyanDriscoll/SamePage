@@ -42,11 +42,15 @@ class SendMessageComponent extends React.Component{
 
   sendChat(e){
     e.preventDefault();
-    
+
     console.log("sending props", this.props)
     //send active tab to background
-    axios.post(rootPath+'messages', {content: this.state.currMessage, user_id: this.props.user.id, group_id: 9, tabId: this.props.active} )
-    this.setState({currMessage: ''});
+    const groupId = Object.keys(this.props.tabs[this.props.active].groups)[0];
+    axios.post(rootPath + 'messages', {
+      content: this.state.currMessage,
+      user_id: this.props.user.id,
+      group_id: groupId
+    });
   }
 
   handleChatChange(e){
@@ -59,11 +63,11 @@ class SendMessageComponent extends React.Component{
     return (
       <div style={this.sendChatComponent}>
         <form action="submit" onSubmit={this.sendChat} style={{height: '100%'}}>
-          <input type="text" 
-                name="msg" 
-                placeholder="Send Message" 
-                value={this.state.currMessage} 
-                onChange={this.handleChatChange} 
+          <input type="text"
+                name="msg"
+                placeholder="Send Message"
+                value={this.state.currMessage}
+                onChange={this.handleChatChange}
                 style={this.chatInput}/>
           <button style={this.sendChatBtn} onClick={this.sendChat} >Send</button>
         </form>
@@ -75,7 +79,8 @@ class SendMessageComponent extends React.Component{
 const mapStateToProps = function(state){
   return {
     user: state.auth,
-    active: state.active
+    active: state.active,
+    tabs: state.tabs
   }
 }
 

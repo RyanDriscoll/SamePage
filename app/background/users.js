@@ -1,25 +1,46 @@
 import axios from 'axios';
-import { fetch_group_user_ids, delete_group_user_ids } from './groups'
+import { add_user, get_user, remove_user } from './tabs'
 import rootPath from './httpServer.jsx'
+
 
 /* -----------------    ACTIONS     ------------------ */
 
-const FETCH_GROUP_USERS = 'FETCH_GROUP_USERS';
-const DELETE_GROUP_USERS = 'DELETE_GROUP_USERS';
+const GET_USER = 'GET_USER';
+const ADD_USER = 'ADD_USER';
+const REMOVE_USER = 'REMOVE_USER';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
-const fetch_group_users = groupUsers => ({ type: FETCH_GROUP_USERS, groupUsers });
-const delete_group_users = groupId => ({ type: DELETE_GROUP_USERS, groupId });
+// const get_user = groupUsers => ({ type: FETCH_GROUP_USERS, groupUsers });
+// const add_user = groupId => ({ type: DELETE_GROUP_USERS, groupId });
+// const add_user = groupId => ({ type: DELETE_GROUP_USERS, groupId });
 // const add_group_user = (groupId, )
 
 /* ------------       REDUCERS     ------------------ */
 
-export default function reducer (users = [], action) {
+export default function reducer (users = {}, action) {
 	switch (action.type) {
-		case FETCH_GROUP_USERS:	return users.concat(action.groupUsers);
-		case DELETE_GROUP_USERS: return users.filter(user => user.groupId != action.groupId);
-		default: return users;
+		case GET_USER: {
+			const groupUsers = action.groupUsers.reduce((obj, user) => {
+				obj[user.id] = user;
+				return obj;
+			}, {});
+			return Object.assign({}, users, groupUsers);
+		}
+		case ADD_USER: {
+			return Object.assign({}, users, action.user);
+		}
+		case REMOVE_USER: {
+			const groupUsers = action.groupUsers.reduce((obj, user) => {
+				if (user.id !== action.user.id) {
+					obj[user.id] = user;
+				}
+				return obj;
+			}, {});
+			return Object.assign({}, users, groupUsers)
+		}
+		default:
+			return users;
 	}
 }
 
@@ -36,7 +57,7 @@ export const fetchGroupUsers = group_id => dispatch => {
 		.catch(err => console.error(`Fetching users for group ${group_id} unsuccessful`, err));
 };
 
-export const deleteGroupUsers = group_id => dispatch => { 
+export const deleteGroupUsers = group_id => dispatch => {
 	dispatch(delete_group_users(group_id))
 	dispatch(delete_group_user_ids(group_id))
 };

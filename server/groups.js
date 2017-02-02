@@ -8,8 +8,8 @@ const sockets = require('APP/server/sockets').get();
 
 
 module.exports = require('express').Router()
-	// .get('/url/:url', (req, res, next) => 
-	// 	Group.findOne({ 
+	// .get('/url/:url', (req, res, next) =>
+	// 	Group.findOne({
 	// 		where: {name: req.params.url, url: req.params.url},
 	// 		include:[User, Message]
 	// 	})
@@ -42,12 +42,12 @@ module.exports = require('express').Router()
 		Group.findOrCreate({where: {url: req.body.url, name: req.body.name}})
 		.then(([group, created]) => {
 			if (!created) {
-				sockets.io.emit('add:group', group)
+				sockets.io.emit('add:group', group);
 			}
-			group.addUser(req.body.userId)
-			res.status(201).json(group)
+			res.status(201).json(group);
+			group.addUser(req.body.userId);
 		})
-		.catch(next)
+		.catch(next);
 	})
 
 	.delete('/:groupId', (req, res, next) => {
@@ -64,15 +64,14 @@ module.exports = require('express').Router()
 		.then(result => res.send(result))
 		.catch(err => console.log(err))
 	})
-	// .get('/:id', mustBeLoggedIn, (req, res, next) => 
+	// .get('/:id', mustBeLoggedIn, (req, res, next) =>
 	// 	Group.findById(req.params.id)
 	// 	.then(group => res.json(group))
 	// 	.catch(next)
-	.put('/:id', (req, res, next) => 
+	.put('/:id', (req, res, next) =>
 		Group.update(req.body, {where:{id: req.params.id}})
 		.then(groupArr => groupArr[1][0]) //class version of update return array of # of rows updated, and the array of modified arrays
 		.then(group => res.json(group))
 		.catch(next))
 
-	
-	
+

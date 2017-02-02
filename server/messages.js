@@ -7,7 +7,7 @@ const sockets = require('APP/server/sockets').get();
 
 
 module.exports = require('express').Router()
-	
+
 	.get('/', (req, res, next) => {
 		Message.findAll({where: req.query, include:[User]})
 		.then(messages => res.status(201).json(messages))
@@ -21,13 +21,9 @@ module.exports = require('express').Router()
 
 	.post('/', (req, res, next) =>
 		Message.create(req.body)
-		.then(message => Message.findById(message.id, {include:[User]}))
-		.then(messageWuser => {
-			console.log("messageWuser", req.body.tabId)
-			messageWuser.dataValues.tabId = req.body.tabId
-			sockets.io.emit("add:msg", messageWuser)
-			res.status(201).json(messageWuser)
+		.then(message => {
+			sockets.io.emit("add:msg", {row: message, groupId: message.group_id});
+			res.status(201).json(message);
 		})
-		.catch(next))
+		.catch(next));
 
-	
