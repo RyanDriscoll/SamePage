@@ -1,7 +1,4 @@
-import rootPath from './httpServer.jsx'
-import axios from 'axios';
-import {activeRaktTabId} from './chromelisteners.js';
-import store from './store.js';
+/* -----------------    CONSTANTS     ------------------ */
 
 // const ADD_GROUP = 'ADD_GROUP';
 // const REMOVE_GROUP = 'REMOVE_GROUP';

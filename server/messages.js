@@ -9,9 +9,9 @@ const sockets = require('APP/server/sockets').get();
 module.exports = require('express').Router()
 
 	.get('/', (req, res, next) => {
-		Message.findAll({where: req.query, include:[User]})
+		Message.findAll({where: req.query.groupId, include:[User]})
 		.then(messages => res.status(201).json(messages))
-		.catch(next)
+		.catch(next);
 	})
 
 	// .get('/user/:id', (req, res, next) =>  //need both users

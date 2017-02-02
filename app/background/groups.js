@@ -69,7 +69,6 @@ export default function reducer (groups = {}, action) {
 
 /* ------------       DISPATCHERS     ------------------ */
 
-//CREATE_GROUP
 // export const createGroup = (url, name, userId) => dispatch => {
 // 	if (name == undefined) name = url;
 // 	axios.post('/api/groups', {name, url, userId})

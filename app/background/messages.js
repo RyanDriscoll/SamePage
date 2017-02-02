@@ -41,15 +41,15 @@ export default function reducer (messages = {}, action) {
 
 /* ------------       DISPATCHERS     ------------------ */
 
-export const fetchGroupMessages = group_id => dispatch => {
-	axios.get(rootPath+ 'messages', {group_id})
-		.then(res => res.data)
-		.then(msgs => {
-			dispatch(fetch_group_messages(msgs));
-			//dispatch(fetch_group_msg_ids(group_id, msgs.map(msg => msg.id)));
-		})
-		.catch(err => console.error(`Fetching messages for group ${group_id} unsuccessful`, err));
-};
+// export const fetchGroupMessages = group_id => dispatch => {
+// 	axios.get(rootPath+ 'messages', {group_id})
+// 		.then(res => res.data)
+// 		.then(msgs => {
+// 			dispatch(fetch_group_messages(msgs));
+// 			//dispatch(fetch_group_msg_ids(group_id, msgs.map(msg => msg.id)));
+// 		})
+// 		.catch(err => console.error(`Fetching messages for group ${group_id} unsuccessful`, err));
+// };
 
 export const deleteGroupMessages = group_id => dispatch => {
 	dispatch(delete_group_messages(group_id))

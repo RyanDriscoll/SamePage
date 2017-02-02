@@ -1,9 +1,5 @@
-import axios from 'axios';
-import { add_user, get_user, remove_user } from './tabs'
-import rootPath from './httpServer.jsx'
 
-
-/* -----------------    ACTIONS     ------------------ */
+/* -----------------    CONSTANTS     ------------------ */
 
 const GET_USER = 'GET_USER';
 const ADD_USER = 'ADD_USER';
@@ -21,7 +17,7 @@ const REMOVE_USER = 'REMOVE_USER';
 export default function reducer (users = {}, action) {
 	switch (action.type) {
 		case GET_USER: {
-			const groupUsers = action.groupUsers.reduce((obj, user) => {
+			const groupUsers = action.users.reduce((obj, user) => {
 				obj[user.id] = user;
 				return obj;
 			}, {});
@@ -31,13 +27,13 @@ export default function reducer (users = {}, action) {
 			return Object.assign({}, users, action.user);
 		}
 		case REMOVE_USER: {
-			const groupUsers = action.groupUsers.reduce((obj, user) => {
+			const groupUsers = action.users.reduce((obj, user) => {
 				if (user.id !== action.user.id) {
 					obj[user.id] = user;
 				}
 				return obj;
 			}, {});
-			return Object.assign({}, users, groupUsers)
+			return Object.assign({}, users, groupUsers);
 		}
 		default:
 			return users;
@@ -46,18 +42,18 @@ export default function reducer (users = {}, action) {
 
 /* ------------       DISPATCHERS     ------------------ */
 
-export const fetchGroupUsers = group_id => dispatch => {
-	axios.get(rootPath + 'groups/group_users', {params:{group_id}})
-		.then(res => res.data)
-		.then(users => {
-			console.log("yooo", users)
-			dispatch(fetch_group_users(users));
-			// dispatch(fetch_group_user_ids(group_id, user.map(user => user.id)));
-		})
-		.catch(err => console.error(`Fetching users for group ${group_id} unsuccessful`, err));
-};
+// export const fetchGroupUsers = group_id => dispatch => {
+// 	axios.get(rootPath + 'groups/group_users', {params:{group_id}})
+// 		.then(res => res.data)
+// 		.then(users => {
+// 			console.log("yooo", users)
+// 			dispatch(fetch_group_users(users));
+// 			// dispatch(fetch_group_user_ids(group_id, user.map(user => user.id)));
+// 		})
+// 		.catch(err => console.error(`Fetching users for group ${group_id} unsuccessful`, err));
+// };
 
-export const deleteGroupUsers = group_id => dispatch => {
-	dispatch(delete_group_users(group_id))
-	dispatch(delete_group_user_ids(group_id))
-};
+// export const deleteGroupUsers = group_id => dispatch => {
+// 	dispatch(delete_group_users(group_id))
+// 	dispatch(delete_group_user_ids(group_id))
+// };

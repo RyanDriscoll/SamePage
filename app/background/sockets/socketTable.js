@@ -1,6 +1,6 @@
 import socket from './io';
 import store from '../store';
-const actions = ['add', 'update', 'remove'];
+const actions = ['add', 'update', 'remove', 'get'];
 
 
 export default function(table) {
@@ -8,6 +8,9 @@ export default function(table) {
     socket.on(`${action}:${table}`, record => {
       // console.log("---->>>>>", record);
       const currentStore = store.getState();
+      if (`${action}:${table}` === 'add:user' && record.row.id === currentStore.auth.id) {
+        return;
+      }
       store.dispatch({
         type: `${action.toUpperCase()}_${table.toUpperCase()}`,
         [table]: record.row,
