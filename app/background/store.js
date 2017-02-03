@@ -11,6 +11,6 @@ import { alias } from 'react-chrome-redux';
 import aliases from './aliases';
 
 
-const rootReducer = combineReducers({ groups, users, messages, auth, tabs });
+const rootReducer = combineReducers({ groups, users, tabs, messages, auth });
 
 export default createStore(rootReducer, applyMiddleware(alias(aliases), thunkMiddleware, createLogger({collapsed: true})));

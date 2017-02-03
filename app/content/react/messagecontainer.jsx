@@ -23,7 +23,16 @@ class MessageContainer extends React.Component{
 
   }
 
+  // shouldComponentUpdate(nextProps) {
+  //   const tabsMessages = this.props.tabs[this.props.tabs.active]
+  //     console.log('in shouldComponentUpdate', this.props, nextProps)
 
+  //   if (this.props.tabs.messages.length !== nextProps.tabs.messages.length && Object.keys(this.props.messages).length === Object.keys(nextProps.messages).length) {
+  //     console.log('in shouldComponentUpdate', this.props, nextProps)
+  //     return false;
+  //   }
+  //   return true;
+  // }
 
 
   render(){
@@ -33,13 +42,17 @@ class MessageContainer extends React.Component{
     else activeGroup = activeGroup[0];
     const group = tabs[tabs.active][activeGroup]
     const messages = this.props.messages //.map(message => message.groupId === group.id);
-    const messageIds = group.messages;
-    const users = this.props.users
+    let messageIds = [];
+    if (group) {
+      messageIds = group.messages;
+    }
+    const users = this.props.users;
     console.log("-----messages", this.props, group, tabs, "messages", messages)
     return (
       <div style={this.messageContainerBox}>
         {
-          messageIds.length && group && messageIds.map(id => {
+          group && messageIds.map(id => {
+            {console.log('inside message render', id, messages[id].content)}
             return (
               <div key={id}>
                 <MessageComponent content={messages[id].content}

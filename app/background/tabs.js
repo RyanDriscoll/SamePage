@@ -53,7 +53,7 @@ export default function reducer (tabs = initialState, action) {
       });
     }
     case ADD_MSG: {
-      console.log('add msg action', action)
+      console.log('inside tabs action reducer', action)
       return Object.assign({}, tabs, {[tabs.active]:
         Object.assign({}, tabs[tabs.active], {[action.msg.group_id]:
           Object.assign({}, tabs[tabs.active][action.msg.group_id], {messages:

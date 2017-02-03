@@ -30,7 +30,10 @@ class UserContainer extends React.Component{
     if (!activeGroup.length) activeGroup = '-1';
     else activeGroup = activeGroup[0];
     const group = tabs[tabs.active][activeGroup];
-    const userIds = group.users;
+    let userIds =[];
+    if (group) {
+      userIds = group.users;
+    }
     console.log("-----users", this.props.users)
     return (
       <div style={this.userContainerBox}>
