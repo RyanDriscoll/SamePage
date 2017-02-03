@@ -11,8 +11,8 @@ export default function(table) {
       if (`${action}:${table}` === 'add:user' && record.row.id === currentStore.auth.id) {
         return;
       }
-      if (`${action}:${table}` === 'add:msg') {
-        console.log('add msg record', record)
+      if (`${action}:${table}` === 'add:user') {
+        console.log('add user record', record)
       }
       store.dispatch({
         type: `${action.toUpperCase()}_${table.toUpperCase()}`,

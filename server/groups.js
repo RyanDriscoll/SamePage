@@ -43,7 +43,7 @@ module.exports = require('express').Router()
 	.post('/', (req, res, next) => {
 		Group.findOrCreate({where: {url: req.body.url, name: req.body.name}})
 		.then(([group, created]) => {
-			group.addUser(req.body.userId)
+			GroupUser.create({user_id: req.body.userId, group_id: group.id})
 			res.status(201).json(group);
 		})
 		.catch(next);
