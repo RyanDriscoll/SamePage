@@ -26,6 +26,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     login: (email, password) => {
+      console.log(email, password)
       dispatch({
         type: 'SEND_LOGIN_REQUEST',
         email,

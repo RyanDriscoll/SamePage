@@ -3,13 +3,16 @@
 const db = require('APP/db')
 const Message = db.model('messages')
 const User = db.model('users')
+const sockets = require('APP/server/sockets').get();
+
 
 module.exports = require('express').Router()
-	
+
 	.get('/', (req, res, next) => {
-		Message.findAll({where: req.query, include:[User]})
+		console.log()
+		Message.findAll({where: {group_id: req.query.groupId}, include:[User]})
 		.then(messages => res.status(201).json(messages))
-		.catch(next)
+		.catch(next);
 	})
 
 	// .get('/user/:id', (req, res, next) =>  //need both users
@@ -19,8 +22,9 @@ module.exports = require('express').Router()
 
 	.post('/', (req, res, next) =>
 		Message.create(req.body)
-		.then(message => Message.findById(message.id, {include:[User]}))
-		.then(messageWuser => {console.log("messageWuser", messageWuser);res.status(201).json(messageWuser)})
-		.catch(next))
+		.then(message => {
+			sockets.io.emit("add:msg", {row: message, groupId: message.group_id});
+			res.status(201).json(message);
+		})
+		.catch(next));
 
-	

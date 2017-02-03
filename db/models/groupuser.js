@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('APP/db')
 const sockets = require('APP/server/sockets').get();
+const User = require('./user.js');
 
 const groupUserSchema = {
   // name: {
@@ -11,11 +12,16 @@ const groupUserSchema = {
 const groupUserConfig = {
   tableName: 'group_user',
   hooks: {
-    afterCreate(group_user){ 
-      sockets.io.emit('create:group_user', group_user)
+    afterCreate(group_user){
+        console.log('in the add user socket')
+      User.findById(group_user.user_id)
+      .then(user => {
+        sockets.io.emit('add:user', {groupId: group_user.group_id, row: user});
+      })
+      .catch(err => console.error(err, err.stack))
     },
-    afterDestroy(group_user){ 
-      sockets.io.emit('delete:group_user', group_user)
+    afterDestroy(group_user){
+      sockets.io.emit('remove:user', group_user)
     },
   }
 }

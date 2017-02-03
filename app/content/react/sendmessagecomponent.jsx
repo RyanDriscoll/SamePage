@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {TweenLite} from 'gsap';
 import axios from 'axios';
-//import io from 'socket.io-emitter';
-// var socket = io()
 import rootPath from '../../background/httpServer.jsx';
 
 
@@ -44,11 +42,15 @@ class SendMessageComponent extends React.Component{
 
   sendChat(e){
     e.preventDefault();
+
     console.log("sending props", this.props)
-    //socket.emit('create:message', {content: this.state.currMessage, user_id: 1, group_id: 1} );m platform with both dual and quad core (35W and 65W options) available to consumers along with the
-    axios.post(rootPath+'messages', {content: this.state.currMessage, user_id: this.props.user.id, group_id: 1} )//window.location.protocol + "://" + window.location.host + "/" + window.location.pathname
-    // this.props.dispatch(this.state.currMessage);
-    this.setState({currMessage: ''});
+    //send active tab to background
+    const groupId = Object.keys(this.props.tabs[this.props.tabs.active])[0];
+    axios.post(rootPath + 'messages', {
+      content: this.state.currMessage,
+      user_id: this.props.user.id,
+      group_id: groupId
+    });
   }
 
   handleChatChange(e){
@@ -61,11 +63,11 @@ class SendMessageComponent extends React.Component{
     return (
       <div style={this.sendChatComponent}>
         <form action="submit" onSubmit={this.sendChat} style={{height: '100%'}}>
-          <input type="text" 
-                name="msg" 
-                placeholder="Send Message" 
-                value={this.state.currMessage} 
-                onChange={this.handleChatChange} 
+          <input type="text"
+                name="msg"
+                placeholder="Send Message"
+                value={this.state.currMessage}
+                onChange={this.handleChatChange}
                 style={this.chatInput}/>
           <button style={this.sendChatBtn} onClick={this.sendChat} >Send</button>
         </form>
@@ -76,7 +78,9 @@ class SendMessageComponent extends React.Component{
 
 const mapStateToProps = function(state){
   return {
-    user: state.auth
+    user: state.auth,
+    active: state.active,
+    tabs: state.tabs
   }
 }
 

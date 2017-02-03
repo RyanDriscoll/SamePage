@@ -6,7 +6,7 @@ class UserContainer extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-    }
+    };
 
     this.userContainerBox = {
       width: '97%',
@@ -16,20 +16,34 @@ class UserContainer extends React.Component{
       borderRadius: '3px',
       overflow: 'scroll',
       margin: '5px auto 0px auto',
-    }
+    };
+
+  }
+
+  componentWillMount(){
 
   }
 
   render(){
-    return (   
+    const tabs = this.props.tabs;
+    let activeGroup = Object.keys(tabs[tabs.active]);
+    if (!activeGroup.length) activeGroup = '-1';
+    else activeGroup = activeGroup[0];
+    const group = tabs[tabs.active][activeGroup];
+    let userIds =[];
+    if (group) {
+      userIds = group.users;
+    }
+    console.log("-----users", this.props.users)
+    return (
       <div style={this.userContainerBox}>
         {
-          this.props.users.map(user => {
+          group && this.props.users && userIds.map(id => {
             return (
-              <div key={user.user_id} >
-                <User username={user.user.username} />
+              <div key={id} >
+                <User username={this.props.users[id].username} />
               </div>
-            )
+            );
           })
         }
       </div>
@@ -39,8 +53,9 @@ class UserContainer extends React.Component{
 
 const mapStateToProps = function(state){
   return {
-    users: state.users
-  }
+    users: state.users,
+    tabs: state.tabs
+  };
 }
 
 const mapDispatchToProps = function(dispatch){

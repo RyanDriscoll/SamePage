@@ -8,7 +8,7 @@ class MessageContainer extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      
+
     }
 
     this.messageContainerBox = {
@@ -20,23 +20,45 @@ class MessageContainer extends React.Component{
       overflow: 'scroll',
       margin: '5px auto 0px auto',
     }
-    
+
   }
 
-  
+  // shouldComponentUpdate(nextProps) {
+  //   const tabsMessages = this.props.tabs[this.props.tabs.active]
+  //     console.log('in shouldComponentUpdate', this.props, nextProps)
+
+  //   if (this.props.tabs.messages.length !== nextProps.tabs.messages.length && Object.keys(this.props.messages).length === Object.keys(nextProps.messages).length) {
+  //     console.log('in shouldComponentUpdate', this.props, nextProps)
+  //     return false;
+  //   }
+  //   return true;
+  // }
 
 
   render(){
+    const tabs = this.props.tabs;
+    let activeGroup = Object.keys(tabs[tabs.active]);
+    if (!activeGroup.length) activeGroup = '-1';
+    else activeGroup = activeGroup[0];
+    const group = tabs[tabs.active][activeGroup]
+    const messages = this.props.messages //.map(message => message.groupId === group.id);
+    let messageIds = [];
+    if (group) {
+      messageIds = group.messages;
+    }
+    const users = this.props.users;
+    console.log("-----messages", this.props, group, tabs, "messages", messages)
     return (
       <div style={this.messageContainerBox}>
         {
-          this.props.messages.map(message => {
+          group && messageIds.map(id => {
+            {console.log('inside message render', id, messages[id].content)}
             return (
-              <div key={`${message.id}`}>
-                <MessageComponent content={message.content} 
-                                    sender={this.props.users.find(user=>user.id==message.user_id)}
-                                    time={message.created_at}
-                                    messageOwner={this.props.user.id === message.user_id}/>
+              <div key={id}>
+                <MessageComponent content={messages[id].content}
+                                  sender={users[messages[id].user_id].username}
+                                  time={messages[id].created_at}
+                                  messageOwner={this.props.user.id === users[messages[id].user_id].id}/>
               </div>
             )
           })
@@ -50,7 +72,8 @@ const mapStateToProps = function(state){
   return {
     messages: state.messages,
     user: state.auth,
-    users: state.users
+    users: state.users,
+    tabs: state.tabs
   }
 }
 
