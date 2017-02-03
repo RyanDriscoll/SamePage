@@ -8,11 +8,9 @@ export default function(table) {
     socket.on(`${action}:${table}`, record => {
       // console.log("---->>>>>", record);
       const currentStore = store.getState();
+      console.log('record in sockettable', record)
       if (`${action}:${table}` === 'add:user' && record.row.id === currentStore.auth.id) {
         return;
-      }
-      if (`${action}:${table}` === 'add:user') {
-        console.log('add user record', record)
       }
       store.dispatch({
         type: `${action.toUpperCase()}_${table.toUpperCase()}`,

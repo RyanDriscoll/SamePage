@@ -16,7 +16,7 @@ const groupUserConfig = {
         console.log('in the add user socket')
       User.findById(group_user.user_id)
       .then(user => {
-        sockets.io.emit('add:user', {groupId: group_user.group_id, user: user});
+        sockets.io.emit('add:user', {groupId: group_user.group_id, row: user});
       })
       .catch(err => console.error(err, err.stack))
     },
