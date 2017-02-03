@@ -7,6 +7,7 @@ export const GET_USER = 'GET_USER';
 export const REMOVE_USER = 'REMOVE_USER';
 export const ADD_MSG = 'ADD_MSG';
 export const GET_MSG = 'GET_MSG';
+export const ADD_GROUP = 'ADD_GROUP';
 // const ADD_TAB = 'ADD_TAB';
 export const CHANGE_ACTIVE = 'CHANGE_ACTIVE';
 //const REMOVE_MSG = 'REMOVE_MSG';
@@ -25,8 +26,10 @@ export default function reducer (tabs = initialState, action) {
     //   return newTabsObj;
     case ADD_USER: {
       return Object.assign({}, tabs, {[action.tabId]:
-        Object.assign({}, tabs[action.tabId][action.groupId], {[action.groupId]:
-          Object.assign({}, tabs[action.tabId][action.groupId].users, {[action.user.id]: 1})
+        Object.assign({}, tabs[action.tabId], {[action.groupId]:
+          Object.assign({}, tabs[action.tabId][action.groupId], {users:
+            [...tabs[tabs.active][action.groupId].users, action.user.id]
+          })
         })
       });
     }
@@ -41,16 +44,21 @@ export default function reducer (tabs = initialState, action) {
 				obj[userId] = 1;
 				return obj;
 			}, {});
+      console.log('action', action)
+      console.log('tabs[action.tabId][action.groupId]', tabs[action.tabId][action.groupId])
+      console.log('tabs[action.tabId]', tabs[action.tabId])
 			return Object.assign({}, tabs, {[action.tabId]:
-        Object.assign({}, tabs[action.tabId][action.groupId], {[action.groupId]:
-          Object.assign({}, tabs[action.tabId][action.groupId].users, userIds)
+        Object.assign({}, tabs[action.tabId], {[action.groupId]:
+          Object.assign({}, tabs[action.tabId][action.groupId], {users:
+            [...tabs[action.tabId][action.groupId].users, ...userIds]})
         })
       });
     }
     case ADD_MSG: {
       return Object.assign({}, tabs, {[tabs.active]:
-        Object.assign({}, tabs[tabs.active][action.msg.group_id], {[action.msg.group_id]:
-          Object.assign({}, tabs[tabs.active][action.msg.group_id].messages, {[action.msg.id]: 1})
+        Object.assign({}, tabs[tabs.active], {[action.msg.group_id]:
+          Object.assign({}, tabs[tabs.active][action.msg.group_id], {messages:
+            [...tabs[tabs.active][action.msg.group_id].messages, action.msg.id]})
         })
       });
     }
@@ -60,15 +68,18 @@ export default function reducer (tabs = initialState, action) {
 				return obj;
 			}, {});
 			return Object.assign({}, tabs, {[action.tabId]:
-        Object.assign({}, tabs[action.tabId][action.groupId], {[action.groupId]:
-          Object.assign({}, tabs[action.tabId][action.groupId].messages, messageIds)
+        Object.assign({}, tabs[action.tabId], {[action.groupId]:
+          Object.assign({}, tabs[action.tabId][action.groupId], {messages:
+            [...tabs[tabs.active][action.groupId].messages, ...messageIds]})
         })
       });
     }
-    // case ADD_TAB:
-    //   return Object.assign({}, tabs, {[action.tabId]:{'foo': {}}}, {active: action.tabId})
+    case ADD_GROUP:
+      console.log('add group action', action)
+      return Object.assign({}, tabs, {[action.tabId]: {[action.group.id]: {users: [], messages: []}}
+    });
     case CHANGE_ACTIVE: {
-      return Object.assign({}, tabs, {active: action.tabId});
+      return Object.assign({}, tabs, {active: action.tabId, [action.tabId]: {}});
     }
     default: {
       return tabs;

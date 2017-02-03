@@ -24,7 +24,9 @@ module.exports = require('express').Router()
 
 	.get('/group_users', (req, res, next) => {
 		GroupUser.findAll({where: {group_id: req.query.groupId}, include: [User]})
-		.then(groupUsers => res.json(groupUsers))
+		.then(groupUsers => {
+			res.json(groupUsers);
+		})
 		.catch(next);
 	})
 

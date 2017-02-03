@@ -24,7 +24,7 @@ const initialState = {
 export default function reducer (messages = initialState, action) {
 	switch (action.type) {
 		case GET_MSG: {
-			const groupMessages = action.groupMessages.reduce((obj, message) => {
+			const groupMessages = action.messages.reduce((obj, message) => {
 				obj[message.id] = message;
 				return obj;
 			}, {});

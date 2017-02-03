@@ -9,7 +9,8 @@ const sockets = require('APP/server/sockets').get();
 module.exports = require('express').Router()
 
 	.get('/', (req, res, next) => {
-		Message.findAll({where: req.query.groupId, include:[User]})
+		console.log()
+		Message.findAll({where: {group_id: req.query.groupId}, include:[User]})
 		.then(messages => res.status(201).json(messages))
 		.catch(next);
 	})

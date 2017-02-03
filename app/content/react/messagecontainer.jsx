@@ -32,13 +32,13 @@ class MessageContainer extends React.Component{
     if (!activeGroup.length) activeGroup = '-1';
     else activeGroup = activeGroup[0];
     const group = tabs[tabs.active][activeGroup]
-    const messages = this.props.messages
+    const messages = Object.keys(group.messages) //.map(message => message.groupId === group.id);
     const users = this.props.users
-    console.log("-----", activeGroup, group, tabs)
+    console.log("-----messages", activeGroup, group, tabs, "messages", messages)
     return (
       <div style={this.messageContainerBox}>
         {
-          group && group.messages && group.messages.map(id => {
+          messages.map(id => {
             return (
               <div key={id}>
                 <MessageComponent content={messages[id].content}

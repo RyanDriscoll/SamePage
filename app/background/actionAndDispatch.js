@@ -32,11 +32,17 @@ export const change_active = (tabId) => {
 
 // tabs dispatchers
 export const getUser = (tabId, groupId) => {
+  console.log('in getUser')
 	axios.get(rootPath + 'groups/group_users', {params: {groupId}})
-  .then(res => res.data)
+  .then(res => {
+    console.log('in res', res.data)
+    return res.data;
+  })
   .then(foundUsers => {
-    const userIds = foundUsers.map(user => user.id);
-    store.dispatch(get_user(foundUsers, userIds, tabId, groupId));
+    console.log('found users', foundUsers)
+    const users = foundUsers.map(groupUser => groupUser.user);
+    const userIds = users.map(user => user.id);
+    store.dispatch(get_user(users, userIds, tabId, groupId));
   })
   .catch(err => console.error(`Getting users for group ${groupId} unsuccessful`, err));
 };
@@ -69,16 +75,15 @@ export const addGroup = (url, name) => {
         type: 'ADD_GROUP',
         group: group,
         tabId: currentStore.tabs.active
-      })
-      .then(() => {
-        store.dispatch(getUser(currentStore.tabs.active, group.id));
-        store.dispatch(getMsg(currentStore.tabs.active, group.id));
-        store.dispatch({
-          type: 'ADD_USER',
-          groupId: group.id,
-          userId: currentStore.auth.id
-        });
+      });
+      getUser(currentStore.tabs.active, group.id)
+      getMsg(currentStore.tabs.active, group.id);
+      store.dispatch({
+        type: 'ADD_USER',
+        groupId: group.id,
+        user: currentStore.auth,
+        tabId: currentStore.tabs.active
+      });
     })
 		.catch(err => console.error(`Creating group ${name} for ${url} unsuccessful`, err));
-  });
 };

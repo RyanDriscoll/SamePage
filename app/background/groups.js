@@ -34,7 +34,7 @@ export default function reducer (groups = initialState, action) {
 	switch (action.type) {
 
 		case ADD_GROUP: {
-			return Object.assign({}, groups, action.group);
+			return Object.assign({}, groups, {[action.group.id]: action.group});
 		}
 		// case FETCH_GROUP: return Object.assign({}, groups, action.group)
 		// case FETCH_USER_GROUPS:	return Object.assign({}, groups, action.groups)
