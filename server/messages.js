@@ -23,6 +23,7 @@ module.exports = require('express').Router()
 	.post('/', (req, res, next) =>
 		Message.create(req.body)
 		.then(message => {
+			console.log('in the socket emitter for messages')
 			sockets.io.emit("add:msg", {row: message, groupId: message.group_id});
 			res.status(201).json(message);
 		})

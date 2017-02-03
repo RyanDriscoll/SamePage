@@ -1,4 +1,5 @@
 import io from 'socket.io-client';
+import rootPath from '../httpServer.jsx';
+const newRoot = rootPath.split('/api')[0];
 
-console.log("front end hello")
-export default io('http://localhost:1337');
+export default io(newRoot);
