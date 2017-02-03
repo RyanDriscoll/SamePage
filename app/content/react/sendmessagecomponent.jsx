@@ -45,7 +45,7 @@ class SendMessageComponent extends React.Component{
 
     console.log("sending props", this.props)
     //send active tab to background
-    const groupId = Object.keys(this.props.tabs[this.props.active].groups)[0];
+    const groupId = Object.keys(this.props.tabs[this.props.tabs.active])[0];
     axios.post(rootPath + 'messages', {
       content: this.state.currMessage,
       user_id: this.props.user.id,

@@ -30,12 +30,12 @@ class UserContainer extends React.Component{
     if (!activeGroup.length) activeGroup = '-1';
     else activeGroup = activeGroup[0];
     const group = tabs[tabs.active][activeGroup];
-    const users = Object.keys(group.users);
-    console.log("-----", tabs[tabs.active], Object.keys(tabs[tabs.active]), users)
+    const userIds = group.users;
+    console.log("-----users", this.props.users)
     return (
       <div style={this.userContainerBox}>
         {
-          group && users && users.map(id => {
+          group && this.props.users && userIds.map(id => {
             return (
               <div key={id} >
                 <User username={this.props.users[id].username} />

@@ -28,7 +28,7 @@ export default function reducer (users = initialState, action) {
 			return Object.assign({}, users, groupUsers);
 		}
 		case ADD_USER: {
-			return Object.assign({}, users, action.user);
+			return Object.assign({}, users, {[action.user.id]: action.user});
 		}
 		case REMOVE_USER: {
 			const groupUsers = action.users.reduce((obj, user) => {
