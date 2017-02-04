@@ -42,17 +42,15 @@ class SendMessageComponent extends React.Component{
 
   sendChat(e){
     e.preventDefault();
-
-    console.log("sending props", this.props)
-    //send active tab to background
-    const groupId = Object.keys(this.props.tabs[this.props.tabs.active])[0];
-    axios.post(rootPath + 'messages', {
-      content: this.state.currMessage,
-      user_id: this.props.user.id,
-      group_id: groupId
-    });
-    this.setState({currMessage: ''});
-
+    if(this.state.currMessage.length){
+      const groupId = Object.keys(this.props.tabs[this.props.tabs.active])[0];
+      axios.post(rootPath + 'messages', {
+        content: this.state.currMessage,
+        user_id: this.props.user.id,
+        group_id: groupId
+      });
+      this.setState({currMessage: ''});
+    }
   }
 
   handleChatChange(e){
