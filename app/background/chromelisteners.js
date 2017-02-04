@@ -42,10 +42,11 @@ export default function setListeners(){
 	  //remove tab from tabs store
     //then, traverse other tabs to see if that group exists
     //if it doesnt, leave group.
+    console.log('deleted tab--------')
     let currStore = store.getState()
     let currTab = currStore.tabs[tabId];
-    let deleteGroup = true;
     for (let groupId in currTab){
+      let deleteGroup = true;
       for (let tab in currStore.tabs){
         if(tab === tabId || tab === 0 || tab === 'active') continue;
         if(currStore.tabs[tab][groupId]) {
@@ -54,8 +55,8 @@ export default function setListeners(){
           break;
         }
       }
+      if (deleteGroup) removeUser(groupId, currStore.auth.id)
     } 
-    if (deleteGroup) removeUser(groupId, currStore.auth.id)
     store.dispatch({type: REMOVE_TAB, tabId: tabId})
   })
 }
