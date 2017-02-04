@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {TweenLite} from 'gsap';
+import ReactDOM from 'react-dom';
 import MessageComponent from './messagecomponent.jsx';
+
 
 
 class MessageContainer extends React.Component{
@@ -21,6 +23,11 @@ class MessageContainer extends React.Component{
       margin: '5px auto 0px auto',
     }
 
+  }
+
+  componentDidUpdate() {
+    var node = ReactDOM.findDOMNode(this);
+    node.scrollTop = node.scrollHeight;
   }
 
   // shouldComponentUpdate(nextProps) {

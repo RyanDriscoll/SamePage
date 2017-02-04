@@ -53,7 +53,7 @@ class ButtonComponent extends React.Component{
   render(){
     // console.log("button state", this.state)
     return (
-      <div>
+      <div className="cleanslate">
         {
           this.state.displayChat ?
             <ChatContainer animation={this.state.animate ? 'chatBoxx-rakt-in' : 'chatBoxx-rakt-out'}/>
