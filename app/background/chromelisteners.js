@@ -48,6 +48,7 @@ export default function setListeners(){
       for (let tab in currStore){
         if(tab === tabId) continue;
         if(currStore[tab][groupId]) continue;
+        console.log('in for loops', groupId, tab)
         removeUser(groupId, currStore.auth.id)
       }
     } 

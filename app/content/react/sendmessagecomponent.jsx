@@ -51,6 +51,8 @@ class SendMessageComponent extends React.Component{
       user_id: this.props.user.id,
       group_id: groupId
     });
+    this.setState({currMessage: ''});
+    
   }
 
   handleChatChange(e){

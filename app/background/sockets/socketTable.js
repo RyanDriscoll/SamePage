@@ -15,7 +15,7 @@ export default function(table) {
       store.dispatch({
         type: `${action.toUpperCase()}_${table.toUpperCase()}`,
         [table]: record.row || null,
-        groupId: record.groupId || Object.keys(currentStore.tabs[currentStore.tabs.active].groups)[0],
+        groupId: record.groupId /*|| Object.keys(currentStore.tabs[currentStore.tabs.active].groups)[0]*/,
         userId: record.userId || null,
         tabId: currentStore.tabs.active
       });

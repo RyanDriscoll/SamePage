@@ -91,6 +91,7 @@ export const addGroup = (url, name) => {
 };
 
 export const removeUser = (groupId, userId) => {
-  axios.delete(rootPath + 'group/users', {groupId, userId})
+  console.log("in removeUser", groupId, userId)
+  axios.delete(rootPath + 'groups/users', {groupId, userId})
   .catch(err => console.log(err, err.stack))
 }

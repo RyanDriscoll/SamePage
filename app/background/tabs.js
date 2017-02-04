@@ -35,6 +35,7 @@ export default function reducer (tabs = initialState, action) {
       });
     }
     case REMOVE_USER: {
+      console.log('remove_user---action---tabs', action, tabs)
     //change this later to have gross nested object.assigns
     return Object.assign({}, tabs, {[action.tabId]:
             Object.assign({}, tabs[action.tabId], {[action.groupId]:
