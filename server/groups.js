@@ -77,4 +77,7 @@ module.exports = require('express').Router()
 		.then(group => res.json(group))
 		.catch(next))
 
-
+	.use('/', (err, req, res, next) => {
+		console.log("error in groups routes", err, err.stack)
+		done();
+	})
