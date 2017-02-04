@@ -47,14 +47,16 @@ export default function setListeners(){
     let currTab = currStore.tabs[tabId];
     for (let groupId in currTab){
       let deleteGroup = true;
+      console.log('in 1st for loop', groupId)
       for (let tab in currStore.tabs){
         if(tab === tabId || tab === 0 || tab === 'active') continue;
         if(currStore.tabs[tab][groupId]) {
-          console.log('in for loops', groupId, tab)
+          console.log('in for loops', groupId, tab, tabId)
           deleteGroup = false;
           break;
         }
       }
+      console.log('outside for loops', currStore.auth.id)
       if (deleteGroup) removeUser(groupId, currStore.auth.id)
     } 
     store.dispatch({type: REMOVE_TAB, tabId: tabId})
