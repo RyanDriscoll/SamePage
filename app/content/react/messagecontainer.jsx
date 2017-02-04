@@ -42,7 +42,6 @@ class MessageContainer extends React.Component{
       <div style={this.messageContainerBox}>
         {
           group && messageIds.map(id => {
-            {console.log('inside message render', id, messages[id].content)}
             return (
               <div key={id}>
                 <MessageComponent content={messages[id].content}
