@@ -52,6 +52,8 @@ export const getMsg = (tabId, groupId) => {
   .then(res => res.data)
   .then(foundMessages => {
     const messageIds = foundMessages.map(message => message.id);
+    const users = foundMessages.map(message => message.user);
+    store.dispatch(get_user(users, null, null, null))
     store.dispatch(get_msg(foundMessages, messageIds, tabId, groupId));
   })
   .catch(err => console.error(`Getting Messages for group ${groupId} unsuccessful`, err));
@@ -87,3 +89,9 @@ export const addGroup = (url, name) => {
     })
 		.catch(err => console.error(`Creating group ${name} for ${url} unsuccessful`, err));
 };
+
+export const removeUser = (groupId, userId) => {
+  console.log("in removeUser", groupId, userId)
+  axios.delete(rootPath + 'groups/users', {data: {groupId, userId}})
+  .catch(err => console.log(err, err.stack))
+}

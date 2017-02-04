@@ -23,16 +23,6 @@ class MessageContainer extends React.Component{
 
   }
 
-  // shouldComponentUpdate(nextProps) {
-  //   const tabsMessages = this.props.tabs[this.props.tabs.active]
-  //     console.log('in shouldComponentUpdate', this.props, nextProps)
-
-  //   if (this.props.tabs.messages.length !== nextProps.tabs.messages.length && Object.keys(this.props.messages).length === Object.keys(nextProps.messages).length) {
-  //     console.log('in shouldComponentUpdate', this.props, nextProps)
-  //     return false;
-  //   }
-  //   return true;
-  // }
 
 
   render(){

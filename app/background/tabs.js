@@ -5,6 +5,7 @@
 export const ADD_USER = 'ADD_USER';
 export const GET_USER = 'GET_USER';
 export const REMOVE_USER = 'REMOVE_USER';
+export const REMOVE_TAB = 'REMOVE_TAB'
 export const ADD_MSG = 'ADD_MSG';
 export const GET_MSG = 'GET_MSG';
 export const ADD_GROUP = 'ADD_GROUP';
@@ -34,17 +35,26 @@ export default function reducer (tabs = initialState, action) {
       });
     }
     case REMOVE_USER: {
+      console.log('remove_user---action---tabs', action, tabs)
     //change this later to have gross nested object.assigns
-      let newObj = Object.assign({}, tabs);
-      delete newObj[action.tabId][action.groupId].users[action.user.id];
-      return newObj;
+    return Object.assign({}, tabs, {[action.tabId]:
+            Object.assign({}, tabs[action.tabId], {[action.groupId]:
+              Object.assign({}, tabs[action.tabId][action.groupId], {users:
+                tabs[tabs.active][action.groupId].users.filter(id => id !== action.userId)
+              })
+            })
+          });
+      // let newObj = Object.assign({}, tabs);
+      // delete newObj[action.tabId][action.groupId].users[action.user.id];
+      // return newObj;
     }
     case GET_USER: {
       // const userIds = action.userIds.reduce((obj, userId) => {
 			// 	obj[userId] = 1;
 			// 	return obj;
 			// }, {});
-      console.log('action', action)
+      // console.log('action', action)
+      if(!action.tabId) return tabs;
 			return Object.assign({}, tabs, {[action.tabId]:
         Object.assign({}, tabs[action.tabId], {[action.groupId]:
           Object.assign({}, tabs[action.tabId][action.groupId], {users:
@@ -53,7 +63,7 @@ export default function reducer (tabs = initialState, action) {
       });
     }
     case ADD_MSG: {
-      console.log('inside tabs action reducer', action)
+      // console.log('inside tabs action reducer', action)
       return Object.assign({}, tabs, {[tabs.active]:
         Object.assign({}, tabs[tabs.active], {[action.msg.group_id]:
           Object.assign({}, tabs[tabs.active][action.msg.group_id], {messages:
@@ -77,6 +87,10 @@ export default function reducer (tabs = initialState, action) {
       console.log('add group action', action)
       return Object.assign({}, tabs, {[action.tabId]: {[action.group.id]: {users: [], messages: []}}
     });
+    case REMOVE_TAB:
+      let newTabs = Object.assign({}, tabs);
+      delete newTabs[action.tabId];
+      return newTabs;
     case CHANGE_ACTIVE: {
       return Object.assign({}, tabs, {active: action.tabId, [action.tabId]: {}});
     }

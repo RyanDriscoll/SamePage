@@ -16,13 +16,10 @@ const groupUserConfig = {
         console.log('in the add user socket')
       User.findById(group_user.user_id)
       .then(user => {
-        sockets.io.emit('add:user', {groupId: group_user.group_id, row: user});
+        sockets.io.emit('add:user', {groupId: group_user.group_id, row: user, userId: user.id});
       })
       .catch(err => console.error(err, err.stack))
-    },
-    afterDestroy(group_user){
-      sockets.io.emit('remove:user', group_user)
-    },
+    }
   }
 }
 
