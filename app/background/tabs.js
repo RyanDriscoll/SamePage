@@ -14,7 +14,13 @@ export const CHANGE_ACTIVE = 'CHANGE_ACTIVE';
 //const REMOVE_MSG = 'REMOVE_MSG';
 const initialState = {
   active: 0,
-  0: {}
+  0: {
+    0:{
+      users:[],
+      messages: []
+    },
+    activeGroup: 0
+  }
 }
 export default function reducer (tabs = initialState, action) {
 	switch (action.type) {
@@ -85,7 +91,7 @@ export default function reducer (tabs = initialState, action) {
     }
     case ADD_GROUP:
       console.log('add group action', action)
-      return Object.assign({}, tabs, {[action.tabId]: {[action.group.id]: {users: [], messages: []}}
+      return Object.assign({}, tabs, {[action.tabId]: {activeGroup: action.group.id, [action.group.id]: {users: [], messages: []}}
     });
     case REMOVE_TAB:
       let newTabs = Object.assign({}, tabs);

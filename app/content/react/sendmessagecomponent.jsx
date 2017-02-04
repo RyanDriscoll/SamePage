@@ -43,7 +43,7 @@ class SendMessageComponent extends React.Component{
   sendChat(e){
     e.preventDefault();
     if(this.state.currMessage.length){
-      const groupId = Object.keys(this.props.tabs[this.props.tabs.active])[0];
+      const groupId = this.props.tabs[this.props.tabs.active].activeGroup
       axios.post(rootPath + 'messages', {
         content: this.state.currMessage,
         user_id: this.props.user.id,

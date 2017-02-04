@@ -11,11 +11,10 @@ export default function(table) {
       if (table === 'user' && record.userId === currentStore.auth.id) {
         return;
       }
-
       store.dispatch({
         type: `${action.toUpperCase()}_${table.toUpperCase()}`,
         [table]: record.row || null,
-        groupId: record.groupId /*|| Object.keys(currentStore.tabs[currentStore.tabs.active].groups)[0]*/,
+        groupId: record.groupId || null,
         userId: record.userId || null,
         tabId: currentStore.tabs.active
       });
