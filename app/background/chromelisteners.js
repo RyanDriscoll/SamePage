@@ -49,7 +49,7 @@ export default function setListeners(){
       let deleteGroup = true;
       console.log('in 1st for loop', groupId)
       for (let tab in currStore.tabs){
-        if(tab === tabId || tab === 0 || tab === 'active') continue;
+        if(tab == tabId || tab == 0 || tab == 'active') continue;
         if(currStore.tabs[tab][groupId]) {
           console.log('in for loops', groupId, tab, tabId)
           deleteGroup = false;
