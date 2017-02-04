@@ -18,12 +18,10 @@ class ChatContainer extends React.Component{
   }
 
   stopScroll() {
-    console.log('stopScroll', document.body)
     document.body.style.overflow = 'hidden';
   }
 
   startScroll() {
-    console.log('startScroll', document.body)
     document.body.style.overflow = 'scroll';
   }
 
@@ -33,7 +31,7 @@ class ChatContainer extends React.Component{
     return (
       <div className={this.props.animation} onMouseEnter={this.stopScroll} onMouseLeave={this.startScroll}>
         <UserContainer />
-          <MessageContainer />
+        <MessageContainer />
         <SendMessageComponent />
       </div>
     );

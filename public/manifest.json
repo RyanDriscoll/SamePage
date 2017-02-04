@@ -24,6 +24,8 @@
         "*://*/*"
       ],
       "css": [
+        "reset.css",
+        "bootstrap.sass",
         "style.css"
       ],
       "js": [
