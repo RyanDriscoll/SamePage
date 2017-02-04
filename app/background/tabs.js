@@ -92,7 +92,13 @@ export default function reducer (tabs = initialState, action) {
       delete newTabs[action.tabId];
       return newTabs;
     case CHANGE_ACTIVE: {
-      return Object.assign({}, tabs, {active: action.tabId, [action.tabId]: {}});
+      let newTab
+      if(tabs[action.tabId]){
+        newTab = {active: action.tabId}
+      } else{
+        newTab = {active: action.tabId, [action.tabId]: {}}
+      }
+      return Object.assign({}, tabs, newTab);
     }
     default: {
       return tabs;
