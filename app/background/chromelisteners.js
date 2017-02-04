@@ -44,14 +44,18 @@ export default function setListeners(){
     //if it doesnt, leave group.
     let currStore = store.getState()
     let currTab = currStore.tabs[tabId];
+    let deleteGroup = true;
     for (let groupId in currTab){
-      for (let tab in currStore){
-        if(tab === tabId) continue;
-        if(currStore[tab][groupId]) continue;
-        console.log('in for loops', groupId, tab)
-        removeUser(groupId, currStore.auth.id)
+      for (let tab in currStore.tabs){
+        if(tab === tabId || tab === 0 || tab === 'active') continue;
+        if(currStore.tabs[tab][groupId]) {
+          console.log('in for loops', groupId, tab)
+          deleteGroup = false;
+          break;
+        }
       }
     } 
+    if (deleteGroup) removeUser(groupId, currStore.auth.id)
     store.dispatch({type: REMOVE_TAB, tabId: tabId})
   })
 }

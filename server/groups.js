@@ -51,7 +51,7 @@ module.exports = require('express').Router()
 
 
 	.delete('/users', (req, res, next) => {
-		console.log("----------------- \n", req.params, req.query)
+		console.log("----------------- \n", req.body.groupId, req.body.userId, req.params.groupId, req.query.groupId)
 		GroupUser.destroy({where: {group_id: req.body.groupId, user_id: req.body.userId}})
 		.then(result => {
 			sockets.io.emit('remove:user', {groupId: req.body.groupId, userId: req.body.userId})
