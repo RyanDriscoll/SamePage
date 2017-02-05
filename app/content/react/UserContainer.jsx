@@ -26,10 +26,11 @@ class UserContainer extends React.Component{
 
   render(){
     const tabs = this.props.tabs;
-    let activeGroup = Object.keys(tabs[tabs.active]);
-    if (!activeGroup.length) activeGroup = '-1';
-    else activeGroup = activeGroup[0];
-    const group = tabs[tabs.active][activeGroup];
+    // let activeGroup = Object.keys(tabs[tabs.active]);
+    // if (!activeGroup.length) activeGroup = '-1';
+    // else activeGroup = activeGroup[0];
+    const activeGroupId = tabs[tabs.active].activeGroup
+    const group = tabs[tabs.active][activeGroupId];
     let userIds =[];
     if (group) {
       userIds = group.users;

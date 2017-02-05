@@ -49,6 +49,16 @@ module.exports = require('express').Router()
 		.catch(next);
 	})
 
+
+	.delete('/users', (req, res, next) => {
+		GroupUser.destroy({where: {group_id: req.body.groupId, user_id: req.body.userId}})
+		.then(result => {
+			sockets.io.emit('remove:user', {groupId: req.body.groupId, userId: req.body.userId})
+			res.sendStatus(200)
+	})
+		.catch(err => console.log(err))
+	})
+
 	.delete('/:groupId', (req, res, next) => {
 		let groupId = req.params.groupId;
 		Group.destroy({where: {id: groupId}})
@@ -56,12 +66,6 @@ module.exports = require('express').Router()
 			res.sendStatus(200)
 		})
 		.catch(next)
-	})
-
-	.delete('/users', (req, res, next) => {
-		GroupUser.destroy({where: {group_id: req.body.groupId, user_id: req.body.userId}})
-		.then(result => res.send(result))
-		.catch(err => console.log(err))
 	})
 	// .get('/:id', mustBeLoggedIn, (req, res, next) =>
 	// 	Group.findById(req.params.id)
@@ -73,4 +77,7 @@ module.exports = require('express').Router()
 		.then(group => res.json(group))
 		.catch(next))
 
-
+	.use('/', (err, req, res, next) => {
+		console.log("error in groups routes", err, err.stack)
+		done();
+	})

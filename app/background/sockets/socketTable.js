@@ -8,14 +8,14 @@ export default function(table) {
     socket.on(`${action}:${table}`, record => {
       // console.log("---->>>>>", record);
       const currentStore = store.getState();
-      console.log('record in sockettable', record)
-      if (`${action}:${table}` === 'add:user' && record.row.id === currentStore.auth.id) {
+      if (table === 'user' && record.userId === currentStore.auth.id) {
         return;
       }
       store.dispatch({
         type: `${action.toUpperCase()}_${table.toUpperCase()}`,
-        [table]: record.row,
-        groupId: record.groupId || Object.keys(currentStore.tabs[currentStore.tabs.active].groups)[0],
+        [table]: record.row || null,
+        groupId: record.groupId || null,
+        userId: record.userId || null,
         tabId: currentStore.tabs.active
       });
     });

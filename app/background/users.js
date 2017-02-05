@@ -22,7 +22,7 @@ export default function reducer (users = initialState, action) {
 	switch (action.type) {
 		case GET_USER: {
 			const groupUsers = action.users.reduce((obj, user) => {
-				obj[user.id] = user;
+				if(!users[user.id]) obj[user.id] = user;
 				return obj;
 			}, {});
 			return Object.assign({}, users, groupUsers);
@@ -31,13 +31,14 @@ export default function reducer (users = initialState, action) {
 			return Object.assign({}, users, {[action.user.id]: action.user});
 		}
 		case REMOVE_USER: {
-			const groupUsers = action.users.reduce((obj, user) => {
-				if (user.id !== action.user.id) {
-					obj[user.id] = user;
-				}
-				return obj;
-			}, {});
-			return Object.assign({}, users, groupUsers);
+			// const groupUsers = action.users.reduce((obj, user) => {
+			// 	if (user.id !== action.user.id) {
+			// 		obj[user.id] = user;
+			// 	}
+			// 	return obj;
+			// }, {});
+			// return Object.assign({}, users, groupUsers);
+			return users;
 		}
 		default:
 			return users;

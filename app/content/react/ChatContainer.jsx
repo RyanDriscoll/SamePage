@@ -29,13 +29,32 @@ class ChatContainer extends React.Component{
 
   render(){
     return (
-      <div className={this.props.animation} onMouseEnter={this.stopScroll} onMouseLeave={this.startScroll}>
-        <UserContainer />
-        <MessageContainer />
-        <SendMessageComponent />
+
+      <div>
+        {
+          this.props.user ?
+            <div className={this.props.animation} onMouseEnter={this.stopScroll} onMouseLeave={this.startScroll}>
+              <UserContainer />
+              <MessageContainer />
+              <SendMessageComponent />
+            </div>
+            :
+            null
+        }
       </div>
     );
   }
 }
 
-export default ChatContainer;
+const mapStateToProps = function(state){
+  return {
+    user: state.auth
+  }
+}
+const mapDispatchToProps = function(dispatch){
+  return {
+
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatContainer);
