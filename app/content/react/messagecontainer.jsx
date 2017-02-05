@@ -60,7 +60,7 @@ class MessageContainer extends React.Component{
     const users = this.props.users;
     console.log("-----messages", this.props, group, tabs, "messages", messages)
     return (
-      <div style={this.messageContainerBox}>
+      <div className="message-container">
         {
           group && messageIds.map(id => {
             return (

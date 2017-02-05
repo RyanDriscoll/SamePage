@@ -61,10 +61,10 @@ class SendMessageComponent extends React.Component{
 
   render(){
     return (
-      <div className="send-chat-component">
+      <div className="send-chat-container">
         <form className="send-chat-form" action="submit" onSubmit={this.sendChat} >
-          <input
-              className="send-chat-input"
+          <textarea
+              className="send-chat-textarea"
               type="textarea"
               name="msg"
               placeholder="Send Message"

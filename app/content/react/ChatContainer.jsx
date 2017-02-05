@@ -1,29 +1,25 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
-import {TweenLite} from 'gsap';
-import ReactTransitionGroup from 'react-addons-transition-group';
 import MessageContainer from './messagecontainer.jsx';
 import UserContainer from './UserContainer.jsx';
 import SendMessageComponent from './sendmessagecomponent.jsx';
-import ScrollLock from 'react-scroll-lock-component';
 
 
 class ChatContainer extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      show: true,
+      show: false,
       style: {
+        opacity: 0,
         position: 'fixed',
         top: '0vh',
-        right: '0vw',
+        right: '-300px',
         zIndex: 9999,
         background: 'white',
         height: '100vh',
         width: 250,
-        boxShadow: '-10px 0 30px black',
-        opacity: 0,
+        boxShadow: '-10px 10px 30px black',
         transition: 'all 2s ease',
       }
     }
@@ -52,8 +48,9 @@ class ChatContainer extends React.Component{
 
   unMountStyle() {
     const newStyle = Object.assign({}, this.state.style, {
+      right: '-300px',
       opacity: 0,
-      transition: 'all 1s ease',
+      transition: 'all 0.5s ease',
     });
     this.setState({
       style: newStyle
@@ -62,8 +59,9 @@ class ChatContainer extends React.Component{
 
   mountStyle() {
     const newStyle = Object.assign({}, this.state.style, {
+      right: '0px',
       opacity: 1,
-      transition: 'all 1s ease',
+      transition: 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
     });
     this.setState({
       style: newStyle

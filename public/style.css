@@ -1,6 +1,4 @@
 
-/*----------Our Styles------------*/
-
 .cleanslate .chatbutton-img {
   position: relative;
   right: 100px;
@@ -32,17 +30,36 @@
   border: 2px solid blue;
 }
 
-.send-chat-component {
+.cleanslate .message-container {
+  box-sizing: border-box;
   width: 100%;
-  text-align: center;
-  padding: 5px;
+  height: calc(60vh - 75px);
+  overflow: scroll;
+  margin: 5px;
 }
 
-.send-chat-form {
+.cleanslate .send-chat-container {
   width: 100%;
-  text-align: center;
+  display: block;
+  height: 150px;
+  margin: 5px;
+}
+
+.cleanslate .send-chat-textarea {
+  width: 100%;
+  box-sizing: border-box;
   padding: 5px;
-  display: inline-block;
+  height: 100px;
+  font-size: 14px;
+  resize: none;
+  display: block;
+  margin: 0;
+}
+
+.cleanslate .send-chat-form {
+  width: 100%;
+  box-sizing: border-box;
+  display: block;
 }
 
 .send-chat-input {
@@ -58,27 +75,32 @@
 }
 
 .cleanslate .message-component {
-  width: 98%;
-  margin: 1px 1px 1px 1px;
-  text-align: center;
-  border: 1px solid grey;
+  min-height: 100px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .cleanslate .message-component-part-owner {
-  display: inline-block;
   margin: 1px 2px 1px 2px;
-  text-align: 'right';
+  text-align: right;
 }
 
 .cleanslate .message-component-part-receiver {
-  display: inline-block;
   margin: 1px 2px 1px 2px;
-  text-align: 'left'
+  text-align: left;
 }
 
 .cleanslate .message-component-part {
   display: inline-block;
   margin: 1px 2px 1px 2px;
+}
+
+.cleanslate .user-container {
+  width: 100%;
+  height: calc(40vh - 75px);
+  border: 1px solid grey;
+  overflow: scroll;
 }
 
 @keyframes bounceChatBoxx{
@@ -140,4 +162,5 @@
     transform: translateX(400px);
   }
 }
+
 
