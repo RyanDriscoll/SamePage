@@ -77,23 +77,7 @@ export const addGroup = (url, name) => {
 		// .then((group) => {
   
   socket.emit('joinGroup', {name: name, url: url, user_id: store.getState().auth.id});
-  socket.on('joinGroup', group => {
-    let currentStore = store.getState();
-    console.log('why isnt this working???', currentStore.tabs.active);
-    store.dispatch({
-      type: 'ADD_GROUP',
-      group: group,
-      tabId: currentStore.tabs.active
-    });
-    getUser(currentStore.tabs.active, group.id)
-    getMsg(currentStore.tabs.active, group.id);
-    store.dispatch({
-      type: 'ADD_USER',
-      groupId: group.id,
-      user: currentStore.auth,
-      tabId: currentStore.tabs.active
-    });
-  })
+
 	// .catch(err => console.error(`Creating group ${name} for ${url} unsuccessful`, err));
   // })
 };
