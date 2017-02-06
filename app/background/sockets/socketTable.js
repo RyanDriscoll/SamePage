@@ -15,7 +15,7 @@ export default function(table) {
         type: `${action.toUpperCase()}_${table.toUpperCase()}`,
         [table]: record.row || null,
         groupId: record.groupId || null,
-        userId: record.userId || null,
+        userId: record.user_id || null,
         tabId: currentStore.tabs.active
       });
     });
