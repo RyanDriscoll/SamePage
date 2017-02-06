@@ -2,37 +2,32 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {TweenLite} from 'gsap';
 import ChatContainer from './ChatContainer.jsx';
+import ReactDOM from 'react-dom';
+import rootPath from './httpServer';
+const findDOMNode = ReactDOM.findDOMNode;
 
 class ButtonComponent extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      displayChat: false,
-      animate: false
+      displayChat: false
     }
     this.toggleChatDisplay = this.toggleChatDisplay.bind(this);
-    this.chatButtonRaktUnclicked = {
-      position: 'fixed',
-      top: '93vh',
-      left: '96vw',
-      zIndex: 99999,
-      background: '#2c75ea',
-      height: '110px',
-      width: '110px',
-      borderRadius: '50%',
-      border: '2px solid blue',
+    this.animateButton = this.animateButton.bind(this);
+  }
+
+  componentDidMount() {
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user) {
+      this.animateButton();
     }
-    this.chatButtonRaktClicked = {
-      position: 'fixed',
-      top: '93vh',
-      left: '96vw',
-      zIndex: 99999,
-      background: '#ea452c',
-      height: '110px',
-      width: '110px',
-      borderRadius: '50%',
-      border: '2px solid blue',
-    }
+  }
+
+  animateButton() {
+    TweenLite.to(this.button, 1.5, {top: '95vh', left: '95vw', height: 100, width:    100, ease: Power2.easeOut});
+    TweenLite.to(this.img, 1.5, {x: -25, y: -20, height: 25, width: 25});
   }
 
   toggleChatDisplay(e){
@@ -50,12 +45,19 @@ class ButtonComponent extends React.Component{
     return (
       <div className="cleanslate">
         <ChatContainer mounted={this.state.displayChat} />
-        {
-          this.props.user ?
-            <div style={this.state.displayChat ? this.chatButtonRaktClicked : this.chatButtonRaktUnclicked} onClick={this.toggleChatDisplay} />
-            :
-            null
-        }
+          <button ref={el => {this.button = el;}}
+            // style={this.state.displayChat ?
+            //   this.chatButtonRaktClicked
+            //   :
+            //   this.chatButtonRaktUnclicked}
+            className="chat-button"
+            onClick={this.toggleChatDisplay}>
+            <img
+              className="button-img"
+              src={`${rootPath}messagebubble.png`}
+              ref={el => {this.img = el;}}
+              />
+          </button>
       </div>
     )
   }

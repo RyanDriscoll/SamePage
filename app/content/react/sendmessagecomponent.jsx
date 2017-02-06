@@ -13,6 +13,7 @@ class SendMessageComponent extends React.Component{
     }
     this.sendChat = this.sendChat.bind(this);
     this.handleChatChange = this.handleChatChange.bind(this);
+    this.handleEnter = this.handleEnter.bind(this);
 
     // this.sendChatComponent = {
     //   width: '100%',
@@ -58,21 +59,31 @@ class SendMessageComponent extends React.Component{
     this.setState({currMessage: e.target.value});
   }
 
+  handleEnter(e){
+    console.log('in handleEnter')
+    if (e.keyCode === 13){
+      this.sendChat(e);
+    }
+  }
+
 
   render(){
     return (
       <div className="send-chat-container">
-        <form className="send-chat-form" action="submit" onSubmit={this.sendChat} >
+        <form className="send-chat-form" id="send-chat" action="submit" onSubmit={this.sendChat} >
           <textarea
+              rows="2"
               className="send-chat-textarea"
               type="textarea"
               name="msg"
               placeholder="Send Message"
               value={this.state.currMessage}
               onChange={this.handleChatChange}
+              form="send-chat"
+              onKeyDown={this.handleEnter}
               // style={this.chatInput}
               />
-          <button className="btn-success" onClick={this.sendChat} >Send</button>
+          <button type="submit" className="btn-success">Send</button>
         </form>
       </div>
     )

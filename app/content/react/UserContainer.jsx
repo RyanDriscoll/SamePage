@@ -35,7 +35,6 @@ class UserContainer extends React.Component{
     if (group) {
       userIds = group.users;
     }
-    console.log("-----users", this.props.users)
     return (
       <div className="user-container">
         {
