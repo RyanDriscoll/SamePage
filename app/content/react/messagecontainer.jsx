@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {TweenLite} from 'gsap';
+import ReactDOM from 'react-dom';
 import MessageComponent from './messagecomponent.jsx';
+
 
 
 class MessageContainer extends React.Component{
@@ -23,6 +25,24 @@ class MessageContainer extends React.Component{
 
   }
 
+  componentDidUpdate() {
+
+    // conditionally set scroll height if new message comes in
+    var node = ReactDOM.findDOMNode(this);
+    node.scrollTop = node.scrollHeight;
+  }
+
+  // shouldComponentUpdate(nextProps) {
+  //   const tabsMessages = this.props.tabs[this.props.tabs.active]
+  //     console.log('in shouldComponentUpdate', this.props, nextProps)
+
+  //   if (this.props.tabs.messages.length !== nextProps.tabs.messages.length && Object.keys(this.props.messages).length === Object.keys(nextProps.messages).length) {
+  //     console.log('in shouldComponentUpdate', this.props, nextProps)
+  //     return false;
+  //   }
+  //   return true;
+  // }
+
 
 
   render(){
@@ -40,7 +60,7 @@ class MessageContainer extends React.Component{
     const users = this.props.users;
     console.log("-----messages", this.props, group, tabs, "messages", messages)
     return (
-      <div style={this.messageContainerBox}>
+      <div className="message-container">
         {
           group && messageIds.map(id => {
             return (

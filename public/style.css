@@ -1,25 +1,24 @@
 
-.chatbutton-img {
+.cleanslate .chatbutton-img {
   position: relative;
   right: 100px;
   bottom: 100px;
 }
 
-.chatBoxx-rakt-in{
-  animation: bounceChatBoxx 1s;
+.cleanslate .chatBoxx-rakt-in{
+  /*animation: bounceChatBoxx 1s;*/
   position: fixed;
-  top: 5vh;
-  left: 80vw;
+  top: 0vh;
+  right: 0vw;
   z-index: 9999;
-  background: #2c75ea;
-  height: 90vh;
+  background: white;
+  height: 100vh;
   width: 250px;
-  border-radius: 5px;
-  border: 2px solid blue;
+  box-shadow: -10px 0 30px black;
 }
 
 .chatBoxx-rakt-out{
-  animation: leaveChatBoxx 0.7s;
+  /*animation: leaveChatBoxx 0.7s;*/
   position: fixed;
   top: 5vh;
   left: 80vw;
@@ -31,28 +30,77 @@
   border: 2px solid blue;
 }
 
-.message-component {
-  width: 98%;
-  margin: 1px 1px 1px 1px;
+.cleanslate .message-container {
+  box-sizing: border-box;
+  width: 100%;
+  height: calc(60vh - 75px);
+  overflow: scroll;
+  margin: 5px;
+}
+
+.cleanslate .send-chat-container {
+  width: 100%;
+  display: block;
+  height: 150px;
+  margin: 5px;
+}
+
+.cleanslate .send-chat-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5px;
+  height: 100px;
+  font-size: 14px;
+  resize: none;
+  display: block;
+  margin: 0;
+}
+
+.cleanslate .send-chat-form {
+  width: 100%;
+  box-sizing: border-box;
+  display: block;
+}
+
+.send-chat-input {
+  width: 100%;
   text-align: center;
+  padding: 5px;
+}
+
+.cleanslate .btn-success {
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+
+.cleanslate .message-component {
+  min-height: 100px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.cleanslate .message-component-part-owner {
+  margin: 1px 2px 1px 2px;
+  text-align: right;
+}
+
+.cleanslate .message-component-part-receiver {
+  margin: 1px 2px 1px 2px;
+  text-align: left;
+}
+
+.cleanslate .message-component-part {
+  display: inline-block;
+  margin: 1px 2px 1px 2px;
+}
+
+.cleanslate .user-container {
+  width: 100%;
+  height: calc(40vh - 75px);
   border: 1px solid grey;
-}
-
-.message-component-part-owner {
-  display: inline-block;
-  margin: 1px 2px 1px 2px;
-  text-align: 'right';
-}
-
-.message-component-part-receiver {
-  display: inline-block;
-  margin: 1px 2px 1px 2px;
-  text-align: 'left'
-}
-
-.message-component-part {
-  display: inline-block;
-  margin: 1px 2px 1px 2px;
+  overflow: scroll;
 }
 
 @keyframes bounceChatBoxx{
@@ -114,4 +162,5 @@
     transform: translateX(400px);
   }
 }
+
 
