@@ -27,17 +27,16 @@ module.exports = {
       // })
 
       socket.on('joinGroup', ({url, name, user_id}) => {
-        console.log('in socket join group', url, name, user_id)
         Group.findOrCreate({where: {url, name}})
         .then(([group, created]) => {
-          socket.join(group.id.toString(), err => {
+          socket.join(group.id, err => {
             if (err) { throw err }
             socket.emit('joinGroup', group);
             GroupUser.create({user_id, group_id: group.id})
             User.findById(user_id)
             .then(user => {
               console.log("am i getting here????????????????????????????????", sockets.io.sockets.adapter.rooms[group.id].sockets)
-              socket.broadcast.to(group.id.toString()).emit('addUser', {groupId: group.id, row: user, user_id})
+              socket.broadcast.to(group.id).emit('add:user', {groupId: group.id, row: user, user_id})
             }) //was userId
           })
         })
