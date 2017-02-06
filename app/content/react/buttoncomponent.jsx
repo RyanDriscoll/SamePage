@@ -40,12 +40,7 @@ class ButtonComponent extends React.Component{
 
     chrome.runtime.sendMessage({type: 'joinRoom', user: this.props.user.id}, null)
 
-    this.setState({animate: !this.state.animate})
-    if(this.state.displayChat){
-      setTimeout( () => {
-        this.setState({displayChat: !this.state.displayChat});
-      }, 500)
-    } else this.setState({displayChat: !this.state.displayChat});
+    this.setState({displayChat: !this.state.displayChat});
 
   }
 
@@ -53,13 +48,8 @@ class ButtonComponent extends React.Component{
   render(){
     // console.log("button state", this.state)
     return (
-      <div>
-        {
-          this.state.displayChat ?
-            <ChatContainer animation={this.state.animate ? 'chatBoxx-rakt-in' : 'chatBoxx-rakt-out'}/>
-            :
-            null
-        }
+      <div className="cleanslate">
+        <ChatContainer mounted={this.state.displayChat} />
         {
           this.props.user ?
             <div style={this.state.displayChat ? this.chatButtonRaktClicked : this.chatButtonRaktUnclicked} onClick={this.toggleChatDisplay} />
@@ -70,6 +60,13 @@ class ButtonComponent extends React.Component{
     )
   }
 }
+
+        // }
+        //   this.state.displayChat ?
+        //     <ChatContainer animation={this.state.animate ? 'chatBoxx-rakt-in' : 'chatBoxx-rakt-out'}/>
+        //     :
+        //     null
+        // }
 
 const mapStateToProps = function(state){
   return {

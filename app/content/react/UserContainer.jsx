@@ -37,7 +37,7 @@ class UserContainer extends React.Component{
     }
     console.log("-----users", this.props.users)
     return (
-      <div style={this.userContainerBox}>
+      <div className="user-container">
         {
           group && this.props.users && userIds.map(id => {
             return (
