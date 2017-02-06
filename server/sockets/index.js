@@ -31,7 +31,7 @@ module.exports = {
         .then(([group, created]) => {
           socket.join(group.id, err => {
             if (err) { throw err }
-            socket.emit('joinGroup', group);
+            socket.emit('joinGroupFromServer', group);
             GroupUser.create({user_id, group_id: group.id})
             User.findById(user_id)
             .then(user => {
@@ -49,7 +49,7 @@ module.exports = {
           socket.broadcast.to(group_id).emit('remove:user', {groupId: group_id, user_id})
           socket.leave(group_id, err => {
             if (err) { throw err }
-            socket.emit('leaveGroup', group_id);
+            socket.emit('leaveGroupFromServer', group_id);
           })
         })
         .catch(err => console.log(err))

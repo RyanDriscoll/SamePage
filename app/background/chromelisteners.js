@@ -9,15 +9,16 @@ import socket from './sockets/io';
 
 
 export default function setListeners(){
-  chrome.tabs.onUpdated.addListener(function(sender){
+  chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
     let currentStore = store.getState()
-    if(currentStore.auth && sender.id === currentStore.tabs.active){
-      console.log("in updated listener------------------------------")
-      socket.emit('leaveGroup', {groupId: currentStore.tabs[currentStore.tabs.active].activeGroup, userId: currentStore.auth.id})
-      socket.on('leaveGroup', (groupId) => {
-        store.dispatch({type: REMOVE_GROUP, tabId: currentStore.tabs.active, groupId})
-      })
-      addGroup(sender.url, request.name)
+    console.log("in updated listener------------------------------", tabId, changeInfo.url)
+    if(currentStore.auth && changeInfo.url){
+      console.log("in updated listener if statement------------------------------", tabId, changeInfo.url)      
+      socket.emit('leaveGroup', {groupId: currentStore.tabs[tabId].activeGroup, userId: currentStore.auth.id})
+      // socket.on('leaveGroup', (groupId) => {
+      //   store.dispatch({type: REMOVE_GROUP, tabId: currentStore.tabs.active, groupId})
+      // })
+      // addGroup(changeInfo.url, changeInfo.url)
     }
   })
 
@@ -57,8 +58,8 @@ export default function setListeners(){
       console.log('outside for loops', currStore.auth.id)
       if (deleteGroup) socket.emit('leaveGroup', {groupId, userId: currStore.auth.id})
     } 
-    socket.on('leaveGroup', (groupId) => {
-      store.dispatch({type: REMOVE_TAB, tabId: tabId})
-    })
+    // socket.on('leaveGroup', (groupId) => {
+    //   store.dispatch({type: REMOVE_TAB, tabId: tabId})
+    // })
   })
 }

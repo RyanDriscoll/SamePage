@@ -71,7 +71,7 @@ export const getMsg = (tabId, groupId) => {
 
 export const addGroup = (url, name) => {
 	if (name === undefined) name = url;
-
+  console.log('-------->>>>>>>in addGroup function')
 	// axios.post(rootPath + 'groups', {name: name, url: url, userId: currentStore.auth.id})
 	// 	.then(res => res.data)
 		// .then((group) => {

@@ -1,7 +1,8 @@
 import socket from './io';
 import store from '../store';
 const actions = ['add', 'update', 'remove', 'get'];
-
+import {getUser, getMsg } from '../actionAndDispatch.js';
+import {REMOVE_GROUP} from '../tabs.js';
 
 export default function(table) {
   for (const action of actions) {
@@ -21,8 +22,10 @@ export default function(table) {
       });
     });
   }
+}
 
-  socket.on('joinGroup', group => {
+export function socketListeners(){
+  socket.on('joinGroupFromServer', group => {
     let currentStore = store.getState();
     console.log('why isnt this working???', currentStore.tabs.active);
     store.dispatch({
@@ -40,9 +43,9 @@ export default function(table) {
     });
   })
 
-  socket.on('leaveGroup', (groupId) => {
+  socket.on('leaveGroupFromServer', (groupId) => {
+    let currentStore = store.getState();    
     store.dispatch({type: REMOVE_GROUP, tabId: currentStore.tabs.active, groupId})
   })
 
 }
-
