@@ -46,6 +46,7 @@ export default function setListeners(){
     let currStore = store.getState()
     let currTab = currStore.tabs[tabId];
     for (let groupId in currTab){
+      if(groupId == 'activeGroup') continue;
       let deleteGroup = true;
       console.log('in 1st for loop', groupId)
       for (let tab in currStore.tabs){

@@ -6,9 +6,10 @@ const actions = ['add', 'update', 'remove', 'get'];
 export default function(table) {
   for (const action of actions) {
     socket.on(`${action}:${table}`, record => {
+      console.log('inside socket on---record', record)
       // console.log("---->>>>>", record);
       const currentStore = store.getState();
-      if (table === 'user' && record.userId === currentStore.auth.id) {
+      if (table === 'user' && record.user_id === currentStore.auth.id) {
         return;
       }
       store.dispatch({

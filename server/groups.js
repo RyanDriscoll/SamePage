@@ -44,6 +44,7 @@ module.exports = require('express').Router()
 		Group.findOrCreate({where: {url: req.body.url, name: req.body.name}})
 		.then(([group, created]) => {
 			GroupUser.create({user_id: req.body.userId, group_id: group.id})
+			//socket emit
 			res.status(201).json(group);
 		})
 		.catch(next);
@@ -53,7 +54,7 @@ module.exports = require('express').Router()
 	.delete('/users', (req, res, next) => {
 		GroupUser.destroy({where: {group_id: req.body.groupId, user_id: req.body.userId}})
 		.then(result => {
-			sockets.io.emit('remove:user', {groupId: req.body.groupId, userId: req.body.userId})
+			sockets.io.emit('remove:user', {groupId: req.body.groupId, user_id: req.body.userId})
 			res.sendStatus(200)
 	})
 		.catch(err => console.log(err))
