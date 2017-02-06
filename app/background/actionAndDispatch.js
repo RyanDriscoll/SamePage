@@ -71,15 +71,15 @@ export const getMsg = (tabId, groupId) => {
 
 export const addGroup = (url, name) => {
 	if (name === undefined) name = url;
-  const currentStore = store.getState();
 
 	// axios.post(rootPath + 'groups', {name: name, url: url, userId: currentStore.auth.id})
 	// 	.then(res => res.data)
 		// .then((group) => {
   
-  socket.emit('joinGroup', {name: name, url: url, user_id: currentStore.auth.id});
+  socket.emit('joinGroup', {name: name, url: url, user_id: store.getState().auth.id});
   socket.on('joinGroup', group => {
-
+    let currentStore = store.getState();
+    console.log('why isnt this working???', currentStore.tabs.active);
     store.dispatch({
       type: 'ADD_GROUP',
       group: group,
