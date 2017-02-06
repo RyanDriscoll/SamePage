@@ -2,25 +2,26 @@ import store from './store.js';
 import { addGroup, change_active, getMsg, getUser, removeUser } from './actionAndDispatch.js';
 import { ADD_GROUP } from './groups.js';
 import { CHANGE_ACTIVE, REMOVE_TAB, REMOVE_GROUP } from './tabs.js';
+import socket from './sockets/io';
+
 
 
 
 
 export default function setListeners(){
   chrome.tabs.onUpdated.addListener(function(sender){
-    socket.emit('leaveGroup', {groupId, userId: currStore.auth.id})
-    socket.on('leaveGroup', (groupId) => {
-      store.dispatch({type: REMOVE_GROUP, tabId: tabId, groupId})
-    })
-    addGroup(sender.url, request.name)
+    let currentStore = store.getState()
+    if(currentStore.auth){
+      socket.emit('leaveGroup', {groupId: currentStore.tabs[currentStore.tabs.active].activeGroup, userId: currentStore.auth.id})
+      socket.on('leaveGroup', (groupId) => {
+        store.dispatch({type: REMOVE_GROUP, tabId: tabId, groupId})
+      })
+      addGroup(sender.url, request.name)
+    }
   })
 
   chrome.tabs.onActivated.addListener(function({tabId, windowId}){
     store.dispatch(change_active(tabId));
-    // console.log("------store", store.getState(), tabId)
-    // if (!store.getState().tabs[tabId]) {
-    //   store.dispatch({type: ADD_GROUP, })
-    // }
   });
 
   chrome.runtime.onMessage.addListener(function(request, sender, response){
