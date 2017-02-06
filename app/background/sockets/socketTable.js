@@ -21,4 +21,28 @@ export default function(table) {
       });
     });
   }
+
+  socket.on('joinGroup', group => {
+    let currentStore = store.getState();
+    console.log('why isnt this working???', currentStore.tabs.active);
+    store.dispatch({
+      type: 'ADD_GROUP',
+      group: group,
+      tabId: currentStore.tabs.active
+    });
+    getUser(currentStore.tabs.active, group.id)
+    getMsg(currentStore.tabs.active, group.id);
+    store.dispatch({
+      type: 'ADD_USER',
+      groupId: group.id,
+      user: currentStore.auth,
+      tabId: currentStore.tabs.active
+    });
+  })
+
+  socket.on('leaveGroup', (groupId) => {
+    store.dispatch({type: REMOVE_GROUP, tabId: currentStore.tabs.active, groupId})
+  })
+
 }
+
