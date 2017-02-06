@@ -36,7 +36,6 @@ export const change_active = (tabId) => {
 export const getUser = (tabId, groupId) => {
 	axios.get(rootPath + 'groups/group_users', {params: {groupId}})
   .then(res => {
-    console.log('in res', res.data)
     return res.data;
   })
   .then(foundUsers => {

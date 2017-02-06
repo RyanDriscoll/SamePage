@@ -29,6 +29,7 @@ module.exports = {
         Group.findOrCreate({where: {url, name}})
         .then(([group, created]) => {
           socket.join(group.id, err => {
+            console.log('sockets join rooms ------->>>>>>>', sockets.io.sockets.adapter.rooms[group.id].sockets)
             if (err) { throw err }
             socket.emit('joinGroupFromServer', group);
             GroupUser.create({user_id, group_id: group.id})
@@ -47,6 +48,7 @@ module.exports = {
           socket.broadcast.to(group_id).emit('remove:user', {groupId: group_id, user_id})
           socket.leave(group_id, err => {
             if (err) { throw err }
+            console.log('sockets leave rooms ------->>>>>>>', sockets.io.sockets.adapter.rooms[group_id].sockets)            
             socket.emit('leaveGroupFromServer', group_id);
           })
         })

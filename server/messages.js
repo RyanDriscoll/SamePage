@@ -9,7 +9,6 @@ const sockets = require('APP/server/sockets').get();
 module.exports = require('express').Router()
 
 	.get('/', (req, res, next) => {
-		console.log()
 		Message.findAll({where: {group_id: req.query.groupId}, include:[User]})
 		.then(messages => res.status(201).json(messages))
 		.catch(next);
@@ -23,8 +22,7 @@ module.exports = require('express').Router()
 	.post('/', (req, res, next) =>
 		Message.create(req.body)
 		.then(message => {
-			console.log('in the socket emitter for messages')
-			sockets.io.emit("add:msg", {row: message, groupId: message.group_id});
+			sockets.io.to(message.group_id).emit("add:msg", {row: message, groupId: message.group_id});
 			res.status(201).json(message);
 		})
 		.catch(next));
