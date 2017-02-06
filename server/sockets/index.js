@@ -1,3 +1,8 @@
+const db = require('APP/db')
+const Group = db.model('groups')
+const User = db.model('users')
+// console.dir(db)
+const GroupUser = db.model('group_user')
 
 let sockets = {};
 
@@ -27,10 +32,10 @@ module.exports = {
           socket.join(group.id).emit('joinGroup', group);
           GroupUser.create({user_id, group_id: group.id})
           User.findById(user_id)
-          .then(user => sockets.io.broadcast.in(group.id).emit('addUser', 
+          .then(user => socket.broadcast.to(group.id).emit('addUser', 
             {groupId: group.id, row: user, user_id})) //userId
         })
-      }
+      })
       //remove hook emit, and client reject
 
       socket.on('disconnect', () => {

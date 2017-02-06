@@ -2,6 +2,8 @@ import { GET_USER, GET_MSG, CHANGE_ACTIVE } from './tabs.js';
 import rootPath from './httpServer.jsx';
 import axios from 'axios';
 import store from './store.js';
+import socket from './sockets/io';
+
 // tabs action creators
 export const get_user = (users, userIds, tabId, groupId) => {
   return {
