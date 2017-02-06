@@ -69,11 +69,17 @@ export default function reducer (tabs = initialState, action) {
       });
     }
     case ADD_MSG: {
-      // console.log('inside tabs action reducer', action)
+      let tabForMessage;
+      for(let tab in tabs){
+        if(tabs[tab][action.msg.group_id]) {
+          tabForMessage = tab;
+          break;
+        }
+      }
       return Object.assign({}, tabs, {[tabs.active]:
         Object.assign({}, tabs[tabs.active], {[action.msg.group_id]:
           Object.assign({}, tabs[tabs.active][action.msg.group_id], {messages:
-            [...tabs[tabs.active][action.msg.group_id].messages, action.msg.id]})
+            [...tabs[tabForMessage][action.msg.group_id].messages, action.msg.id]})
         })
       });
     }
