@@ -14,7 +14,7 @@ export default function setListeners(){
     console.log("in updated listener------------------------------", tabId, changeInfo.url)
     if(currentStore.auth && changeInfo.url){
       console.log("in updated listener if statement------------------------------", tabId, changeInfo.url)      
-      socket.emit('leaveGroup', {groupId: currentStore.tabs[tabId].activeGroup, userId: currentStore.auth.id})
+      socket.emit('leaveGroup', {group_id: currentStore.tabs[tabId].activeGroup, user_id: currentStore.auth.id})
       // socket.on('leaveGroup', (groupId) => {
       //   store.dispatch({type: REMOVE_GROUP, tabId: currentStore.tabs.active, groupId})
       // })
