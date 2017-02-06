@@ -5,7 +5,8 @@
 export const ADD_USER = 'ADD_USER';
 export const GET_USER = 'GET_USER';
 export const REMOVE_USER = 'REMOVE_USER';
-export const REMOVE_TAB = 'REMOVE_TAB'
+export const REMOVE_TAB = 'REMOVE_TAB';
+export const REMOVE_GROUP = "REMOVE_GROUP";
 export const ADD_MSG = 'ADD_MSG';
 export const GET_MSG = 'GET_MSG';
 export const ADD_GROUP = 'ADD_GROUP';
@@ -41,7 +42,6 @@ export default function reducer (tabs = initialState, action) {
       });
     }
     case REMOVE_USER: {
-      console.log('remove_user---action---tabs', action, tabs)
     //change this later to have gross nested object.assigns
     return Object.assign({}, tabs, {[action.tabId]:
             Object.assign({}, tabs[action.tabId], {[action.groupId]:
@@ -69,11 +69,17 @@ export default function reducer (tabs = initialState, action) {
       });
     }
     case ADD_MSG: {
-      // console.log('inside tabs action reducer', action)
+      let tabForMessage;
+      for(let tab in tabs){
+        if(tabs[tab][action.msg.group_id]) {
+          tabForMessage = tab;
+          break;
+        }
+      }
       return Object.assign({}, tabs, {[tabs.active]:
         Object.assign({}, tabs[tabs.active], {[action.msg.group_id]:
           Object.assign({}, tabs[tabs.active][action.msg.group_id], {messages:
-            [...tabs[tabs.active][action.msg.group_id].messages, action.msg.id]})
+            [...tabs[tabForMessage][action.msg.group_id].messages, action.msg.id]})
         })
       });
     }
@@ -90,13 +96,18 @@ export default function reducer (tabs = initialState, action) {
       });
     }
     case ADD_GROUP:
-      console.log('add group action', action)
       return Object.assign({}, tabs, {[action.tabId]: {activeGroup: action.group.id, [action.group.id]: {users: [], messages: []}}
     });
     case REMOVE_TAB:
       let newTabs = Object.assign({}, tabs);
       delete newTabs[action.tabId];
       return newTabs;
+    case REMOVE_GROUP:{
+      let removeGroup = Object.assign({}, tabs);
+      delete removeGroup[action.tabId][action.groupId];
+      removeGroup[action.tabId].activeGroup = 0;
+      return removeGroup;
+    }
     case CHANGE_ACTIVE: {
       let newTab
       if(tabs[action.tabId]){

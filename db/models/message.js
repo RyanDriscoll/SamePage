@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('APP/db')
-const sockets = require('APP/server/sockets').get();
+// const sockets = require('APP/server/sockets');
 
 const messageSchema = {
   content: {
