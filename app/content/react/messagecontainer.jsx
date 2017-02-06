@@ -9,20 +9,6 @@ import MessageComponent from './messagecomponent.jsx';
 class MessageContainer extends React.Component{
   constructor(props){
     super(props);
-    this.state = {
-
-    }
-
-    this.messageContainerBox = {
-      width: '97%',
-      height: '57%',
-      backgroundColor: 'lightgrey',
-      border: '1px solid grey',
-      borderRadius: '3px',
-      overflow: 'scroll',
-      margin: '5px auto 0px auto',
-    }
-
   }
 
   componentDidUpdate() {
@@ -45,6 +31,7 @@ class MessageContainer extends React.Component{
 
 
 
+
   render(){
     const tabs = this.props.tabs;
     // let activeGroup = Object.keys(tabs[tabs.active]);
@@ -55,22 +42,24 @@ class MessageContainer extends React.Component{
     const messages = this.props.messages //.map(message => message.groupId === group.id);
     let messageIds = [];
     if (group) {
-      messageIds = group.messages;
+      messageIds = group.messages.sort((a, b) => {
+        return a - b;
+      });
     }
     const users = this.props.users;
-    console.log("-----messages", this.props, group, tabs, "messages", messages)
     return (
       <div className="message-container">
         {
           group && messageIds.map(id => {
             return (
               <div key={id}>
-                <MessageComponent content={messages[id].content}
-                                  sender={users[messages[id].user_id].username}
-                                  time={messages[id].created_at}
-                                  messageOwner={this.props.user.id === users[messages[id].user_id].id}/>
+                <MessageComponent
+                  content={messages[id].content}
+                  sender={users[messages[id].user_id].username}
+                  time={messages[id].created_at}
+                  messageOwner={this.props.user.id === users[messages[id].user_id].id} />
               </div>
-            )
+            );
           })
         }
       </div>
