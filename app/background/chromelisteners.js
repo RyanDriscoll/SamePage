@@ -11,10 +11,11 @@ import socket from './sockets/io';
 export default function setListeners(){
   chrome.tabs.onUpdated.addListener(function(sender){
     let currentStore = store.getState()
-    if(currentStore.auth){
+    if(currentStore.auth && sender.id === currentStore.tabs.active){
+      console.log("in updated listener------------------------------")
       socket.emit('leaveGroup', {groupId: currentStore.tabs[currentStore.tabs.active].activeGroup, userId: currentStore.auth.id})
       socket.on('leaveGroup', (groupId) => {
-        store.dispatch({type: REMOVE_GROUP, tabId: tabId, groupId})
+        store.dispatch({type: REMOVE_GROUP, tabId: currentStore.tabs.active, groupId})
       })
       addGroup(sender.url, request.name)
     }

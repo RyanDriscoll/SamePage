@@ -46,10 +46,10 @@ module.exports = {
       socket.on('leaveGroup', ({group_id, user_id}) => {
         GroupUser.destroy({where: {group_id, user_id}})
 		    .then(result => {
-          socket.broadcast.to(group.id).emit('remove:user', {groupId: group_id, user_id})
-          socket.leave(group.id, err => {
+          socket.broadcast.to(group_id).emit('remove:user', {groupId: group_id, user_id})
+          socket.leave(group_id, err => {
             if (err) { throw err }
-            socket.emit('leaveGroup', group.id);
+            socket.emit('leaveGroup', group_id);
           })
         })
         .catch(err => console.log(err))
