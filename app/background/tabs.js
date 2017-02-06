@@ -5,7 +5,8 @@
 export const ADD_USER = 'ADD_USER';
 export const GET_USER = 'GET_USER';
 export const REMOVE_USER = 'REMOVE_USER';
-export const REMOVE_TAB = 'REMOVE_TAB'
+export const REMOVE_TAB = 'REMOVE_TAB';
+export const REMOVE_GROUP = "REMOVE_GROUP";
 export const ADD_MSG = 'ADD_MSG';
 export const GET_MSG = 'GET_MSG';
 export const ADD_GROUP = 'ADD_GROUP';
@@ -97,6 +98,12 @@ export default function reducer (tabs = initialState, action) {
       let newTabs = Object.assign({}, tabs);
       delete newTabs[action.tabId];
       return newTabs;
+    case REMOVE_GROUP:{
+      let removeGroup = Object.assign({}, tabs);
+      delete removeGroup[action.tabId][action.groupId];
+      removeGroup[action.tabId].activeGroup = 0;
+      return removeGroup;
+    }
     case CHANGE_ACTIVE: {
       let newTab
       if(tabs[action.tabId]){
