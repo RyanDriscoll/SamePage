@@ -10,7 +10,6 @@ let sockets = {};
 module.exports = {
   set: function(server) {
     sockets.io = require('socket.io')(server);
-    console.log("running set function")
 
     sockets.io.on('connection', socket => {
       console.log('connected_', socket.id);
@@ -35,7 +34,6 @@ module.exports = {
             GroupUser.create({user_id, group_id: group.id})
             User.findById(user_id)
             .then(user => {
-              console.log("am i getting here????????????????????????????????", sockets.io.sockets.adapter.rooms[group.id].sockets)
               socket.broadcast.to(group.id).emit('add:user', {groupId: group.id, row: user, user_id})
             }) //was userId
           })
@@ -44,14 +42,11 @@ module.exports = {
 
 
       socket.on('leaveGroup', ({group_id, user_id}) => {
-        console.log("leave group socket - group_id - user_id", group_id, user_id)
         GroupUser.destroy({where: {group_id, user_id}})
 		    .then(result => {
-            console.log("leave group inside .then", group_id)          
           socket.broadcast.to(group_id).emit('remove:user', {groupId: group_id, user_id})
           socket.leave(group_id, err => {
             if (err) { throw err }
-            console.log("leave group inside socket.leave", group_id)
             socket.emit('leaveGroupFromServer', group_id);
           })
         })

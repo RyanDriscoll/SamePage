@@ -7,8 +7,6 @@ import {REMOVE_GROUP} from '../tabs.js';
 export default function(table) {
   for (const action of actions) {
     socket.on(`${action}:${table}`, record => {
-      console.log('inside socket on---record', record)
-      // console.log("---->>>>>", record);
       const currentStore = store.getState();
       if (table === 'user' && record.user_id === currentStore.auth.id) {
         return;
@@ -27,7 +25,6 @@ export default function(table) {
 export function socketListeners(){
   socket.on('joinGroupFromServer', group => {
     let currentStore = store.getState();
-    console.log('why isnt this working???', currentStore.tabs.active);
     store.dispatch({
       type: 'ADD_GROUP',
       group: group,

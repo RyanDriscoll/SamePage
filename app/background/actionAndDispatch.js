@@ -34,14 +34,12 @@ export const change_active = (tabId) => {
 
 // tabs dispatchers
 export const getUser = (tabId, groupId) => {
-  console.log('in getUser')
 	axios.get(rootPath + 'groups/group_users', {params: {groupId}})
   .then(res => {
     console.log('in res', res.data)
     return res.data;
   })
   .then(foundUsers => {
-    console.log('found users', foundUsers)
     const users = foundUsers.map(groupUser => groupUser.user);
     const userIds = users.map(user => user.id);
     store.dispatch(get_user(users, userIds, tabId, groupId));
@@ -71,7 +69,6 @@ export const getMsg = (tabId, groupId) => {
 
 export const addGroup = (url, name) => {
 	if (name === undefined) name = url;
-  console.log('-------->>>>>>>in addGroup function')
 	// axios.post(rootPath + 'groups', {name: name, url: url, userId: currentStore.auth.id})
 	// 	.then(res => res.data)
 		// .then((group) => {
@@ -83,7 +80,6 @@ export const addGroup = (url, name) => {
 };
 
 export const removeUser = (groupId, userId) => {
-  console.log("in removeUser", groupId, userId)
   axios.delete(rootPath + 'groups/users', {data: {groupId, userId}})
   .catch(err => console.log(err, err.stack))
 }
