@@ -101,6 +101,7 @@ export default function reducer (tabs = initialState, action) {
     case REMOVE_GROUP:{
       let removeGroup = Object.assign({}, tabs);
       delete removeGroup[action.tabId][action.groupId];
+      removeGroup[action.tabId].activeGroup = 0;
       return removeGroup;
     }
     case CHANGE_ACTIVE: {
