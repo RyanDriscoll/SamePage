@@ -41,7 +41,18 @@ module.exports = {
           })
         })
       })
-      //remove hook emit, and client reject
+
+
+      socket.on('leaveGroup', ({group_id, user_id}) => {
+        GroupUser.destroy({where: {group_id, user_id}})
+		    .then(result => {
+          socket.broadcast.to(group.id).emit('remove:user', {groupId: group_id, user_id})
+          socket.leave(group.id, err => {
+            if (err) { throw err }
+            socket.emit('leaveGroup', group.id);
+          })
+        })
+        .catch(err => console.log(err))
 
       // socket.on('joinGroup', ({url, name, user_id}) => {
       //   Group.findOrCreate({where: {url, name}})

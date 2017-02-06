@@ -1,7 +1,7 @@
 import store from './store.js';
 import { addGroup, change_active, getMsg, getUser, removeUser } from './actionAndDispatch.js';
 import { ADD_GROUP } from './groups.js';
-import { CHANGE_ACTIVE, REMOVE_TAB } from './tabs.js';
+import { CHANGE_ACTIVE, REMOVE_TAB, REMOVE_GROUP } from './tabs.js';
 // const log = console.log.bind(console, 'POPUP_MESSAGE >');
 // chrome.extension.onConnect.addListener(function(port) {
 //   log("Connected .....");
@@ -13,11 +13,16 @@ import { CHANGE_ACTIVE, REMOVE_TAB } from './tabs.js';
 //     log("SENDER------>>>>>>", sender.url)
 //   }
 // })
-// chrome.tabs.onUpdate.addListener(function(sender){
-// 	activeRaktTabId = tabId;
-//   // console.log("------store", store.getState(), tabId)
-//   if(!store.getState().tabs[tabId]) store.dispatch({type:'ADD_TAB', tabId});
-// })
+
+
+chrome.tabs.onUpdate.addListener(function(sender){
+
+  socket.emit('leaveGroup', {groupId, userId: currStore.auth.id})
+  socket.on('leaveGroup', (groupId) => {
+    store.dispatch({type: REMOVE_GROUP, tabId: tabId, groupId})
+  })
+  addGroup(sender.url, request.name)
+})
 
 export default function setListeners(){
   chrome.tabs.onActivated.addListener(function({tabId, windowId}){
@@ -58,8 +63,10 @@ export default function setListeners(){
         }
       }
       console.log('outside for loops', currStore.auth.id)
-      if (deleteGroup) removeUser(groupId, currStore.auth.id)
+      if (deleteGroup) socket.emit('leaveGroup', {groupId, userId: currStore.auth.id})
     } 
-    store.dispatch({type: REMOVE_TAB, tabId: tabId})
+    socket.on('leaveGroup', (groupId) => {
+      store.dispatch({type: REMOVE_TAB, tabId: tabId})
+    })
   })
 }
