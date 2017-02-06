@@ -99,9 +99,9 @@ export default function reducer (tabs = initialState, action) {
       delete newTabs[action.tabId];
       return newTabs;
     case REMOVE_GROUP:{
-      let newTabs = Object.assign({}, tabs);
-      delete newTabs[action.tabId][action.groupId];
-      return newTabs;
+      let removeGroup = Object.assign({}, tabs);
+      delete removeGroup[action.tabId][action.groupId];
+      return removeGroup;
     }
     case CHANGE_ACTIVE: {
       let newTab

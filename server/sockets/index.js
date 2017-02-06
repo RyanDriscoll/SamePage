@@ -53,6 +53,7 @@ module.exports = {
           })
         })
         .catch(err => console.log(err))
+      })
 
       // socket.on('joinGroup', ({url, name, user_id}) => {
       //   Group.findOrCreate({where: {url, name}})

@@ -2,29 +2,19 @@ import store from './store.js';
 import { addGroup, change_active, getMsg, getUser, removeUser } from './actionAndDispatch.js';
 import { ADD_GROUP } from './groups.js';
 import { CHANGE_ACTIVE, REMOVE_TAB, REMOVE_GROUP } from './tabs.js';
-// const log = console.log.bind(console, 'POPUP_MESSAGE >');
-// chrome.extension.onConnect.addListener(function(port) {
-//   log("Connected .....");
-//   port.onMessage.addListener(log);
-// });
-
-// chrome.runtime.onMessage.addListener(function(request, sender, response){
-//   if(request.type === 'joinRoom'){
-//     log("SENDER------>>>>>>", sender.url)
-//   }
-// })
 
 
-chrome.tabs.onUpdate.addListener(function(sender){
 
-  socket.emit('leaveGroup', {groupId, userId: currStore.auth.id})
-  socket.on('leaveGroup', (groupId) => {
-    store.dispatch({type: REMOVE_GROUP, tabId: tabId, groupId})
-  })
-  addGroup(sender.url, request.name)
-})
 
 export default function setListeners(){
+  chrome.tabs.onUpdated.addListener(function(sender){
+    socket.emit('leaveGroup', {groupId, userId: currStore.auth.id})
+    socket.on('leaveGroup', (groupId) => {
+      store.dispatch({type: REMOVE_GROUP, tabId: tabId, groupId})
+    })
+    addGroup(sender.url, request.name)
+  })
+
   chrome.tabs.onActivated.addListener(function({tabId, windowId}){
     store.dispatch(change_active(tabId));
     // console.log("------store", store.getState(), tabId)
