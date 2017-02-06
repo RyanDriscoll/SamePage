@@ -56,7 +56,7 @@ export default function setListeners(){
         }
       }
       console.log('outside for loops', currStore.auth.id)
-      if (deleteGroup) socket.emit('leaveGroup', {groupId, userId: currStore.auth.id})
+      if (deleteGroup) socket.emit('leaveGroup', {group_id: groupId, user_id: currStore.auth.id})
     } 
     // socket.on('leaveGroup', (groupId) => {
     //   store.dispatch({type: REMOVE_TAB, tabId: tabId})
