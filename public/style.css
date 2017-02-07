@@ -4,7 +4,7 @@
 
 .chat-button {
   position: fixed;
-  bottom: -5vh;
+  bottom: -45px;
   right: 5px;
   z-index: 9999;
   height: 100px;
@@ -31,12 +31,15 @@
   background: white;
   width: 250px;
   box-shadow: -2px -2px 10px darkslategray;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .message-container {
   box-sizing: border-box;
   width: 100%;
-  height: calc(60vh - 75px);
+  height: calc(60vh - 135px);
   overflow: scroll;
 }
 
@@ -107,18 +110,21 @@
 .send-chat-container {
   width: 100%;
   display: block;
-  height: 150px;
+  height: 110px;
+  margin-top: auto;
 }
 
 .send-chat-textarea {
   width: 100%;
   box-sizing: border-box;
-  padding: 5px;
   font-size: 14px;
   resize: none;
   display: block;
   margin: 0;
   outline: none;
+  border: 2px solid black;
+  padding: 5px 15px;
+  border-radius: 25px;
 }
 
 .send-chat-form {
@@ -136,14 +142,27 @@
 
 .btn-success {
   color: #fff;
+  font-size: 20px;
   background-color: #5cb85c;
-  border-color: #4cae4c;
+  border-color: black;
+  height: 50px;
+  width: 75px;
+  border-radius: 25px;
+  margin-top: 2px;
 }
 
 .user-container {
   width: 100%;
-  height: calc(40vh - 75px);
+  height: calc(40vh - 135px);
   overflow: scroll;
   box-sizing: border-box;
+}
+
+.title {
+  height: 100px;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 

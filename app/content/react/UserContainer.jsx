@@ -1,23 +1,13 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import User from './User.jsx';
+import rootPath from './httpServer.js';
 
 class UserContainer extends React.Component{
   constructor(props){
     super(props);
     this.state = {
     };
-
-    this.userContainerBox = {
-      width: '97%',
-      height: '33%',
-      backgroundColor: '#a1c4fc',
-      border: '1px solid grey',
-      borderRadius: '3px',
-      overflow: 'scroll',
-      margin: '5px auto 0px auto',
-    };
-
   }
 
   componentWillMount(){
@@ -37,6 +27,11 @@ class UserContainer extends React.Component{
     }
     return (
       <div className="user-container">
+        <div>
+          <img
+            src={`${rootPath}user-icon.png`}
+            style={{height: '30px'}} />
+        </div>
         {
           group && this.props.users && userIds.map(id => {
             return (
