@@ -166,3 +166,22 @@
   justify-content: center;
 }
 
+.number-of-users-icon {
+  background: red;
+  color: white;
+  border-radius: 50%;
+  display: inline-block;
+  margin: auto;
+  height: 30px;
+  width: 30px;
+}
+
+.collapsed-user-container {
+  text-align: center;
+  height: 35px;
+}
+
+.user-icon-in-user-container{
+  margin: 0 auto;
+  height: 30px;
+}
