@@ -16,9 +16,7 @@ class ChatContainer extends React.Component{
         right: this.props.mounted ? '0' : '-260px',
         transition: 'all 0.5s cubic-bezier(0.39, 0.575, 0.565, 1)'
       }
-    }
-    this.stopScroll = this.stopScroll.bind(this);
-    this.startScroll = this.startScroll.bind(this);
+    };
   }
 
 
@@ -50,13 +48,7 @@ class ChatContainer extends React.Component{
     }
   }
 
-  stopScroll() {
-    document.body.style.overflow = 'hidden';
-  }
 
-  startScroll() {
-    document.body.style.overflow = 'scroll';
-  }
 
   render(){
     return (
@@ -68,8 +60,7 @@ class ChatContainer extends React.Component{
               ref={(el) => this.el = el}
               className="chat-container"
               style={this.state.style}
-              onMouseEnter={this.stopScroll}
-              onMouseLeave={this.startScroll}>
+              >
               <div
                 className="title">
                 <img
