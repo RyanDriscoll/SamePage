@@ -14,26 +14,38 @@ class ButtonComponent extends React.Component{
       displayChat: false
     }
     this.toggleChatDisplay = this.toggleChatDisplay.bind(this);
-    this.animateButton = this.animateButton.bind(this);
+    this.animateButtonIn = this.animateButtonIn.bind(this);
+    this.animateButtonOut = this.animateButtonOut.bind(this);
   }
 
-  componentDidMount() {
-  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.user) {
-      this.animateButton();
+      this.animateButtonIn();
+    }
+    if (!nextProps.user) {
+      this.animateButtonOut();
     }
   }
 
-  animateButton() {
-    TweenLite.to(this.button, 1.5, {top: '95vh', left: '95vw', height: 100, width:    100, ease: Power2.easeOut});
-    TweenLite.to(this.img, 1.5, {x: -25, y: -20, height: 25, width: 25});
+  animateButtonIn() {
+    TweenLite.to(this.button, 1.5, {y: -50, ease: Elastic.easeOut});
+    // TweenLite.to(this.img, 1.5, {x: -25, y: -20, height: 25, width: 25});
+  }
+
+  animateButtonOut() {
+    TweenLite.to(this.button, 1.5, {y: 150, ease: Power1.easeOut})
   }
 
   toggleChatDisplay(e){
     e.preventDefault();
-
+    if (!this.state.displayChat) {
+      TweenLite.to(this.button, 1.5, {height: 50, width: 75, borderRadius: 25, ease: Elastic.easeOut});
+      TweenLite.to(this.img, 1.5, {height: 30, width: 30, ease: Elastic.easeOut});
+    } else {
+      TweenLite.to(this.button, 1.5, {height: 100, width: 100, borderRadius: '50%', ease: Elastic.easeOut});
+      TweenLite.to(this.img, 1.5, {height: 60, width: 60, ease: Elastic.easeOut});
+    }
     chrome.runtime.sendMessage({type: 'joinRoom', user: this.props.user.id}, null)
 
     this.setState({displayChat: !this.state.displayChat});
@@ -42,20 +54,19 @@ class ButtonComponent extends React.Component{
 
 
   render(){
-    // console.log("button state", this.state)
     return (
       <ShadowDOM include={[`${rootPath}style.css`]}>
         <div className="cleanslate">
           <ChatContainer store={this.props.store} mounted={this.state.displayChat} />
             <button ref={el => {this.button = el;}}
-              // style={this.state.displayChat ?
-              //   this.chatButtonRaktClicked
-              //   :
-              //   this.chatButtonRaktUnclicked}
               className="chat-button"
               onClick={this.toggleChatDisplay}>
               <img
                 className="button-img"
+                style={{
+                  height: '60px',
+                  width: '60px'
+                }}
                 src={`${rootPath}messagebubble.png`}
                 ref={el => {this.img = el;}}
                 />

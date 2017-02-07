@@ -9,15 +9,32 @@ import SendMessageComponent from './sendmessagecomponent.jsx';
 class ChatContainer extends React.Component{
   constructor(props){
     super(props);
-
+    this.state = {
+      style: {
+        right: this.props.mounted ? '0' : '-260px',
+        transition: 'all 0.5s cubic-bezier(0,.26,.84,1.52)'
+      }
+    }
     this.stopScroll = this.stopScroll.bind(this);
     this.startScroll = this.startScroll.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.mounted) {
+      this.setState({
+        style: {
+          right: '0',
+          transition: 'all 0.5s cubic-bezier(0,.26,.84,1.52)'
+        }
+      });
       // TweenLite.to(this.el, 0.5, {x: -260, ease: Bounce.easeOut})
     } else {
+      this.setState({
+        style: {
+          right: '-260px',
+          transition: 'all 0.5s cubic-bezier(0,.26,.84,1.52)'
+        }
+      });
       // TweenLite.to(this.el, 0.3, {x: 0, ease: Power1.easeIn})
     }
   }
@@ -39,10 +56,7 @@ class ChatContainer extends React.Component{
             <div
               ref={(el) => this.el = el}
               className="chat-container"
-              style={{
-                right: this.props.mounted ? '0' : '-260px',
-                transition: 'all 0.5s cubic-bezier(0,.26,.84,1.52)'
-              }}
+              style={this.state.style}
               onMouseEnter={this.stopScroll}
               onMouseLeave={this.startScroll}>
               <UserContainer store={this.props.store} />
