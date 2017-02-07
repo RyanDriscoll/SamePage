@@ -7,11 +7,13 @@ class UserContainer extends React.Component{
   constructor(props){
     super(props);
     this.state = {
+      collapsed: true,
+      numUsers: 0
     };
   }
 
-  componentWillMount(){
-
+  componentWillUpdate(){
+  
   }
 
   render(){
@@ -27,19 +29,34 @@ class UserContainer extends React.Component{
     }
     return (
       <div className="user-container">
-        <div>
-          <img
-            src={`${rootPath}user-icon.png`}
-            style={{height: '30px'}} />
-        </div>
         {
-          group && this.props.users && userIds.map(id => {
-            return (
-              <div key={id} >
-                <User username={this.props.users[id].username} />
+          this.state.collapsed ?
+            <div className="collapsed-user-container">
+              <img
+                src={`${rootPath}user-icon.png`}
+                className="user-icon-in-user-container" />
+              <div className="number-of-users-icon">
+                {console.log('-----in render', group)}
+                {
+                  group ? 
+                    group.users.length
+                    :
+                    '0'
+                }
               </div>
-            );
-          })
+            </div>
+          :
+            <div>
+              {
+                group && this.props.users && userIds.map(id => {
+                  return (
+                    <div key={id} >
+                      <User username={this.props.users[id].username} />
+                    </div>
+                  );
+                })
+              }
+            </div>
         }
       </div>
     );
