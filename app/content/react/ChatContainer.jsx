@@ -8,6 +8,7 @@ import SendMessageComponent from './sendmessagecomponent.jsx';
 const findDOMNode = ReactDOM.findDOMNode;
 
 
+
 class ChatContainer extends React.Component{
   constructor(props){
     super(props);
@@ -18,6 +19,12 @@ class ChatContainer extends React.Component{
 
   componentDidMount(){
     this.el = findDOMNode(this);
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+      if(request.action === 'rerender') {
+        this.props.joinRoomMessage(this.props.user.id)
+      }
+    });
+    //
   }
 
   componentWillReceiveProps(nextProps) {

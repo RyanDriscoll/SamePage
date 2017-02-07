@@ -14,6 +14,7 @@ class ButtonComponent extends React.Component{
     }
     this.toggleChatDisplay = this.toggleChatDisplay.bind(this);
     this.animateButton = this.animateButton.bind(this);
+    this.joinRoom = this.joinRoom.bind(this);
   }
 
   componentDidMount() {
@@ -30,10 +31,12 @@ class ButtonComponent extends React.Component{
     TweenLite.to(this.img, 1.5, {x: -25, y: -20, height: 25, width: 25});
   }
 
+  joinRoom(userId){chrome.runtime.sendMessage({type: 'joinRoom', user: userId}, null)}
+
   toggleChatDisplay(e){
     e.preventDefault();
 
-    chrome.runtime.sendMessage({type: 'joinRoom', user: this.props.user.id}, null)
+    this.joinRoom(this.props.user.id)
 
     this.setState({displayChat: !this.state.displayChat});
 
@@ -41,10 +44,10 @@ class ButtonComponent extends React.Component{
 
 
   render(){
-    console.log("button state", this.state)
+    // console.log("button state", this.state)
     return (
       <div className="cleanslate">
-        <ChatContainer mounted={this.state.displayChat} />
+        <ChatContainer mounted={this.state.displayChat} joinRoomMessage={this.joinRoom}/>
           <button ref={el => {this.button = el;}}
             // style={this.state.displayChat ?
             //   this.chatButtonRaktClicked

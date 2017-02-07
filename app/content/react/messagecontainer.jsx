@@ -9,6 +9,7 @@ import MessageComponent from './messagecomponent.jsx';
 class MessageContainer extends React.Component{
   constructor(props){
     super(props);
+    
   }
 
   componentDidUpdate() {
@@ -17,6 +18,7 @@ class MessageContainer extends React.Component{
     var node = ReactDOM.findDOMNode(this);
     node.scrollTop = node.scrollHeight;
   }
+
 
   // shouldComponentUpdate(nextProps) {
   //   const tabsMessages = this.props.tabs[this.props.tabs.active]
@@ -29,11 +31,7 @@ class MessageContainer extends React.Component{
   //   return true;
   // }
 
-  componentWillRe4ceiveProps(nextProps){
-    if(this.props.tabs.active !== nextProps.tabs.active){
-      this.forceUpdate();
-    }
-  }
+
 
 
   render(){
