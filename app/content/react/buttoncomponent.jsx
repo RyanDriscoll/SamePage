@@ -16,6 +16,7 @@ class ButtonComponent extends React.Component{
     this.toggleChatDisplay = this.toggleChatDisplay.bind(this);
     this.animateButtonIn = this.animateButtonIn.bind(this);
     this.animateButtonOut = this.animateButtonOut.bind(this);
+    this.joinRoom = this.joinRoom.bind(this);
   }
 
 
@@ -30,12 +31,13 @@ class ButtonComponent extends React.Component{
 
   animateButtonIn() {
     TweenLite.to(this.button, 1.5, {y: -50, ease: Elastic.easeOut});
-    // TweenLite.to(this.img, 1.5, {x: -25, y: -20, height: 25, width: 25});
   }
 
   animateButtonOut() {
     TweenLite.to(this.button, 1.5, {y: 150, ease: Power1.easeOut})
   }
+
+  joinRoom(userId){chrome.runtime.sendMessage({type: 'joinRoom', user: userId}, null)}
 
   toggleChatDisplay(e){
     e.preventDefault();
@@ -47,6 +49,8 @@ class ButtonComponent extends React.Component{
       TweenLite.to(this.img, 1.5, {height: 60, width: 60, ease: Elastic.easeOut});
     }
     chrome.runtime.sendMessage({type: 'joinRoom', user: this.props.user.id}, null)
+
+    this.joinRoom(this.props.user.id)
 
     this.setState({displayChat: !this.state.displayChat});
 
@@ -76,13 +80,6 @@ class ButtonComponent extends React.Component{
     )
   }
 }
-
-        // }
-        //   this.state.displayChat ?
-        //     <ChatContainer animation={this.state.animate ? 'chatBoxx-rakt-in' : 'chatBoxx-rakt-out'}/>
-        //     :
-        //     null
-        // }
 
 const mapStateToProps = function(state){
   return {

@@ -31,13 +31,15 @@ module.exports = {
           socket.join(group.id, err => {
             if (err) { throw err }
             socket.emit('joinGroupFromServer', group);
-            GroupUser.create({user_id, group_id: group.id})
+            GroupUser.findOrCreate({where: {user_id: user_id, group_id: group.id}})
+            .catch(err => console.log("error in joinGroup socket.on", err))
             User.findById(user_id)
             .then(user => {
               socket.broadcast.to(group.id).emit('add:user', {groupId: group.id, row: user, user_id})
-            }) //was userId
+            })
           })
         })
+        .catch(err => console.log("error in joinGroup socket.on", err, err.stack))
       })
 
 

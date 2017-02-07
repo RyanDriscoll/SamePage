@@ -10,7 +10,9 @@ module.exports = require('express').Router()
 
 	.get('/', (req, res, next) => {
 		Message.findAll({where: {group_id: req.query.groupId}, include:[{model: User, attributes: ['username', 'id']}]})
-		.then(messages => res.status(201).json(messages))
+		.then(messages => {
+			res.status(201).json(messages)
+		})
 		.catch(next);
 	})
 

@@ -31,7 +31,6 @@ export default function reducer (messages = initialState, action) {
 			return Object.assign({}, messages, groupMessages);
 		}
 		case ADD_MSG: {
-			console.log('inside messages action reducer', action)
 			return Object.assign({}, messages, {[action.msg.id]: action.msg})
 		}
 		// case REMOVE_GROUP_MESSAGES: return messages.filter(msg => msg.groupId != action.groupId); //too expensive unless mesgs contain groupId
