@@ -7,11 +7,15 @@ class UserContainer extends React.Component{
   constructor(props){
     super(props);
     this.state = {
+      collapsed: true,
+      numUsers: 0
     };
+    this.handleUserContainerClick = this.handleUserContainerClick.bind(this);
   }
 
-  componentWillMount(){
-
+  handleUserContainerClick(e){
+    e.preventDefault();
+    this.setState({collapsed: !this.state.collapsed})
   }
 
   render(){
@@ -27,19 +31,35 @@ class UserContainer extends React.Component{
     }
     return (
       <div className="user-container">
-        <div>
+        <div className="collapsed-user-container" onClick={this.handleUserContainerClick}>
           <img
             src={`${rootPath}user-icon.png`}
-            style={{height: '30px'}} />
+            className="user-icon-in-user-container" />
+          <div className="number-of-users-icon">
+            {
+              group ? 
+                group.users.length
+                :
+                '1'
+            }
+          </div>
         </div>
         {
-          group && this.props.users && userIds.map(id => {
-            return (
-              <div key={id} >
-                <User username={this.props.users[id].username} />
-              </div>
-            );
-          })
+          <div>
+            {
+              this.state.collapsed ?
+                null
+              :
+                group && this.props.users && userIds.map(id => {
+                  return (
+                    <div key={id} >
+                      <User username={this.props.users[id].username} />
+                    </div>
+                  );
+                })
+            }
+            <hr/>
+          </div>
         }
       </div>
     );
