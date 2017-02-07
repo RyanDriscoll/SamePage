@@ -16,6 +16,8 @@ class ButtonComponent extends React.Component{
     this.toggleChatDisplay = this.toggleChatDisplay.bind(this);
     this.animateButtonIn = this.animateButtonIn.bind(this);
     this.animateButtonOut = this.animateButtonOut.bind(this);
+    this.stopScroll = this.stopScroll.bind(this);
+    this.startScroll = this.startScroll.bind(this);
     this.joinRoom = this.joinRoom.bind(this);
   }
 
@@ -35,6 +37,16 @@ class ButtonComponent extends React.Component{
 
   animateButtonOut() {
     TweenLite.to(this.button, 1.5, {y: 150, ease: Power1.easeOut})
+  }
+
+  stopScroll() {
+    console.log('in stopScroll')
+    document.body.style.overflow = 'hidden';
+  }
+
+  startScroll() {
+    console.log('in startScroll')
+    document.body.style.overflow = 'scroll';
   }
 
   joinRoom(userId){chrome.runtime.sendMessage({type: 'joinRoom', user: userId}, null)}
@@ -59,24 +71,32 @@ class ButtonComponent extends React.Component{
 
   render(){
     return (
-      <ShadowDOM include={[`${rootPath}style.css`]}>
-        <div className="cleanslate">
-          <ChatContainer store={this.props.store} mounted={this.state.displayChat} />
-            <button ref={el => {this.button = el;}}
-              className="chat-button"
-              onClick={this.toggleChatDisplay}>
-              <img
-                className="button-img"
-                style={{
-                  height: '60px',
-                  width: '60px'
-                }}
-                src={`${rootPath}messagebubble.png`}
-                ref={el => {this.img = el;}}
-                />
-            </button>
-        </div>
-      </ShadowDOM>
+      <div
+        onMouseEnter={this.stopScroll}
+        onMouseLeave={this.startScroll}>
+        <ShadowDOM include={[`${rootPath}style.css`]}>
+          <div className="cleanslate">
+            <ChatContainer
+              store={this.props.store}
+              mounted={this.state.displayChat}
+              joinRoomMessage={this.joinRoom}
+              />
+              <button ref={el => {this.button = el;}}
+                className="chat-button"
+                onClick={this.toggleChatDisplay}>
+                <img
+                  className="button-img"
+                  style={{
+                    height: '60px',
+                    width: '60px'
+                  }}
+                  src={`${rootPath}messagebubble.png`}
+                  ref={el => {this.img = el;}}
+                  />
+              </button>
+          </div>
+        </ShadowDOM>
+      </div>
     )
   }
 }

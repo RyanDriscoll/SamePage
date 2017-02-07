@@ -9,7 +9,7 @@ import MessageComponent from './messagecomponent.jsx';
 class MessageContainer extends React.Component{
   constructor(props){
     super(props);
-    
+
   }
 
   componentDidUpdate() {
@@ -20,16 +20,20 @@ class MessageContainer extends React.Component{
   }
 
 
-  // shouldComponentUpdate(nextProps) {
-  //   const tabsMessages = this.props.tabs[this.props.tabs.active]
-  //     console.log('in shouldComponentUpdate', this.props, nextProps)
+  shouldComponentUpdate(nextProps) {
+    const propsMessagesLength = Object.keys(this.props.messages).length;
+    const nextPropsMessagesLength = Object.keys(nextProps.messages).length;
+    console.log('in shouldComponentUpdate', this.props, nextProps)
 
-  //   if (this.props.tabs.messages.length !== nextProps.tabs.messages.length && Object.keys(this.props.messages).length === Object.keys(nextProps.messages).length) {
-  //     console.log('in shouldComponentUpdate', this.props, nextProps)
-  //     return false;
-  //   }
-  //   return true;
-  // }
+    // if (this.props.tabs.messages.length !== nextProps.tabs.messages.length && Object.keys(this.props.messages).length === Object.keys(nextProps.messages).length) {
+    //   console.log('in shouldComponentUpdate', this.props, nextProps)
+    //   return false;
+    // }
+    if (propsMessagesLength === nextPropsMessagesLength) {
+      return false;
+    }
+    return true;
+  }
 
 
 

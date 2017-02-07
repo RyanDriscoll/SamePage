@@ -12,9 +12,28 @@ class MessageComponent extends React.Component{
     this.time = moment(this.props.time).format("MMM Do YYYY, h:mm a")
   }
 
+  componentDidMount() {
+    if (this.props.messageOwner) {
+      TweenLite.fromTo(this.message, 0.3, {
+        x: 300
+      }, {
+        x: 0
+      });
+    } else {
+      TweenLite.fromTo(this.message, 0.3, {
+        x: -300
+      }, {
+        x: 0
+      });
+    }
+  }
+
   render(){
     return (
-      <div className="message-component">
+      <div
+        className="message-component"
+        ref={el => {this.message = el;}}
+        >
         {
           this.props.messageOwner ?
           <div className="message-component-self">
