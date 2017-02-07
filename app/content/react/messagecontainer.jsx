@@ -29,7 +29,11 @@ class MessageContainer extends React.Component{
   //   return true;
   // }
 
-
+  componentWillRe4ceiveProps(nextProps){
+    if(this.props.tabs.active !== nextProps.tabs.active){
+      this.forceUpdate();
+    }
+  }
 
 
   render(){
