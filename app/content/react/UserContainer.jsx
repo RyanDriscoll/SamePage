@@ -31,13 +31,13 @@ class UserContainer extends React.Component{
     }
     return (
       <div className="user-container">
-        <div className="collapsed-user-container" onClick={this.handleUserContainerClick}>
+        <div className="user-icon-container" onClick={this.handleUserContainerClick}>
           <img
             src={`${rootPath}user-icon.png`}
             className="user-icon-in-user-container" />
           <div className="number-of-users-icon">
             {
-              group ? 
+              group ?
                 group.users.length
                 :
                 '1'
@@ -45,7 +45,7 @@ class UserContainer extends React.Component{
           </div>
         </div>
         {
-          <div>
+          <div ref={el => {this.collapsedContainer = el;}}>
             {
               this.state.collapsed ?
                 null
@@ -58,7 +58,6 @@ class UserContainer extends React.Component{
                   );
                 })
             }
-            <hr/>
           </div>
         }
       </div>

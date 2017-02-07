@@ -33,14 +33,16 @@
   box-shadow: -2px -2px 10px darkslategray;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: flex-end;
 }
 
 .message-container {
   box-sizing: border-box;
   width: 100%;
-  height: calc(60vh - 135px);
+  height: 100%;
+  bottom: 110px;
   overflow: scroll;
+  position: absolute;
 }
 
 .message-component {
@@ -112,7 +114,6 @@
   width: 100%;
   display: block;
   height: 110px;
-  margin-top: auto;
 }
 
 .send-chat-textarea {
@@ -154,9 +155,12 @@
 
 .user-container {
   width: 100%;
-  height: calc(40vh - 135px);
+  min-height: 35px;
   overflow: scroll;
   box-sizing: border-box;
+  margin-bottom: auto;
+  z-index: 99999;
+  background-color: white;
 }
 
 .title {
@@ -165,24 +169,29 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 99999;
+  background-color: white;
 }
 
 .number-of-users-icon {
   background: red;
   color: white;
   border-radius: 50%;
-  display: inline-block;
-  margin: auto;
   height: 30px;
   width: 30px;
+  display: flex;
+  font-size: 1.2em;
+  align-items: center;
+  justify-content: center;
 }
 
-.collapsed-user-container {
-  text-align: center;
+.user-icon-container {
   height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .user-icon-in-user-container{
-  margin: 0 auto;
   height: 30px;
 }

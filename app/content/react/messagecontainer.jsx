@@ -12,6 +12,11 @@ class MessageContainer extends React.Component{
 
   }
 
+  componentDidMount() {
+    var node = ReactDOM.findDOMNode(this);
+    node.scrollTop = node.scrollHeight;
+  }
+
   componentDidUpdate() {
 
     // conditionally set scroll height if new message comes in
