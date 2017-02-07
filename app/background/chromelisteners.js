@@ -22,6 +22,7 @@ export default function setListeners(){
 
   chrome.tabs.onActivated.addListener(function({tabId, windowId}){
     store.dispatch(change_active(tabId));
+    
   });
 
   chrome.runtime.onMessage.addListener(function(request, sender, response){

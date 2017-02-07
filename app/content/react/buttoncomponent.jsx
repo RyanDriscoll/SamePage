@@ -41,7 +41,7 @@ class ButtonComponent extends React.Component{
 
 
   render(){
-    // console.log("button state", this.state)
+    console.log("button state", this.state)
     return (
       <div className="cleanslate">
         <ChatContainer mounted={this.state.displayChat} />
