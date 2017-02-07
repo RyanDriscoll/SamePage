@@ -1,37 +1,51 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import ReactDOM from 'react-dom';
 import {TweenLite} from 'gsap';
 import MessageContainer from './messagecontainer.jsx';
 import UserContainer from './UserContainer.jsx';
 import SendMessageComponent from './sendmessagecomponent.jsx';
-const findDOMNode = ReactDOM.findDOMNode;
 
 
 
 class ChatContainer extends React.Component{
   constructor(props){
     super(props);
-
+    this.state = {
+      style: {
+        right: this.props.mounted ? '0' : '-260px',
+        transition: 'all 0.5s cubic-bezier(0,.26,.84,1.52)'
+      }
+    }
     this.stopScroll = this.stopScroll.bind(this);
     this.startScroll = this.startScroll.bind(this);
   }
 
+
   componentDidMount(){
-    this.el = findDOMNode(this);
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-      if(request.action === 'rerender') {
+      if (request.action === 'rerender') {
         this.props.joinRoomMessage(this.props.user.id)
       }
     });
-    //
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.mounted) {
-      TweenLite.to(this.el, 0.5, {x: -260, ease: Bounce.easeOut})
+      this.setState({
+        style: {
+          right: '0',
+          transition: 'all 0.5s cubic-bezier(0,.26,.84,1.52)'
+        }
+      });
+      // TweenLite.to(this.el, 0.5, {x: -260, ease: Bounce.easeOut})
     } else {
-      TweenLite.to(this.el, 0.3, {x: 0, ease: Power1.easeIn})
+      this.setState({
+        style: {
+          right: '-260px',
+          transition: 'all 0.5s cubic-bezier(0,.26,.84,1.52)'
+        }
+      });
+      // TweenLite.to(this.el, 0.3, {x: 0, ease: Power1.easeIn})
     }
   }
 
@@ -50,12 +64,14 @@ class ChatContainer extends React.Component{
         {
           this.props.user ?
             <div
+              ref={(el) => this.el = el}
               className="chat-container"
+              style={this.state.style}
               onMouseEnter={this.stopScroll}
               onMouseLeave={this.startScroll}>
-              <UserContainer />
-              <MessageContainer />
-              <SendMessageComponent />
+              <UserContainer store={this.props.store} />
+              <MessageContainer store={this.props.store} />
+              <SendMessageComponent store={this.props.store} />
             </div>
             :
             null

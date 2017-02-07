@@ -41,6 +41,10 @@ class SendMessageComponent extends React.Component{
     }
   }
 
+  componentDidUpdate() {
+    this.textarea.focus();
+  }
+
   sendChat(e){
     e.preventDefault();
     if(this.state.currMessage.length){
@@ -72,6 +76,7 @@ class SendMessageComponent extends React.Component{
       <div className="send-chat-container">
         <form className="send-chat-form" id="send-chat" action="submit" onSubmit={this.sendChat} >
           <textarea
+              ref={el => {this.textarea = el;}}
               rows="2"
               className="send-chat-textarea"
               type="textarea"
