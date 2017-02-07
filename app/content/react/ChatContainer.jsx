@@ -20,19 +20,15 @@ class ChatContainer extends React.Component{
     this.startScroll = this.startScroll.bind(this);
   }
 
-<<<<<<< HEAD
-=======
+
   componentDidMount(){
-    this.el = findDOMNode(this);
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-      if(request.action === 'rerender') {
+      if (request.action === 'rerender') {
         this.props.joinRoomMessage(this.props.user.id)
       }
     });
-    //
   }
 
->>>>>>> master
   componentWillReceiveProps(nextProps) {
     if (nextProps.mounted) {
       this.setState({
