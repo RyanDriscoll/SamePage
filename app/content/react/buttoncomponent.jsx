@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {TweenLite} from 'gsap';
 import ChatContainer from './ChatContainer.jsx';
 import ReactDOM from 'react-dom';
+import ShadowDOM from 'react-shadow';
 import rootPath from './httpServer';
 const findDOMNode = ReactDOM.findDOMNode;
 
@@ -43,22 +44,24 @@ class ButtonComponent extends React.Component{
   render(){
     // console.log("button state", this.state)
     return (
-      <div className="cleanslate">
-        <ChatContainer mounted={this.state.displayChat} />
-          <button ref={el => {this.button = el;}}
-            // style={this.state.displayChat ?
-            //   this.chatButtonRaktClicked
-            //   :
-            //   this.chatButtonRaktUnclicked}
-            className="chat-button"
-            onClick={this.toggleChatDisplay}>
-            <img
-              className="button-img"
-              src={`${rootPath}messagebubble.png`}
-              ref={el => {this.img = el;}}
-              />
-          </button>
-      </div>
+      <ShadowDOM include={[`${rootPath}style.css`]}>
+        <div className="cleanslate">
+          <ChatContainer store={this.props.store} mounted={this.state.displayChat} />
+            <button ref={el => {this.button = el;}}
+              // style={this.state.displayChat ?
+              //   this.chatButtonRaktClicked
+              //   :
+              //   this.chatButtonRaktUnclicked}
+              className="chat-button"
+              onClick={this.toggleChatDisplay}>
+              <img
+                className="button-img"
+                src={`${rootPath}messagebubble.png`}
+                ref={el => {this.img = el;}}
+                />
+            </button>
+        </div>
+      </ShadowDOM>
     )
   }
 }

@@ -14,7 +14,7 @@ const proxyStore = new Store({portName: 'rakt'})
 
 render(
   <Provider store={proxyStore}>
-    <ButtonComponent />
+    <ButtonComponent store={proxyStore} />
   </Provider>,
   document.getElementById('$$chatButton')
 );
