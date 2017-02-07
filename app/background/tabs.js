@@ -114,7 +114,7 @@ export default function reducer (tabs = initialState, action) {
         newTab = {active: action.tabId, [action.tabId]:
         Object.assign({}, tabs[action.tabId], {[tabs[action.tabId].activeGroup]:
           Object.assign({}, tabs[action.tabId][tabs[action.tabId].activeGroup], {users:
-            [...tabs[action.tabId][tabs[action.tabId].activeGroup].users]
+            [...tabs[action.tabId][tabs[action.tabId].activeGroup].users]})})}
       } else{
         newTab = {active: action.tabId, [action.tabId]: {}}
       }//add active group
