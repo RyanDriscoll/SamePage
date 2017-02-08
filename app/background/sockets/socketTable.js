@@ -2,7 +2,7 @@ import socket from './io';
 import store from '../store';
 const actions = ['add', 'update', 'remove', 'get'];
 import {getUser, getMsg } from '../actionAndDispatch.js';
-import {REMOVE_GROUP} from '../tabs.js';
+import {REMOVE_GROUP, REMOVE_TAB} from '../tabs.js';
 
 export default function(table) {
   for (const action of actions) {
@@ -11,6 +11,7 @@ export default function(table) {
       if (table === 'user' && record.user_id === currentStore.auth.id) {
         return;
       }
+      if(`${action}:${table}` == 'remove:user') console.log('REMOVE USER!', record)
       store.dispatch({
         type: `${action.toUpperCase()}_${table.toUpperCase()}`,
         [table]: record.row || null,
@@ -40,9 +41,14 @@ export function socketListeners(){
     });
   })
 
-  socket.on('leaveGroupFromServer', (groupId) => {
+  socket.on('leaveGroupFromServer', (groupId, tabId) => {
     let currentStore = store.getState();    
-    store.dispatch({type: REMOVE_GROUP, tabId: currentStore.tabs.active, groupId})
+    store.dispatch({type: REMOVE_GROUP, tabId: tabId, groupId})
+  })
+
+  socket.on('closeTabFromServer', (tabId) => {
+    let currentStore = store.getState();    
+    store.dispatch({type: REMOVE_TAB, tabId: tabId})
   })
 
 }

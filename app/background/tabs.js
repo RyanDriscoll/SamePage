@@ -96,6 +96,7 @@ export default function reducer (tabs = initialState, action) {
       return Object.assign({}, tabs, {[action.tabId]: {activeGroup: action.group.id, [action.group.id]: {users: [], messages: []}}
     });
     case REMOVE_TAB:
+    console.log("removing tab reducer, action:", action)
       let newTabs = Object.assign({}, tabs);
       delete newTabs[action.tabId];
       return newTabs;

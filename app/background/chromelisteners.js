@@ -7,8 +7,8 @@ import socket from './sockets/io';
 
 export default function setListeners(){
   chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
-    let currentStore = store.getState()
-    if(currentStore.auth && changeInfo.url){
+    let currStore = store.getState()
+    if(currStore.auth && changeInfo.url){
       let currTab = currStore.tabs[tabId];
       for (let groupId in currTab){
         if(groupId == 'activeGroup') continue;
@@ -20,7 +20,10 @@ export default function setListeners(){
             break;
           }
         }
-        if (deleteGroup) socket.emit('leaveGroup', {group_id: groupId, user_id: currStore.auth.id})
+        if (deleteGroup) {
+          console.log('leave group socket emitting');
+          socket.emit('leaveGroup', {group_id: groupId, user_id: currStore.auth.id});
+        }
       }
       // socket.emit('leaveGroup', {group_id: currentStore.tabs[tabId].activeGroup, user_id: currentStore.auth.id})
     }
@@ -43,16 +46,24 @@ export default function setListeners(){
     let currStore = store.getState()
     let currTab = currStore.tabs[tabId];
     for (let groupId in currTab){
+      console.log("in first for loop close tab, groupId", groupId)
       if(groupId == 'activeGroup') continue;
       let deleteGroup = true;
       for (let tab in currStore.tabs){
+      console.log("in second for loop close tab, tab", tab)        
         if(tab == tabId || tab == 0 || tab == 'active') continue;
         if(currStore.tabs[tab][groupId]) {
           deleteGroup = false;
           break;
         }
       }
-      if (deleteGroup) socket.emit('leaveGroup', {group_id: groupId, user_id: currStore.auth.id})
+      console.log('just before if then emit, deleteGroup', deleteGroup)
+      if (!deleteGroup) {
+        console.log("close tab func")
+        socket.emit('closeTab', {group_id: groupId, user_id: currStore.auth.id, tabId: tabId, removeGroup: false})
+      }else if(deleteGroup){
+        socket.emit('closeTab', {group_id: groupId, user_id: currStore.auth.id, tabId: tabId, removeGroup: true}) 
+      }
     } 
   })
 }
