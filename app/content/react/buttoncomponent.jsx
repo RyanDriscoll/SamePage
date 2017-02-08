@@ -16,8 +16,8 @@ class ButtonComponent extends React.Component{
     this.toggleChatDisplay = this.toggleChatDisplay.bind(this);
     this.animateButtonIn = this.animateButtonIn.bind(this);
     this.animateButtonOut = this.animateButtonOut.bind(this);
-    this.stopScroll = this.stopScroll.bind(this);
-    this.startScroll = this.startScroll.bind(this);
+    this.handleMouseEnter = this.handleMouseEnter.bind(this);
+    this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.joinRoom = this.joinRoom.bind(this);
   }
 
@@ -32,21 +32,22 @@ class ButtonComponent extends React.Component{
   }
 
   animateButtonIn() {
-    TweenLite.to(this.button, 1.5, {y: -50, ease: Elastic.easeOut});
+    TweenLite.to(this.button, 1.5, {y: -155, ease: Elastic.easeOut});
   }
 
   animateButtonOut() {
-    TweenLite.to(this.button, 1.5, {y: 150, ease: Power1.easeOut})
+    TweenLite.to(this.button, 1.5, {y: 155, ease: Power1.easeOut})
   }
 
-  stopScroll() {
-    console.log('in stopScroll')
+  handleMouseEnter() {
     document.body.style.overflow = 'hidden';
+    TweenLite.to(this.mainComponent, 0.2, {opacity: 1});
   }
 
-  startScroll() {
-    console.log('in startScroll')
+  handleMouseLeave() {
     document.body.style.overflow = 'scroll';
+    TweenLite.to(this.mainComponent, 0.2, {opacity: 0.8});
+
   }
 
   joinRoom(userId){chrome.runtime.sendMessage({type: 'joinRoom', user: userId}, null)}
@@ -72,8 +73,9 @@ class ButtonComponent extends React.Component{
   render(){
     return (
       <div
-        onMouseEnter={this.stopScroll}
-        onMouseLeave={this.startScroll}>
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+        ref={el => {this.mainComponent = el;}}>
         <ShadowDOM include={[`${rootPath}style.css`]}>
           <div className="cleanslate">
             <ChatContainer
