@@ -56,13 +56,13 @@ class ButtonComponent extends React.Component{
     if (!this.state.displayChat) {
       TweenLite.to(this.button, 1.5, {height: 50, width: 75, borderRadius: 3, ease: Elastic.easeOut});
       TweenLite.to(this.img, 1.5, {height: 30, width: 30, ease: Elastic.easeOut});
+      this.joinRoom(this.props.user.id)
     } else {
       TweenLite.to(this.button, 1.5, {height: 100, width: 100, borderRadius: '50%', ease: Elastic.easeOut});
       TweenLite.to(this.img, 1.5, {height: 60, width: 60, ease: Elastic.easeOut});
     }
-    chrome.runtime.sendMessage({type: 'joinRoom', user: this.props.user.id}, null)
+    // chrome.runtime.sendMessage({type: 'joinRoom', user: this.props.user.id}, null)
 
-    this.joinRoom(this.props.user.id)
 
     this.setState({displayChat: !this.state.displayChat});
 
