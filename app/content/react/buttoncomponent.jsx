@@ -54,7 +54,7 @@ class ButtonComponent extends React.Component{
   toggleChatDisplay(e){
     e.preventDefault();
     if (!this.state.displayChat) {
-      TweenLite.to(this.button, 1.5, {height: 50, width: 75, borderRadius: 25, ease: Elastic.easeOut});
+      TweenLite.to(this.button, 1.5, {height: 50, width: 75, borderRadius: 3, ease: Elastic.easeOut});
       TweenLite.to(this.img, 1.5, {height: 30, width: 30, ease: Elastic.easeOut});
     } else {
       TweenLite.to(this.button, 1.5, {height: 100, width: 100, borderRadius: '50%', ease: Elastic.easeOut});
@@ -82,7 +82,7 @@ class ButtonComponent extends React.Component{
               joinRoomMessage={this.joinRoom}
               />
               <button ref={el => {this.button = el;}}
-                className="chat-button"
+                className="chat-button shadow"
                 onClick={this.toggleChatDisplay}>
                 <img
                   className="button-img"

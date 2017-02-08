@@ -58,21 +58,10 @@ class ChatContainer extends React.Component{
           this.props.user ?
             <div
               ref={(el) => this.el = el}
-              className="chat-container"
+              className="chat-container shadow"
               style={this.state.style}
               >
-              <div
-                className="title">
-                <img
-                className="button-img"
-                style={{
-                  height: '60px',
-                  width: '60px'
-                }}
-                src={`${rootPath}messagebubble.png`}
-                />
-                SamePage
-              </div>
+
               <UserContainer store={this.props.store} />
               <MessageContainer store={this.props.store} />
               <SendMessageComponent store={this.props.store} />
