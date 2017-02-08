@@ -9,7 +9,20 @@ export default function setListeners(){
   chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
     let currentStore = store.getState()
     if(currentStore.auth && changeInfo.url){
-      socket.emit('leaveGroup', {group_id: currentStore.tabs[tabId].activeGroup, user_id: currentStore.auth.id})
+      let currTab = currStore.tabs[tabId];
+      for (let groupId in currTab){
+        if(groupId == 'activeGroup') continue;
+        let deleteGroup = true;
+        for (let tab in currStore.tabs){
+          if(tab == tabId || tab == 0 || tab == 'active') continue;
+          if(currStore.tabs[tab][groupId]) {
+            deleteGroup = false;
+            break;
+          }
+        }
+        if (deleteGroup) socket.emit('leaveGroup', {group_id: groupId, user_id: currStore.auth.id})
+      }
+      // socket.emit('leaveGroup', {group_id: currentStore.tabs[tabId].activeGroup, user_id: currentStore.auth.id})
     }
   })
 
