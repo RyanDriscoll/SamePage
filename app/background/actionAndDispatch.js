@@ -4,7 +4,6 @@ import axios from 'axios';
 import store from './store.js';
 import socket from './sockets/io';
 
-// tabs action creators
 export const get_user = (users, userIds, tabId, groupId) => {
   return {
     type: GET_USER,
@@ -32,7 +31,6 @@ export const change_active = (tabId) => {
   }
 }
 
-// tabs dispatchers
 export const getUser = (tabId, groupId) => {
 	axios.get(rootPath + 'groups/group_users', {params: {groupId}})
   .then(res => {
@@ -58,24 +56,10 @@ export const getMsg = (tabId, groupId) => {
   .catch(err => console.error(`Getting Messages for group ${groupId} unsuccessful`, err));
 };
 
-// export const removeGroup = (tabId, groupId) => {
-//   // return (dispatch) => {
-//     axios.delete(rootPath + `groups/${groupId}`)
-//     .then(() => store.dispatch(remove_group(tabId, groupId)))
-//     .catch(err => console.error(err.stack))
-//   // }
-// }
 
 export const addGroup = (url, name) => {
 	if (name === undefined) name = url;
-	// axios.post(rootPath + 'groups', {name: name, url: url, userId: currentStore.auth.id})
-	// 	.then(res => res.data)
-		// .then((group) => {
-  
   socket.emit('joinGroup', {name: name, url: url, user_id: store.getState().auth.id});
-
-	// .catch(err => console.error(`Creating group ${name} for ${url} unsuccessful`, err));
-  // })
 };
 
 export const removeUser = (groupId, userId) => {
