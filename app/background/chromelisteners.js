@@ -5,18 +5,11 @@ import { CHANGE_ACTIVE, REMOVE_TAB, REMOVE_GROUP } from './tabs.js';
 import socket from './sockets/io';
 
 
-
-
-
 export default function setListeners(){
   chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
     let currentStore = store.getState()
     if(currentStore.auth && changeInfo.url){
       socket.emit('leaveGroup', {group_id: currentStore.tabs[tabId].activeGroup, user_id: currentStore.auth.id})
-      // socket.on('leaveGroup', (groupId) => {
-      //   store.dispatch({type: REMOVE_GROUP, tabId: currentStore.tabs.active, groupId})
-      // })
-      // addGroup(changeInfo.url, changeInfo.url)
     }
   })
 
@@ -29,16 +22,11 @@ export default function setListeners(){
 
   chrome.runtime.onMessage.addListener(function(request, sender, response){
     if (request.type === 'joinRoom'){
-      // urlsOfTabs[sender.tab.id] = sender.url;
       addGroup(sender.url, request.name)
     }
-    // console.log("onMessage", urlsOfTabs)
   });
 
   chrome.tabs.onRemoved.addListener(function(tabId){
-	  //remove tab from tabs store
-    //then, traverse other tabs to see if that group exists
-    //if it doesnt, leave group.
     let currStore = store.getState()
     let currTab = currStore.tabs[tabId];
     for (let groupId in currTab){
@@ -53,8 +41,5 @@ export default function setListeners(){
       }
       if (deleteGroup) socket.emit('leaveGroup', {group_id: groupId, user_id: currStore.auth.id})
     } 
-    // socket.on('leaveGroup', (groupId) => {
-    //   store.dispatch({type: REMOVE_TAB, tabId: tabId})
-    // })
   })
 }
