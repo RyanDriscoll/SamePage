@@ -4,7 +4,7 @@
 
 .chat-button {
   position: fixed;
-  bottom: -45px;
+  bottom: -150px;
   right: 5px;
   z-index: 9999;
   height: 100px;
@@ -63,7 +63,8 @@
   padding: 5px 15px;
   border-radius: 3px;
   color: white;
-  background-color: darkslategray;
+  background-color: #607d8b
+;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -78,7 +79,6 @@
   padding: 5px 15px;
   border-radius: 3px;
   color: white;
-  background-color: darkblue;
   margin-right: auto;
   margin-left: 3px;
   display: flex;
@@ -135,6 +135,7 @@
 
 .send-chat-form {
   width: auto;
+  height: 100%;
   box-sizing: border-box;
   display: block;
   margin: 0px 5px 5px 5px;
@@ -154,7 +155,7 @@
   height: 50px;
   width: 75px;
   border-radius: 3px;
-  margin-top: 6px;
+  margin-top: 10px;
   outline: none;
 }
 
