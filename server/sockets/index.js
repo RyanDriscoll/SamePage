@@ -1,7 +1,7 @@
 const db = require('APP/db')
 const Group = db.model('groups')
 const User = db.model('users')
-// console.dir(db)
+const Message = db.model('messages')
 const GroupUser = db.model('group_user')
 
 let sockets = {};
@@ -16,6 +16,12 @@ module.exports = {
       //sockets[socket.id] = socket
       // socket.join('whatever')
 
+    socket.on('addMsg', (body) => {
+      Message.create(body)
+      .then(message => {
+        sockets.io.to(message.group_id).emit("add:msg", {row: message, groupId: message.group_id});
+      })
+    })
       // .post('/', (req, res, next) => {
         // Group.findOrCreate({where: {url: req.body.url, name: req.body.name}})
         // .then(([group, created]) => {

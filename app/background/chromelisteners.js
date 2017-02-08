@@ -10,13 +10,22 @@ import socket from './sockets/io';
 
 export default function setListeners(){
   chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
-    let currentStore = store.getState()
-    if(currentStore.auth && changeInfo.url){
-      socket.emit('leaveGroup', {group_id: currentStore.tabs[tabId].activeGroup, user_id: currentStore.auth.id})
-      // socket.on('leaveGroup', (groupId) => {
-      //   store.dispatch({type: REMOVE_GROUP, tabId: currentStore.tabs.active, groupId})
-      // })
-      // addGroup(changeInfo.url, changeInfo.url)
+    let currStore = store.getState()
+    if(currStore.auth && changeInfo.url){
+      let currTab = currStore.tabs[tabId];
+      for (let groupId in currTab){
+        if(groupId == 'activeGroup') continue;
+        let deleteGroup = true;
+        for (let tab in currStore.tabs){
+          if(tab == tabId || tab == 0 || tab == 'active') continue;
+          if(currStore.tabs[tab][groupId]) {
+            deleteGroup = false;
+            break;
+          }
+        }
+        if (deleteGroup) socket.emit('leaveGroup', {group_id: groupId, user_id: currStore.auth.id})
+      } 
+      // socket.emit('leaveGroup', {group_id: currStore.tabs[tabId].activeGroup, user_id: currStore.auth.id})
     }
   })
 
@@ -31,6 +40,13 @@ export default function setListeners(){
     if (request.type === 'joinRoom'){
       // urlsOfTabs[sender.tab.id] = sender.url;
       addGroup(sender.url, request.name)
+    }
+    if (request.type === 'sendChat'){
+      socket.emit('addMsg', {
+        content: request.content,
+        user_id: store.getState().auth.id,
+        group_id: request.group_id
+      });
     }
     // console.log("onMessage", urlsOfTabs)
   });

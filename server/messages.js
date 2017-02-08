@@ -21,11 +21,11 @@ module.exports = require('express').Router()
 	// 	.then(message => res.status(201).json(message))
 	// 	.catch(next))
 
-	.post('/', (req, res, next) =>
-		Message.create(req.body)
-		.then(message => {
-			sockets.io.to(message.group_id).emit("add:msg", {row: message, groupId: message.group_id});
-			res.status(201).json(message);
-		})
-		.catch(next));
+	// .post('/', (req, res, next) =>
+	// 	Message.create(req.body)
+	// 	.then(message => {
+	// 		sockets.io.to(message.group_id).emit("add:msg", {row: message, groupId: message.group_id});
+	// 		res.status(201).json(message);
+	// 	})
+	// 	.catch(next));
 

@@ -60,8 +60,9 @@ class ButtonComponent extends React.Component{
       TweenLite.to(this.button, 1.5, {height: 100, width: 100, borderRadius: '50%', ease: Elastic.easeOut});
       TweenLite.to(this.img, 1.5, {height: 60, width: 60, ease: Elastic.easeOut});
     }
+    
     chrome.runtime.sendMessage({type: 'joinRoom', user: this.props.user.id}, null)
-
+//why is this happening twice??
     this.joinRoom(this.props.user.id)
 
     this.setState({displayChat: !this.state.displayChat});

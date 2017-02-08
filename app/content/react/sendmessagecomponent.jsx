@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {TweenLite} from 'gsap';
 import axios from 'axios';
 import rootPath from '../../background/httpServer.jsx';
+import socket from '../../background/sockets/io';
 
 
 class SendMessageComponent extends React.Component{
@@ -45,15 +46,22 @@ class SendMessageComponent extends React.Component{
     this.textarea.focus();
   }
 
+
   sendChat(e){
     e.preventDefault();
     if(this.state.currMessage.length){
       const groupId = this.props.tabs[this.props.tabs.active].activeGroup
-      axios.post(rootPath + 'messages', {
+      chrome.runtime.sendMessage({
+        type: 'sendChat',
         content: this.state.currMessage,
-        user_id: this.props.user.id,
         group_id: groupId
-      });
+      }, null)
+
+      // axios.post(rootPath + 'messages', {
+      //   content: this.state.currMessage,
+      //   user_id: this.props.user.id,
+      //   group_id: groupId
+      // });
       this.setState({currMessage: ''});
     }
   }
