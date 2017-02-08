@@ -25,14 +25,15 @@ export default function setListeners(){
       console.log('just before if then emit, deleteGroup', deleteGroup)        
         if (deleteGroup) {
           console.log('leave group socket emitting');
-          socket.emit('leaveGroup', {group_id: groupId, user_id: currStore.auth.id});
+          socket.emit('leaveGroup', {group_id: groupId, user_id: currStore.auth.id, tabId: tabId});
+        }else{
+          store.dispatch({
+            type: REMOVE_GROUP,
+            tabId: tabId,
+            groupId: currStore.tabs[tabId].activeGroup
+          })
         }
       }
-        store.dispatch({
-          type: REMOVE_GROUP,
-          tabId: tabId,
-          groupId: currStore.tabs[tabId].activeGroup
-        })
       // socket.emit('leaveGroup', {group_id: currentStore.tabs[tabId].activeGroup, user_id: currentStore.auth.id})
     }
   })
