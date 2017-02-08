@@ -173,6 +173,13 @@
   z-index: 99999;
   background-color: white;
   width: 240px;
+  cursor: pointer;
+}
+
+.user-container-collapsed {
+  max-height: 0px;
+
+  overflow: scroll;
 }
 
 .title {
@@ -197,12 +204,21 @@
   justify-content: center;
 }
 
+.user-component {
+  color: white;
+  text-align: center;
+  height: 30px;
+  padding: 5px 15px;
+  box-sizing: border-box;
+  margin: 5px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
 .user-icon-container {
   height: 35px;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
 }
 
 .user-icon-in-user-container{

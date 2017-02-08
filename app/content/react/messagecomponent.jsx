@@ -42,7 +42,7 @@ class MessageComponent extends React.Component{
     for (let i = 0; i < username.length; i++) {
       total += username.charCodeAt(i);
     }
-    return total % 14;
+    return total % this.state.colors.length;
   }
 
   render(){

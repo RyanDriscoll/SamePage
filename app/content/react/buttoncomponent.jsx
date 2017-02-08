@@ -41,12 +41,12 @@ class ButtonComponent extends React.Component{
 
   handleMouseEnter() {
     document.body.style.overflow = 'hidden';
-    TweenLite.to(this.mainComponent, 0.2, {opacity: 1});
+    // TweenLite.to(this.mainComponent, 0.2, {opacity: 1});
   }
 
   handleMouseLeave() {
     document.body.style.overflow = 'scroll';
-    TweenLite.to(this.mainComponent, 0.2, {opacity: 0.8});
+    // TweenLite.to(this.mainComponent, 0.2, {opacity: 0.8});
 
   }
 
