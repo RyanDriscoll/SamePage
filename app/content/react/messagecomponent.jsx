@@ -36,13 +36,13 @@ class MessageComponent extends React.Component{
         >
         {
           this.props.messageOwner ?
-          <div className="message-component-self">
+          <div className="message-component-self shadow">
 
             <div className="message-component-content-self" >{this.props.content}</div>
             <div className="message-component-date" >{this.time}</div>
           </div>
           :
-          <div className="message-component-others">
+          <div className="message-component-others shadow">
             <div className="message-component-username" >{this.props.sender}</div>
             <div className="message-component-content-others" >{this.props.content}</div>
             <div className="message-component-date" >{this.time}</div>

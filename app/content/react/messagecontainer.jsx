@@ -9,26 +9,27 @@ import MessageComponent from './messagecomponent.jsx';
 class MessageContainer extends React.Component{
   constructor(props){
     super(props);
-
   }
 
   componentDidMount() {
-    var node = ReactDOM.findDOMNode(this);
-    node.scrollTop = node.scrollHeight;
+    this.messageContainer.scrollTop = this.messageContainer.scrollHeight;
   }
 
   componentDidUpdate() {
 
     // conditionally set scroll height if new message comes in
-    var node = ReactDOM.findDOMNode(this);
-    node.scrollTop = node.scrollHeight;
+    this.messageContainer.scrollTop = this.messageContainer.scrollHeight;
+  }
+
+  //component will receive props?
+  componentWillReceiveProps() {
+    this.messageContainer.scrollTop = this.messageContainer.scrollHeight;
   }
 
 
   shouldComponentUpdate(nextProps) {
     const propsMessagesLength = Object.keys(this.props.messages).length;
     const nextPropsMessagesLength = Object.keys(nextProps.messages).length;
-    console.log('in shouldComponentUpdate', this.props, nextProps)
 
     // if (this.props.tabs.messages.length !== nextProps.tabs.messages.length && Object.keys(this.props.messages).length === Object.keys(nextProps.messages).length) {
     //   console.log('in shouldComponentUpdate', this.props, nextProps)
@@ -59,7 +60,9 @@ class MessageContainer extends React.Component{
     }
     const users = this.props.users;
     return (
-      <div className="message-container">
+      <div
+        className="message-container"
+        ref={el => {this.messageContainer = el;}}>
         {
           group && messageIds.map(id => {
             return (

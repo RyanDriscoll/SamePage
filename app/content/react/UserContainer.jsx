@@ -30,18 +30,32 @@ class UserContainer extends React.Component{
       userIds = group.users;
     }
     return (
-      <div className="user-container">
-        <div className="user-icon-container" onClick={this.handleUserContainerClick}>
+      <div className="user-container shadow">
+        <div
+          className="title">
           <img
-            src={`${rootPath}user-icon.png`}
-            className="user-icon-in-user-container" />
-          <div className="number-of-users-icon">
-            {
-              group ?
-                group.users.length
-                :
-                '1'
-            }
+          className="button-img"
+          style={{
+            height: '40px',
+            width: '40px'
+          }}
+          src={`${rootPath}messagebubble.png`}
+          />
+          SamePage
+          <div
+            className="user-icon-container"
+            onClick={this.handleUserContainerClick}>
+            <img
+              src={`${rootPath}user-icon.png`}
+              className="user-icon-in-user-container" />
+            <div className="number-of-users-icon">
+              {
+                group ?
+                  group.users.length
+                  :
+                  '1'
+              }
+            </div>
           </div>
         </div>
         {

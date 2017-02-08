@@ -78,7 +78,7 @@ class SendMessageComponent extends React.Component{
           <textarea
               ref={el => {this.textarea = el;}}
               rows="2"
-              className="send-chat-textarea"
+              className="send-chat-textarea shadow"
               type="textarea"
               name="msg"
               placeholder="Send Message"
@@ -86,9 +86,12 @@ class SendMessageComponent extends React.Component{
               onChange={this.handleChatChange}
               form="send-chat"
               onKeyDown={this.handleEnter}
-              // style={this.chatInput}
               />
-          <button type="submit" className="btn-success">Send</button>
+          <button
+            type="submit"
+            className="btn-success shadow">
+            Send
+          </button>
         </form>
       </div>
     )
