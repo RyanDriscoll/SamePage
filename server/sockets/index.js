@@ -43,16 +43,32 @@ module.exports = {
       })
 
 
-      socket.on('leaveGroup', ({group_id, user_id}) => {
+      socket.on('leaveGroup', ({group_id, user_id, tabId}) => {
         GroupUser.destroy({where: {group_id, user_id}})
 		    .then(result => {
           socket.broadcast.to(group_id).emit('remove:user', {groupId: group_id, user_id})
           socket.leave(group_id, err => {
             if (err) { throw err }
-            socket.emit('leaveGroupFromServer', group_id);
+            socket.emit('leaveGroupFromServer', group_id, tabId);
           })
         })
         .catch(err => console.log(err))
+      })
+
+      socket.on('closeTab', ({group_id, user_id, tabId, removeGroup}) => {
+        if(!removeGroup){
+          socket.emit('closeTabFromServer', tabId);       
+        }else {
+          GroupUser.destroy({where: {group_id, user_id}})
+          .then(result => {
+            socket.broadcast.to(group_id).emit('remove:user', {groupId: group_id, user_id})
+            socket.leave(group_id, err => {
+              if (err) { throw err }
+              socket.emit('closeTabFromServer', group_id, tabId);
+            })
+          })
+          .catch(err => console.log(err))
+        }
       })
 
       // socket.on('joinGroup', ({url, name, user_id}) => {

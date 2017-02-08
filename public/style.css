@@ -95,7 +95,7 @@
 
 .message-component-content-self {
   display: block;
-  word-break: break-all;
+  word-wrap: normal;
   margin-left: auto;
   padding: 5px 0;
   text-align: right;
@@ -103,7 +103,7 @@
 
 .message-component-content-others {
   display: block;
-  word-break: break-all;
+  word-wrap: normal;
   margin-right: auto;
   padding-bottom: 5px;
 }
