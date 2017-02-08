@@ -27,19 +27,19 @@ class MessageContainer extends React.Component{
   }
 
 
-  shouldComponentUpdate(nextProps) {
-    const propsMessagesLength = Object.keys(this.props.messages).length;
-    const nextPropsMessagesLength = Object.keys(nextProps.messages).length;
+  // shouldComponentUpdate(nextProps) {
+  //   const propsMessagesLength = Object.keys(this.props.messages).length;
+  //   const nextPropsMessagesLength = Object.keys(nextProps.messages).length;
 
-    // if (this.props.tabs.messages.length !== nextProps.tabs.messages.length && Object.keys(this.props.messages).length === Object.keys(nextProps.messages).length) {
-    //   console.log('in shouldComponentUpdate', this.props, nextProps)
-    //   return false;
-    // }
-    if (propsMessagesLength === nextPropsMessagesLength) {
-      return false;
-    }
-    return true;
-  }
+  //   // if (this.props.tabs.messages.length !== nextProps.tabs.messages.length && Object.keys(this.props.messages).length === Object.keys(nextProps.messages).length) {
+  //   //   console.log('in shouldComponentUpdate', this.props, nextProps)
+  //   //   return false;
+  //   // }
+  //   if (propsMessagesLength === nextPropsMessagesLength) {
+  //     return false;
+  //   }
+  //   return true;
+  // }
 
 
 

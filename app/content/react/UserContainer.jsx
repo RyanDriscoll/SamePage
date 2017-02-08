@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import User from './User.jsx';
 import rootPath from './httpServer.js';
+import {TweenLite} from 'gsap';
+
 
 class UserContainer extends React.Component{
   constructor(props){
@@ -15,6 +17,11 @@ class UserContainer extends React.Component{
 
   handleUserContainerClick(e){
     e.preventDefault();
+    if (this.state.collapsed) {
+      TweenLite.to(this.collapsedContainer, 0.3, {maxHeight: 215, ease: Power1.easeOut});
+    } else {
+      TweenLite.to(this.collapsedContainer, 0.3, {maxHeight: 0, ease: Power1.easeOut});
+    }
     this.setState({collapsed: !this.state.collapsed})
   }
 
@@ -30,7 +37,9 @@ class UserContainer extends React.Component{
       userIds = group.users;
     }
     return (
-      <div className="user-container shadow">
+      <div
+        className="user-container shadow"
+        onClick={this.handleUserContainerClick}>
         <div
           className="title">
           <img
@@ -43,8 +52,7 @@ class UserContainer extends React.Component{
           />
           SamePage
           <div
-            className="user-icon-container"
-            onClick={this.handleUserContainerClick}>
+            className="user-icon-container">
             <img
               src={`${rootPath}user-icon.png`}
               className="user-icon-in-user-container" />
@@ -59,11 +67,13 @@ class UserContainer extends React.Component{
           </div>
         </div>
         {
-          <div ref={el => {this.collapsedContainer = el;}}>
+          <div
+            className="user-container-collapsed"
+            ref={el => {this.collapsedContainer = el;}}>
             {
-              this.state.collapsed ?
-                null
-              :
+            //   this.state.collapsed ?
+            //     null
+            //   :
                 group && this.props.users && userIds.map(id => {
                   return (
                     <div key={id} >
