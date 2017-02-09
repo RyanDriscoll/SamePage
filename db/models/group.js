@@ -8,6 +8,10 @@ const groupSchema = {
       isUrl: true,
     },
     allowNull: false
+  },
+  circle_id: {
+    type: Sequelize.INTEGER,
+    allowNull: true
   }
 };
 
