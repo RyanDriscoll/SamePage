@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize')
-const db = require('APP/db')
+const Sequelize = require('sequelize');
+const db = require('APP/db');
 
 const groupSchema = {
   url: {
@@ -9,16 +9,15 @@ const groupSchema = {
     },
     allowNull: false
   },
-  name: {
-  	type: Sequelize.STRING
+  circle_id: {
+    type: Sequelize.INTEGER,
+    allowNull: true
   }
-}
+};
 
 const groupConfig = {
   tableName: 'groups'
-}
-
-
+};
 
 const Group = db.define('groups', groupSchema, groupConfig);
 

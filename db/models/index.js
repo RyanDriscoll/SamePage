@@ -7,17 +7,19 @@
 const User = require('./user');
 const Group = require('./group');
 const Message = require('./message');
-const OAuth = require('./oauth')
-const GroupUser = require('./groupuser')
+const OAuth = require('./oauth');
+const GroupUser = require('./groupuser');
+const Circle = require('./circle');
+const CircleUser = require('./circleuser');
 
 User.belongsToMany(Group, {through: GroupUser});
 Group.belongsToMany(User, {through: GroupUser});
 
-GroupUser.belongsTo(User)
-User.hasMany(GroupUser)
+GroupUser.belongsTo(User);
+User.hasMany(GroupUser);
 
-GroupUser.belongsTo(Group)
-Group.hasMany(GroupUser)
+GroupUser.belongsTo(Group);
+Group.hasMany(GroupUser);
 
 Group.hasMany(Message);
 Message.belongsTo(Group);
@@ -25,10 +27,13 @@ Message.belongsTo(Group);
 User.hasMany(Message);
 Message.belongsTo(User);
 
-OAuth.belongsTo(User)
-User.hasOne(OAuth)
+OAuth.belongsTo(User);
+User.hasOne(OAuth);
 
+Circle.hasOne(Group);
+Group.belongsTo(Circle);
 
+User.belongsToMany(Circle, {through: CircleUser});
+Circle.belongsToMany(User, {through: CircleUser});
 
-
-module.exports = {User, Group, Message, GroupUser}
+module.exports = {User, Group, Message, GroupUser, Circle};
