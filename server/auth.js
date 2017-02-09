@@ -97,7 +97,6 @@ passport.use(new (require('passport-local').Strategy)({
   usernameField: 'email'
 },
   (email, password, done) => {
-    console.log('in passport . use')
     debug('will authenticate user(email: "%s")', email)
     User.findOne({where: {email}})
       .then(user => {
@@ -121,8 +120,7 @@ passport.use(new (require('passport-local').Strategy)({
 
 
 auth.get('/whoami', (req, res) => {
-   // console.log('@@@@@@@@@',req.user);
-  return res.send(req.user)
+  return res.status(200).send(req.user)
 });
 
 auth.post('/login',

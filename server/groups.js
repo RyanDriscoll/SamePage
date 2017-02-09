@@ -20,7 +20,7 @@ module.exports = require('express').Router()
 			where: {name: req.query.name, url: req.query.url},
 		})
 		.then(group => res.json(group))
-		.catch(next))
+		.catch(err => console.error(err, err.stack)))
 
 	.get('/group_users', (req, res, next) => {
 		GroupUser.findAll({where: {group_id: req.query.groupId}, include: [User]})
@@ -43,11 +43,11 @@ module.exports = require('express').Router()
 	.post('/', (req, res, next) => {
 		Group.findOrCreate({where: {url: req.body.url, name: req.body.name}})
 		.then(([group, created]) => {
-			GroupUser.create({user_id: req.body.userId, group_id: group.id})
+			GroupUser.findOrCreate({where: {user_id: req.body.userId, group_id: group.id}})
 			//socket emit
 			res.status(201).json(group);
 		})
-		.catch(next);
+		.catch(err => console.error(err, err.stack));
 	})
 
 

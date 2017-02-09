@@ -4,18 +4,17 @@ const db = require('APP/db')
 const Message = require('./message')
 const {expect} = require('chai')
 
-describe('User', () => {
+describe('Message', () => {
   before('wait for the db', () => db.didSync)
 
-  describe('authenticate(plaintext: String) ~> Boolean', () => {
-    it('resolves true if the password matches', () =>
-      User.create({ password: 'ok' })
-        .then(user => user.authenticate('ok'))
-        .then(result => expect(result).to.be.true))
+  describe('Message model tests', () => {
+    it('creates a message if the message has content', () =>
+      Message.create({ content: 'ok' })
+        .then(result => expect(result.content).to.equal('ok')));
 
-    it("resolves false if the password doesn't match", () =>
-      User.create({ password: 'ok' })
-        .then(user => user.authenticate('not ok'))
-        .then(result => expect(result).to.be.false))
-  })
-})
+    it("returns and error if the content doesn't exist", () =>
+      Message.create({ content: null })
+        .then(result => console.log(result))
+        .catch(err => expect(err).to.exist));
+  });
+});

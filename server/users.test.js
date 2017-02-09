@@ -5,18 +5,29 @@ const User = require('APP/db/models/user')
 const app = require('./start')
 
 describe('/api/users', () => {
+  before('create a user', () =>
+    db.didSync
+      .then(() => {
+        User.destroy({where: {email: 'beth@secrets.org'}});
+      })
+      .then(() => {
+        User.destroy({where: {email: 'eve@interloper.com'}});
+      })
+      .catch(err => console.error('line 16 users.test.js', err, err.stack))
+  )
   describe('when not logged in', () => {
     it('GET /:id fails 401 (Unauthorized)', () =>
       request(app)
         .get(`/api/users/1`)
         .expect(401)
-    )    
+    )
 
     it('POST creates a user', () =>
       request(app)
         .post('/api/users')
         .send({
           email: 'beth@secrets.org',
+          username: 'beth',
           password: '12345'
         })
         .expect(201)
@@ -32,7 +43,7 @@ describe('/api/users', () => {
         .redirects(1)
         .then(res => expect(res.body).to.contain({
           email: 'eve@interloper.com'
-        }))        
+        }))
     )
   })
 })
