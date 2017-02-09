@@ -4,18 +4,25 @@ const db = require('APP/db')
 const Group = require('./group')
 const {expect} = require('chai')
 
-describe('User', () => {
+describe('Group', () => {
   before('wait for the db', () => db.didSync)
 
-  describe('authenticate(plaintext: String) ~> Boolean', () => {
-    it('resolves true if the password matches', () =>
-      User.create({ password: 'ok' })
-        .then(user => user.authenticate('ok'))
-        .then(result => expect(result).to.be.true))
+  describe('Group model tests', () => {
+    it('checks if the url matches', () =>
+      Group.create({ url: 'www.url.com' })
+        .then(group => expect(group.url).to.equal('www.url.com')));
 
-    it("resolves false if the password doesn't match", () =>
-      User.create({ password: 'ok' })
-        .then(user => user.authenticate('not ok'))
-        .then(result => expect(result).to.be.false))
-  })
-})
+    it("checks if the url doesn't match", () =>
+      Group.create({ url: 'www.url.com' })
+        .then(group => expect(group.url).to.not.equal('not www.url.com')));
+
+    it("checks if the url is valid", () =>
+      Group.create({ url: 'not a url' })
+        .then(group => console.log(group.url))
+        .catch(err => expect(err).to.exist));
+    it("checks if the url exists", () =>
+      Group.create({ url: '' })
+        .then(group => console.log(group.url))
+        .catch(err => expect(err).to.exist));
+  });
+});

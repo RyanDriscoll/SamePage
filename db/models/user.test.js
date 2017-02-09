@@ -7,7 +7,7 @@ const {expect} = require('chai')
 describe('User', () => {
   before('wait for the db', () => db.didSync)
 
-  describe('authenticate(plaintext: String) ~> Boolean', () => {
+  describe('User model tests', () => {
     it('resolves true if the password matches', () =>
       User.create({ password: 'ok' })
         .then(user => user.authenticate('ok'))

@@ -11,7 +11,7 @@ module.exports = require('express').Router()
 	.get('/', (req, res, next) => {
 		Message.findAll({where: {group_id: req.query.groupId}, include:[{model: User, attributes: ['username', 'id']}]})
 		.then(messages => {
-			res.status(201).json(messages)
+			res.status(200).json(messages)
 		})
 		.catch(next);
 	})
@@ -21,11 +21,12 @@ module.exports = require('express').Router()
 	// 	.then(message => res.status(201).json(message))
 	// 	.catch(next))
 
-	.post('/', (req, res, next) =>
+	.post('/', (req, res, next) => {
+		console.log('**********', req.body)
 		Message.create(req.body)
 		.then(message => {
 			sockets.io.to(message.group_id).emit("add:msg", {row: message, groupId: message.group_id});
 			res.status(201).json(message);
 		})
-		.catch(next));
-
+		.catch(next);
+	});
