@@ -11,18 +11,27 @@ export default function setListeners(){
     if(currStore.auth && changeInfo.url){
       let currTab = currStore.tabs[tabId];
       for (let groupId in currTab){
+      console.log("in first for loop close tab, groupId", groupId)        
         if(groupId == 'activeGroup') continue;
         let deleteGroup = true;
         for (let tab in currStore.tabs){
+      console.log("in second for loop close tab, tab", tab)                  
           if(tab == tabId || tab == 0 || tab == 'active') continue;
           if(currStore.tabs[tab][groupId]) {
             deleteGroup = false;
             break;
           }
         }
+      console.log('just before if then emit, deleteGroup', deleteGroup)        
         if (deleteGroup) {
           console.log('leave group socket emitting');
-          socket.emit('leaveGroup', {group_id: groupId, user_id: currStore.auth.id});
+          socket.emit('leaveGroup', {group_id: groupId, user_id: currStore.auth.id, tabId: tabId});
+        }else{
+          store.dispatch({
+            type: REMOVE_GROUP,
+            tabId: tabId,
+            groupId: currStore.tabs[tabId].activeGroup
+          })
         }
       }
       // socket.emit('leaveGroup', {group_id: currentStore.tabs[tabId].activeGroup, user_id: currentStore.auth.id})
@@ -46,20 +55,16 @@ export default function setListeners(){
     let currStore = store.getState()
     let currTab = currStore.tabs[tabId];
     for (let groupId in currTab){
-      console.log("in first for loop close tab, groupId", groupId)
       if(groupId == 'activeGroup') continue;
       let deleteGroup = true;
       for (let tab in currStore.tabs){
-      console.log("in second for loop close tab, tab", tab)        
         if(tab == tabId || tab == 0 || tab == 'active') continue;
         if(currStore.tabs[tab][groupId]) {
           deleteGroup = false;
           break;
         }
       }
-      console.log('just before if then emit, deleteGroup', deleteGroup)
       if (!deleteGroup) {
-        console.log("close tab func")
         socket.emit('closeTab', {group_id: groupId, user_id: currStore.auth.id, tabId: tabId, removeGroup: false})
       }else if(deleteGroup){
         socket.emit('closeTab', {group_id: groupId, user_id: currStore.auth.id, tabId: tabId, removeGroup: true}) 
