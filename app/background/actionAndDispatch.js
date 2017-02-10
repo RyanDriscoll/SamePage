@@ -57,9 +57,9 @@ export const getMsg = (tabId, groupId) => {
 };
 
 
-export const addGroup = (url, name) => {
-	if (name === undefined) name = url;
-  socket.emit('joinGroup', {name: name, url: url, user_id: store.getState().auth.id});
+export const addGroup = (url) => {
+  let circleIds = [null, ...Object.keys(store.getState().circles)]
+  socket.emit('joinGroup', {url: url, user_id: store.getState().auth.id, circleIds:circleIds});
 };
 
 export const removeUser = (groupId, userId) => {

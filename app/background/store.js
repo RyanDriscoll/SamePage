@@ -2,6 +2,7 @@ import { combineReducers, createStore, applyMiddleware } from 'redux';
 import groups from './groups';
 import users from './users';
 import messages from './messages';
+import circles from './circles';
 import auth from './auth.jsx';
 import tabs from './tabs.js';
 import socketFuncs from './sockets/index.js';
@@ -11,6 +12,6 @@ import { alias } from 'react-chrome-redux';
 import aliases from './aliases';
 
 
-const rootReducer = combineReducers({ groups, users, tabs, messages, auth });
+const rootReducer = combineReducers({ groups, users, tabs, messages, auth, circles });
 
 export default createStore(rootReducer, applyMiddleware(alias(aliases), thunkMiddleware, createLogger({collapsed: true})));

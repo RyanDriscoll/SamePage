@@ -1,7 +1,5 @@
 /* -----------------    CONSTANTS     ------------------ */
 
-// const ADD_GROUP = 'ADD_GROUP';
-// const REMOVE_GROUP = 'REMOVE_GROUP';
 export const ADD_USER = 'ADD_USER';
 export const GET_USER = 'GET_USER';
 export const REMOVE_USER = 'REMOVE_USER';

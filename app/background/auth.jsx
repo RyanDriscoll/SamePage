@@ -1,8 +1,7 @@
 import axios from 'axios'
 import rootPath from './httpServer.jsx';
-import {fetchGroupMessages} from './messages'
+import {getCircle} from './circles'
 
-import {fetchGroupUsers} from './users'
 
 /* -----------------    ACTIONS     ------------------ */
 const AUTHENTICATED = 'AUTHENTICATED'
@@ -31,9 +30,8 @@ export const whoami = () => {
     return axios.get(rootPath + 'auth/whoami')
       .then(response => {
         const user = response.data;
-        // dispatch(fetchGroupMessages(1))
-        // dispatch(fetchGroupUsers(1))
         dispatch(authenticated(user))
+        dispatch(getCircle(user.id))
       })
       .catch(failed => dispatch(authenticated(null)))
   }
