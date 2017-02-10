@@ -1,6 +1,6 @@
 import axios from 'axios'
 import rootPath from './httpServer.jsx'
-
+import store from './store'
 
 /* -------------------- ACTIONS --------------------*/
 
@@ -33,10 +33,10 @@ export default function reducer(circles = initialState, action) {
 /* ------------------- DISPATCHERS -----------------------------------*/
 
 export const getCircle = user_id => {
-	axios.get(rootPath + 'circles', user_id)
+	axios.get(rootPath + 'circles', {user_id})
 	.then (res => res.data)
 	.then(circles => {
-		dispatch({type: GET_CIRCLE, circles: circles})
+		store.dispatch({type: GET_CIRCLE, circles: circles})
 	})
 	.catch(err => console.error(`Error fetching circles for user ${user_id} unsuccessful`, err))
 }
