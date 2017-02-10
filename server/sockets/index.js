@@ -126,6 +126,7 @@ module.exports = {
       socket.on('disconnect', () => {
         console.log("disconnected___", socket.id)
       })
+    })
     }) 
   },
   get: function() { return sockets; }

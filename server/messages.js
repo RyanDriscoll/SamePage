@@ -15,9 +15,9 @@ module.exports = require('express').Router()
 		}})
 		.then(messages => {
 			res.status(201).json(messages)
-		.catch(next);
+		})
+		.catch(next)
 	})
-
 	// .get('/user/:id', (req, res, next) =>  //need both users
 	// 	Message.findAll({where: req.qurey})
 	// 	.then(message => res.status(201).json(message))
