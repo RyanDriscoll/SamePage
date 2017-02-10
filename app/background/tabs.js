@@ -43,8 +43,8 @@ export default function reducer (tabs = initialState, action) {
       // }
     }
     case SWITCH_ACTIVE_GROUP:{
-      let newActiveGroup = Object.assign({}, tabs, tabs[tabId]);
-      newActiveGroup.activeGroup = groupId;
+      let newActiveGroup = Object.assign({}, tabs, tabs[tabs.active]);
+      newActiveGroup.activeGroup = action.groupId;
       return newActiveGroup;
     }
     case REMOVE_USER: {

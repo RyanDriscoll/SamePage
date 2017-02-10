@@ -1,7 +1,7 @@
 import store from './store.js';
 import { addGroup, change_active, getMsg, getUser, removeUser } from './actionAndDispatch.js';
 import { ADD_GROUP } from './groups.js';
-import { CHANGE_ACTIVE, REMOVE_TAB, REMOVE_GROUP } from './tabs.js';
+import { CHANGE_ACTIVE, REMOVE_TAB, REMOVE_GROUP, SWITCH_ACTIVE_GROUP } from './tabs.js';
 import socket from './sockets/io';
 
 
@@ -43,6 +43,11 @@ export default function setListeners(){
   chrome.runtime.onMessage.addListener(function(request, sender, response){
     if (request.type === 'joinRoom'){
       addGroup(sender.url)
+    }else if(request.type === 'changeActiveGroup'){
+      store.dispatch({
+        type: SWITCH_ACTIVE_GROUP,
+        groupId: request.groupId
+      })
     }
   });
 
