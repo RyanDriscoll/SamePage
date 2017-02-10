@@ -44,10 +44,10 @@ export const getUser = (tabId, groupId) => {
   .catch(err => console.error(`Getting users for group ${groupId} unsuccessful`, err));
 };
 
-export const getMsg = (tabId, groupId) => {
-	axios.get(rootPath + 'messages', {params: {groupId}})
+export const getMsg = (tabId, groups) => {
+	axios.get(rootPath + 'messages', {params: groups})
   .then(res => res.data)
-  .then(foundMessages => {
+  .then(foundMessages => { //get back array of circle's msgs
     const messageIds = foundMessages.map(message => message.id);
     const users = foundMessages.map(message => message.user);
     store.dispatch(get_user(users, null, null, null))
