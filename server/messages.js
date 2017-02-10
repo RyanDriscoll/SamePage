@@ -8,17 +8,13 @@ const sockets = require('APP/server/sockets').get();
 
 module.exports = require('express').Router()
 
-	.get('/url/groupIds/:groupIds', (req, res, next) => {
+	.get('/', (req, res, next) => {
 		Message.findAll({where: {
-			group_id: {$in: req.body}, 
+			group_id: {$in: req.query.groups}, 
 			include:[{model: User, attributes: ['username', 'id']}]
 		}})
 		.then(messages => {
-			messages.reduce((obj, msg) => 
-				if(obj = Object.assign(obj, {msg.group_id: msg})
-			, {})
 			res.status(201).json(messages)
-		})
 		.catch(next);
 	})
 

@@ -31,8 +31,8 @@ export function socketListeners(){
       group: groups, //
       tabId: currentStore.tabs.active
     });
-    getUser(currentStore.tabs.active, groups) //why not include users w groups instead?
     getMsg(currentStore.tabs.active, groups.map(group => group.id));
+    getUser(currentStore.tabs.active, groups.map(group => group.id)) //why not include users w groups instead?
     // store.dispatch({ //????
     //   type: 'ADD_USER',
     //   groupId: group.id,

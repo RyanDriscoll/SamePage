@@ -31,27 +31,33 @@ export const change_active = (tabId) => {
   }
 }
 
-export const getUser = (tabId, groupId) => {
-	axios.get(rootPath + 'groups/group_users', {params: {groupId}})
-  .then(res => {
-    return res.data;
-  })
+export const getUser = (tabId, groups) => {
+	axios.get(rootPath + 'groups/group_users', {params: {groups}})
+  .then(res => res.data)
   .then(foundUsers => {
     const users = foundUsers.map(groupUser => groupUser.user);
     const userIds = users.map(user => user.id);
-    store.dispatch(get_user(users, userIds, tabId, groupId));
+    store.dispatch(get_user(users, userIds, tabId, groups));
   })
   .catch(err => console.error(`Getting users for group ${groupId} unsuccessful`, err));
 };
 
+
 export const getMsg = (tabId, groups) => {
-	axios.get(rootPath + 'messages', {params: groups})
+	axios.get(rootPath + 'messages', {params: {groups}})
   .then(res => res.data)
-  .then(foundMessages => { //get back array of circle's msgs
-    const messageIds = foundMessages.map(message => message.id);
+  .then(foundMessages => {
+    const messageIds = foundMessages.reduce((obj, msg) => {
+      if(obj[msg.group_id]){
+        obj[msg.group_id].messages.push(msg)
+      } else {
+        obj[msg.group_id] = {}
+        obj[msg.group_id].messages = [msg]
+      }
+		}, {})
     const users = foundMessages.map(message => message.user);
-    store.dispatch(get_user(users, null, null, null))
-    store.dispatch(get_msg(foundMessages, messageIds, tabId, groupId));
+    store.dispatch([get_msg(foundMessages, messageIds, tabId, groupId), get_user(users, null, null, null)]);
+    // store.dispatch(get_user(users, null, null, null))
   })
   .catch(err => console.error(`Getting Messages for group ${groupId} unsuccessful`, err));
 };

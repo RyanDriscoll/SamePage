@@ -24,24 +24,22 @@ const initialState = {
 export default function reducer (tabs = initialState, action) {
 	switch (action.type) {
     case ADD_USER: {
-      let tabForUser;
-      for(let tab in tabs){
-        if(tabs[tab][action.groupId]) {
-          tabForUser = tab;
-          break;
-        }
-      }
-      if(tabs[tabForUser][action.groupId].users.indexOf(action.user.id)<0){
-        return Object.assign({}, tabs, {[tabForUser]:
-          Object.assign({}, tabs[tabForUser], {[action.groupId]:
-            Object.assign({}, tabs[tabForUser][action.groupId], {users:
-              [...tabs[tabForUser][action.groupId].users, action.user.id]
+      let newTabs = Object.assign({}, tabs);
+      for(let tab in newTabs){
+        if(newTabs[tab][action.groupId] && newTabs[tab][action.groupId].users.indexOf(action.user.id)<0){
+          newTabs = Object.assign({}, newTabs, {[tab]:
+            Object.assign({}, newTabs[tab], {[action.groupId]:
+              Object.assign({}, newTabs[tab][action.groupId], {users:
+                [...newTabs[tab][action.groupId].users, action.userId]
+              })
             })
-          })
-        });
-      } else {
-        return tabs;
+          });
+        } 
       }
+      return newTabs;
+      // else {
+      //   return tabs;
+      // }
     }
     case REMOVE_USER: {
       let tabForRemoveUser;
@@ -61,12 +59,19 @@ export default function reducer (tabs = initialState, action) {
     }
     case GET_USER: {
       if(!action.tabId) return tabs;
-			return Object.assign({}, tabs, {[action.tabId]:
-        Object.assign({}, tabs[action.tabId], {[action.groupId]:
-          Object.assign({}, tabs[action.tabId][action.groupId], {users:
-            [...action.userIds]})
-        })
-      });
+      let newTab = Object.assign({}, tabs[action.tabId]);
+      for (let user in action.users){
+        for (let group in action.groups){
+          if(user.group_id === group) newTab[group].users.push(user.id);
+        }
+      }
+			return newTab;
+      // Object.assign({}, tabs, {[action.tabId]:
+      //   Object.assign({}, tabs[action.tabId], {[action.groupId]:
+      //     Object.assign({}, tabs[action.tabId][action.groupId], {users:
+      //       [...action.userIds]})
+      //   })
+      // });
     }
     case ADD_MSG: {
       let tabForMessage;
@@ -83,21 +88,26 @@ export default function reducer (tabs = initialState, action) {
         })
       });
     }
+
+    //  action --->>>>>> 
+    // messageIds, groupId, tabId
+
     case GET_MSG: {
 			return Object.assign({}, tabs, {
-        [action.tabId]: Object.assign({}, tabs[action.tabId], {
-          [action.groupId]: Object.assign({}, tabs[action.tabId][action.groupId], {
-            messages: [...action.messageIds]
-          })
-        })
+        [action.tabId]: Object.assign({}, tabs[action.tabId], action.messageIds)
+        // {
+        //   [action.groupId]: Object.assign({}, tabs[action.tabId][action.groupId], {
+        //     messages: [...action.messageIds]
+        //   })
+        // })
       });
     }
     case ADD_GROUP:
       return Object.assign({}, tabs, {
         [action.tabId]: Object.assign({}, ...groups.map(group => {
-          if(group.circle_id)
+          if(group.circle_id){
             return {[group.id]: {circle: group.circle_id, users: [], messages: []}}
-          else return {
+          }else return {
             activeGroup: action.group.id, 
             main: action.group.id, 
             [group.id]: {circle: null, users: [], messages: []}
