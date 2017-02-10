@@ -9,6 +9,7 @@ export const ADD_MSG = 'ADD_MSG';
 export const GET_MSG = 'GET_MSG';
 export const ADD_GROUP = 'ADD_GROUP';
 export const CHANGE_ACTIVE = 'CHANGE_ACTIVE';
+export const SWITCH_ACTIVE_GROUP = 'SWITCH_ACTIVE_GROUP';
 
 const initialState = {
   active: 0,
@@ -41,21 +42,27 @@ export default function reducer (tabs = initialState, action) {
       //   return tabs;
       // }
     }
+    case SWITCH_ACTIVE_GROUP:{
+      let newActiveGroup = Object.assign({}, tabs, tabs[tabId]);
+      newActiveGroup.activeGroup = groupId;
+      return newActiveGroup;
+    }
     case REMOVE_USER: {
-      let tabForRemoveUser;
-        for(let tab in tabs){
+      let newTabs = Object.assign({}, tabs)
+        for(let tab in newTabs){
+          if(tab == 'active' || tab == 0) continue;
           if(tabs[tab][action.groupId]) {
-            tabForRemoveUser = tab;
-            break;
+            newTabs[tab][action.groupId].users.filter(id => id != action.userId);
           }
         }
-      return Object.assign({}, tabs, {[tabForRemoveUser]:
-              Object.assign({}, tabs[tabForRemoveUser], {[action.groupId]:
-                Object.assign({}, tabs[tabForRemoveUser][action.groupId], {users:
-                  tabs[tabForRemoveUser][action.groupId].users.filter(id => id !== action.userId)
-                })
-              })
-            });
+      return newTabs;
+      // return Object.assign({}, tabs, {[tabForRemoveUser]:
+      //         Object.assign({}, tabs[tabForRemoveUser], {[action.groupId]:
+      //           Object.assign({}, tabs[tabForRemoveUser][action.groupId], {users:
+      //             tabs[tabForRemoveUser][action.groupId].users.filter(id => id !== action.userId)
+      //           })
+      //         })
+      //       });
     }
     case GET_USER: {
       if(!action.tabId) return tabs;
@@ -74,19 +81,32 @@ export default function reducer (tabs = initialState, action) {
       // });
     }
     case ADD_MSG: {
-      let tabForMessage;
-      for(let tab in tabs){
-        if(tabs[tab][action.msg.group_id]) {
-          tabForMessage = tab;
-          break;
+      let newTabs = Object.assign({}, tabs);
+      for(let tab in newTabs){
+        if(newTabs[tab][action.groupId]){
+          newTabs = Object.assign({}, newTabs, {[tab]:
+            Object.assign({}, newTabs[tab], {[action.groupId]:
+              Object.assign({}, newTabs[tab][action.groupId], {messages:
+                [...newTabs[tab][action.groupId].messages, action.msg.id]
+              })
+            })
+          });
         }
       }
-      return Object.assign({}, tabs, {[tabs.active]:
-        Object.assign({}, tabs[tabs.active], {[action.msg.group_id]:
-          Object.assign({}, tabs[tabs.active][action.msg.group_id], {messages:
-            [...tabs[tabForMessage][action.msg.group_id].messages, action.msg.id]})
-        })
-      });
+      return newTabs;
+      // let tabForMessage;
+      // for(let tab in tabs){
+      //   if(tabs[tab][action.msg.group_id]) {
+      //     tabForMessage = tab;
+      //     break;
+      //   }
+      // }
+      // return Object.assign({}, tabs, {[tabs.active]:
+      //   Object.assign({}, tabs[tabs.active], {[action.msg.group_id]:
+      //     Object.assign({}, tabs[tabs.active][action.msg.group_id], {messages:
+      //       [...tabs[tabForMessage][action.msg.group_id].messages, action.msg.id]})
+      //   })
+      // });
     }
 
     //  action --->>>>>> 
@@ -115,14 +135,14 @@ export default function reducer (tabs = initialState, action) {
         }))
       })
     case REMOVE_TAB:
-    console.log("removing tab reducer, action:", action)
       let newTabs = Object.assign({}, tabs);
       delete newTabs[action.tabId];
       return newTabs;
     case REMOVE_GROUP:{
       let removeGroup = Object.assign({}, tabs);
-      delete removeGroup[action.tabId][action.groupId];
+      removeGroup[action.tabId] = {}
       removeGroup[action.tabId].activeGroup = 0;
+      removeGroup[action.tabId].main = 0;
       return removeGroup;
     }
     case CHANGE_ACTIVE: {
