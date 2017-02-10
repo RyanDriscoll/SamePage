@@ -5,6 +5,7 @@ import MessageContainer from './messagecontainer.jsx';
 import UserContainer from './UserContainer.jsx';
 import SendMessageComponent from './sendmessagecomponent.jsx';
 import rootPath from './httpServer.js';
+import CirclesContainer from './circlescontainer.jsx';
 
 
 
@@ -63,6 +64,7 @@ class ChatContainer extends React.Component{
               >
 
               <UserContainer store={this.props.store} />
+              <CirclesContainer store={this.props.store} />
               <MessageContainer store={this.props.store} />
               <SendMessageComponent store={this.props.store} />
             </div>

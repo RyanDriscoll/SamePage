@@ -25,22 +25,54 @@ module.exports = {
         // .catch(next);
       // })
 
-      socket.on('joinGroup', ({url, name, user_id}) => {
-        Group.findOrCreate({where: {url, name}})
-        .then(([group, created]) => {
-          socket.join(group.id, err => {
-            if (err) { throw err }
-            socket.emit('joinGroupFromServer', group);
-            GroupUser.findOrCreate({where: {user_id: user_id, group_id: group.id}})
-            .catch(err => console.log("error in joinGroup socket.on", err))
-            User.findById(user_id)
-            .then(user => {
-              socket.broadcast.to(group.id).emit('add:user', {groupId: group.id, row: user, user_id})
+      socket.on('joinGroup', ({url, user_id, circleIds}) => {
+        Group.findAll({where: {url:url, circleId: {$in:circleIds}}})
+        .then(groups => {
+          if(groups.length != circleIds.length){
+            let foundIds = groups.map(group=>group.circle_id)
+            let unFoundIds = circleIds.filter(id => existingCircleIds.indexOf(id) == -1)
+            return Group.bulkCreate(unFoundIds.map(circle_id => ({circle_id, url})))
+            .then(newGroups => {
+              groups.push(...newGroups)
+              return groups
+            })
+          }else return groups
+        })
+        .then(allGroups => {
+          allGroups.forEach(group=>{
+            socket.join(group.id, err => {
+              if (err) {throw err}
+              GroupUser.findOrCreate({where:{user_id: user_id, group_id: group.id}})
+              .then(()=> {
+                if(!group.circle_id) socket.emit('joinGroupFromServer', allGroups)
+                return User.findById(user_id)
+              }) //dumb, send the username from client to avoid this db call
+              .then(user=>
+                socket.broadcast.to(group.id).emit('add:user', {groupId: group.id, row:user, user_id}))
+              .catch(err=>console.log("error in joinGroup socket.on", err, err.stack))
             })
           })
+          .catch(err=>console.log("error in joinGroup socket.on", err, err.stack))
         })
-        .catch(err => console.log("error in joinGroup socket.on", err, err.stack))
-      })
+        
+
+
+
+      //   Group.findOrCreate({where: {url, name}})
+      //   .then(([group, created]) => {
+      //     socket.join(group.id, err => {
+      //       if (err) { throw err }
+      //       socket.emit('joinGroupFromServer', group);
+      //       GroupUser.findOrCreate({where: {user_id: user_id, group_id: group.id}})
+      //       .catch(err => console.log("error in joinGroup socket.on", err))
+      //       User.findById(user_id)
+      //       .then(user => {
+      //         socket.broadcast.to(group.id).emit('add:user', {groupId: group.id, row: user, user_id})
+      //       })
+      //     })
+      //   })
+      //   .catch(err => console.log("error in joinGroup socket.on", err, err.stack))
+      // })
 
 
       socket.on('leaveGroup', ({group_id, user_id, tabId}) => {
@@ -94,6 +126,7 @@ module.exports = {
       socket.on('disconnect', () => {
         console.log("disconnected___", socket.id)
       })
+    })
     }) 
   },
   get: function() { return sockets; }

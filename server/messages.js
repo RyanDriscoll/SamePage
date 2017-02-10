@@ -9,13 +9,15 @@ const sockets = require('APP/server/sockets').get();
 module.exports = require('express').Router()
 
 	.get('/', (req, res, next) => {
-		Message.findAll({where: {group_id: req.query.groupId}, include:[{model: User, attributes: ['username', 'id']}]})
+		Message.findAll({where: {
+			group_id: {$in: req.query.groups}, 
+			include:[{model: User, attributes: ['username', 'id']}]
+		}})
 		.then(messages => {
-			res.status(200).json(messages)
+			res.status(201).json(messages)
 		})
-		.catch(next);
+		.catch(next)
 	})
-
 	// .get('/user/:id', (req, res, next) =>  //need both users
 	// 	Message.findAll({where: req.qurey})
 	// 	.then(message => res.status(201).json(message))

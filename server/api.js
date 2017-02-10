@@ -9,6 +9,7 @@ api
   .use('/users', require('./users'))
   .use('/groups', require('./groups'))
   .use('/messages', require('./messages'))
+  .use('/circles', require('./circles'))
 
 // No routes matched? 404.
 api.use((req, res) => res.status(404).end())
