@@ -50,7 +50,7 @@ class ButtonComponent extends React.Component{
 
   }
 
-  joinRoom(userId){chrome.runtime.sendMessage({type: 'joinRoom', user: userId}, null)}
+  joinRoom(userId){chrome.runtime.sendMessage({type: 'joinRoom', user: userId}, null)} //need user?
 
   toggleChatDisplay(e){
     e.preventDefault();

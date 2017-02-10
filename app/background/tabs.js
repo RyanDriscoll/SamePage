@@ -1,7 +1,5 @@
 /* -----------------    CONSTANTS     ------------------ */
 
-// const ADD_GROUP = 'ADD_GROUP';
-// const REMOVE_GROUP = 'REMOVE_GROUP';
 export const ADD_USER = 'ADD_USER';
 export const GET_USER = 'GET_USER';
 export const REMOVE_USER = 'REMOVE_USER';
@@ -15,11 +13,12 @@ export const CHANGE_ACTIVE = 'CHANGE_ACTIVE';
 const initialState = {
   active: 0,
   0: {
-    0:{
-      users:[],
-      messages: []
-    },
-    activeGroup: 0
+    activeGroup: 0,
+    main: 0,
+    0: { 
+      circle: null, 
+      users:[], 
+      messages: [] },
   }
 }
 export default function reducer (tabs = initialState, action) {
@@ -85,16 +84,26 @@ export default function reducer (tabs = initialState, action) {
       });
     }
     case GET_MSG: {
-			return Object.assign({}, tabs, {[action.tabId]:
-        Object.assign({}, tabs[action.tabId], {[action.groupId]:
-          Object.assign({}, tabs[action.tabId][action.groupId], {messages:
-            [...action.messageIds]})
+			return Object.assign({}, tabs, {
+        [action.tabId]: Object.assign({}, tabs[action.tabId], {
+          [action.groupId]: Object.assign({}, tabs[action.tabId][action.groupId], {
+            messages: [...action.messageIds]
+          })
         })
       });
     }
     case ADD_GROUP:
-      return Object.assign({}, tabs, {[action.tabId]: {activeGroup: action.group.id, [action.group.id]: {users: [], messages: []}}
-    });
+      return Object.assign({}, tabs, {
+        [action.tabId]: Object.assign({}, ...groups.map(group => {
+          if(group.circle_id)
+            return {[group.id]: {circle: group.circle_id, users: [], messages: []}}
+          else return {
+            activeGroup: action.group.id, 
+            main: action.group.id, 
+            [group.id]: {circle: null, users: [], messages: []}
+          }
+        }))
+      })
     case REMOVE_TAB:
     console.log("removing tab reducer, action:", action)
       let newTabs = Object.assign({}, tabs);

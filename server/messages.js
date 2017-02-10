@@ -8,10 +8,16 @@ const sockets = require('APP/server/sockets').get();
 
 module.exports = require('express').Router()
 
-	.get('/', (req, res, next) => {
-		Message.findAll({where: {group_id: req.query.groupId}, include:[{model: User, attributes: ['username', 'id']}]})
+	.get('/url/groupIds/:groupIds', (req, res, next) => {
+		Message.findAll({where: {
+			group_id: {$in: req.body}, 
+			include:[{model: User, attributes: ['username', 'id']}]
+		}})
 		.then(messages => {
-			res.status(200).json(messages)
+			messages.reduce((obj, msg) => 
+				if(obj = Object.assign(obj, {msg.group_id: msg})
+			, {})
+			res.status(201).json(messages)
 		})
 		.catch(next);
 	})

@@ -24,21 +24,22 @@ export default function(table) {
 }
 
 export function socketListeners(){
-  socket.on('joinGroupFromServer', group => {
+  socket.on('joinGroupFromServer', groups => {
     let currentStore = store.getState();
     store.dispatch({
       type: 'ADD_GROUP',
-      group: group,
+      group: groups, //
       tabId: currentStore.tabs.active
     });
-    getUser(currentStore.tabs.active, group.id)
-    getMsg(currentStore.tabs.active, group.id);
-    store.dispatch({
-      type: 'ADD_USER',
-      groupId: group.id,
-      user: currentStore.auth,
-      tabId: currentStore.tabs.active
-    });
+    getUser(currentStore.tabs.active, groups) //why not include users w groups instead?
+    getMsg(currentStore.tabs.active, groups.map(group => group.id));
+    // store.dispatch({ //????
+    //   type: 'ADD_USER',
+    //   groupId: group.id,
+    //   user: currentStore.auth,
+    //   tabId: currentStore.tabs.active
+    // });
+
   })
 
   socket.on('leaveGroupFromServer', (groupId, tabId) => {

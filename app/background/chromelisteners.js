@@ -47,7 +47,7 @@ export default function setListeners(){
 
   chrome.runtime.onMessage.addListener(function(request, sender, response){
     if (request.type === 'joinRoom'){
-      addGroup(sender.url, request.name)
+      addGroup(sender.url)
     }
   });
 

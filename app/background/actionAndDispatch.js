@@ -44,10 +44,10 @@ export const getUser = (tabId, groupId) => {
   .catch(err => console.error(`Getting users for group ${groupId} unsuccessful`, err));
 };
 
-export const getMsg = (tabId, groupId) => {
-	axios.get(rootPath + 'messages', {params: {groupId}})
+export const getMsg = (tabId, groups) => {
+	axios.get(rootPath + 'messages', {params: groups})
   .then(res => res.data)
-  .then(foundMessages => {
+  .then(foundMessages => { //get back array of circle's msgs
     const messageIds = foundMessages.map(message => message.id);
     const users = foundMessages.map(message => message.user);
     store.dispatch(get_user(users, null, null, null))
@@ -57,9 +57,9 @@ export const getMsg = (tabId, groupId) => {
 };
 
 
-export const addGroup = (url, name) => {
-	if (name === undefined) name = url;
-  socket.emit('joinGroup', {name: name, url: url, user_id: store.getState().auth.id});
+export const addGroup = (url) => {
+  let circleIds = [null, ...Object.keys(store.getState().circles)]
+  socket.emit('joinGroup', {url: url, user_id: store.getState().auth.id, circleIds:circleIds});
 };
 
 export const removeUser = (groupId, userId) => {
