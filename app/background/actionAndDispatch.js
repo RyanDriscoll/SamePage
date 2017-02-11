@@ -49,7 +49,6 @@ export const getMsg = (tabId, groups) => {
   .then(foundMessages => {
     // console.log("found messages", foundMessages)
     const messageIds = foundMessages.reduce((obj, msg) => {
-      console.log('object - msg', obj, msg)
       if(obj[msg.group_id]){
         obj[msg.group_id].messages.push(msg);
       } else {

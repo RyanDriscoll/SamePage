@@ -71,7 +71,7 @@ class MessageContainer extends React.Component{
                   content={messages[id].content}
                   sender={messages[id].user.username}
                   time={messages[id].created_at}
-                  messageOwner={this.props.user.id === users[messages[id].user_id].id} />
+                  messageOwner={this.props.user.id === messages[id].user.id} />
               </div>
             );
           })
