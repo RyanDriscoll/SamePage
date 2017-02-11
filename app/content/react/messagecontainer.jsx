@@ -64,14 +64,14 @@ class MessageContainer extends React.Component{
         className="message-container"
         ref={el => {this.messageContainer = el;}}>
         {
-          group && messageIds.map(id => {
+          group && users && messages && messageIds.map(id => {
             return (
               <div key={id}>
                 <MessageComponent
                   content={messages[id].content}
-                  sender={users[messages[id].user_id].username}
+                  sender={messages[id].user.username}
                   time={messages[id].created_at}
-                  messageOwner={this.props.user.id === users[messages[id].user_id].id} />
+                  messageOwner={this.props.user.id === messages[id].user.id} />
               </div>
             );
           })

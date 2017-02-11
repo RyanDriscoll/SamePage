@@ -26,34 +26,44 @@ module.exports = {
       // })
 
       socket.on('joinGroup', ({url, user_id, circleIds}) => {
-        Group.findAll({where: {url:url, circleId: {$in:circleIds}}})
+        circleIds = circleIds.filter( id => id != 0);
+        Group.findAll({where: {url:url, circle_id: {$or: [{$eq: null}, {$in:circleIds}]} }})
         .then(groups => {
-          if(groups.length != circleIds.length){
-            let foundIds = groups.map(group=>group.circle_id)
-            let unFoundIds = circleIds.filter(id => existingCircleIds.indexOf(id) == -1)
-            return Group.bulkCreate(unFoundIds.map(circle_id => ({circle_id, url})))
+          // console.log("------->>>>>after .then", groups.length, circleIds.length, "\n")
+          if(groups.length !== circleIds.length){
+            let foundIds = groups.map(group=> group.circle_id)
+            let unFoundIds = circleIds.filter(id => foundIds.indexOf(id) == -1).map( id => id ? +id : null)
+            let bulkCreate = unFoundIds.map(circle_id => ({circle_id, url}))
+            // console.log("bulk create -------------------------------------------------\n", unFoundIds, foundIds)
+            return Group.bulkCreate(bulkCreate, {returning: true})
             .then(newGroups => {
+              // console.log("----->>>>>> inside bulk create", newGroups)
               groups.push(...newGroups)
               return groups
             })
           }else return groups
         })
         .then(allGroups => {
+          // console.log("-----------after bulk create", allGroups)
           allGroups.forEach(group=>{
+            // console.log("socket join group")
             socket.join(group.id, err => {
               if (err) {throw err}
+              // console.log("inside socket.join--------------------\n")
               GroupUser.findOrCreate({where:{user_id: user_id, group_id: group.id}})
               .then(()=> {
+                // console.log("inside .then after groupuser find or create -----------\n")
                 if(!group.circle_id) socket.emit('joinGroupFromServer', allGroups)
                 return User.findById(user_id)
               }) //dumb, send the username from client to avoid this db call
               .then(user=>
-                socket.broadcast.to(group.id).emit('add:user', {groupId: group.id, row:user, user_id}))
+                socket.broadcast.to(group.id).emit('add:user', {groupId: group.id, row:user, user_id})
+              )
               .catch(err=>console.log("error in joinGroup socket.on", err, err.stack))
             })
           })
-          .catch(err=>console.log("error in joinGroup socket.on", err, err.stack))
         })
+          .catch(err=>console.log("error in joinGroup socket.on", err, err.stack))
         
 
 
