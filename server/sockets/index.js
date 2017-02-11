@@ -29,15 +29,15 @@ module.exports = {
         circleIds = circleIds.filter( id => id != 0);
         Group.findAll({where: {url:url, circle_id: {$or: [{$eq: null}, {$in:circleIds}]} }})
         .then(groups => {
-          // console.log("------->>>>>after .then", groups.length, circleIds.length, "\n")
+          console.log("------->>>>>after .then", groups.length, circleIds.length, "\n")
           if(groups.length !== circleIds.length){
             let foundIds = groups.map(group=> group.circle_id)
-            let unFoundIds = circleIds.filter(id => foundIds.indexOf(id) == -1).map( id => id ? +id : null)
+            let unFoundIds = circleIds.filter(id => foundIds.indexOf(id ? +id : null) == -1).map( id => id ? +id : null)
             let bulkCreate = unFoundIds.map(circle_id => ({circle_id, url}))
-            // console.log("bulk create -------------------------------------------------\n", unFoundIds, foundIds)
+            console.log("bulk create -------------------------------------------------\n", unFoundIds, foundIds, bulkCreate)
             return Group.bulkCreate(bulkCreate, {returning: true})
             .then(newGroups => {
-              // console.log("----->>>>>> inside bulk create", newGroups)
+              console.log("----->>>>>> inside bulk create", newGroups)
               groups.push(...newGroups)
               return groups
             })
