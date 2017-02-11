@@ -36,4 +36,10 @@ Group.belongsTo(Circle);
 User.belongsToMany(Circle, {through: CircleUser});
 Circle.belongsToMany(User, {through: CircleUser});
 
+CircleUser.belongsTo(User);
+User.hasMany(CircleUser);
+
+CircleUser.belongsTo(Circle);
+Circle.hasMany(CircleUser);
+
 module.exports = {User, Group, Message, GroupUser, Circle};

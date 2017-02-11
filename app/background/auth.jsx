@@ -31,9 +31,12 @@ export const whoami = () => {
       .then(response => {
         const user = response.data;
         dispatch(authenticated(user))
-        dispatch(getCircle(user.id))
+        getCircle(user.id)
       })
-      .catch(failed => dispatch(authenticated(null)))
+      .catch(failed =>{
+        console.log("------------>>>>>>>>>>>>>>failure", failed, failed.stack)
+        dispatch(authenticated(null))
+      })
   }
 }
 

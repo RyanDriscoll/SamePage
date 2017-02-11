@@ -67,12 +67,10 @@ export default function reducer (tabs = initialState, action) {
     case GET_USER: {
       if(!action.tabId) return tabs;
       let newTab = Object.assign({}, tabs[action.tabId]);
-      for (let user in action.users){
-        for (let group in action.groups){
-          if(user.group_id === group) newTab[group].users.push(user.id);
-        }
-      }
-			return newTab;
+      action.users.forEach(user => {
+        newTab[user.group_id].users.push(user.user_id);
+      })
+			return Object.assign({}, tabs, {[action.tabId]: newTab});
       // Object.assign({}, tabs, {[action.tabId]:
       //   Object.assign({}, tabs[action.tabId], {[action.groupId]:
       //     Object.assign({}, tabs[action.tabId][action.groupId], {users:
@@ -113,24 +111,30 @@ export default function reducer (tabs = initialState, action) {
     // messageIds, groupId, tabId
 
     case GET_MSG: {
-			return Object.assign({}, tabs, {
-        [action.tabId]: Object.assign({}, tabs[action.tabId], action.messageIds)
+			// return Object.assign({}, tabs, {
+      //   [action.tabId]: Object.assign({}, tabs[action.tabId], action.messageIds)
         // {
         //   [action.groupId]: Object.assign({}, tabs[action.tabId][action.groupId], {
         //     messages: [...action.messageIds]
         //   })
         // })
-      });
+        
+      let newTab = Object.assign({}, tabs[action.tabId]);
+      action.messages.forEach( msg => {
+        newTab[msg.group_id].messages.push(msg.id);
+      })
+			return Object.assign({}, tabs, {[action.tabId]: newTab});
     }
     case ADD_GROUP:
+
       return Object.assign({}, tabs, {
-        [action.tabId]: Object.assign({}, ...groups.map(group => {
-          if(group.circle_id){
-            return {[group.id]: {circle: group.circle_id, users: [], messages: []}}
+        [action.tabId]: Object.assign({}, ...action.group.map(groupInst => {
+          if(groupInst.circle_id){
+            return {[groupInst.id]: {circle: groupInst.circle_id, users: [], messages: []}}
           }else return {
-            activeGroup: action.group.id, 
-            main: action.group.id, 
-            [group.id]: {circle: null, users: [], messages: []}
+            activeGroup: groupInst.id, 
+            main: groupInst.id, 
+            [groupInst.id]: {circle: null, users: [], messages: []}
           }
         }))
       })

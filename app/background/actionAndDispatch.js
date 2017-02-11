@@ -4,23 +4,23 @@ import axios from 'axios';
 import store from './store.js';
 import socket from './sockets/io';
 
-export const get_user = (users, userIds, tabId, groupId) => {
+export const get_user = (users, userIds, tabId, groupIds) => {
   return {
     type: GET_USER,
     userIds: userIds,
-    groupId: groupId,
+    groupIds: groupIds,
     tabId: tabId,
     users: users
   }
 }
 
-export const get_msg = (messages, messageIds, tabId, groupId) => {
+export const get_msg = (messages, messageIds, tabId, groupIds) => {
   return {
     type: GET_MSG,
     messages: messages,
     messageIds: messageIds,
     tabId: tabId,
-    groupId: groupId
+    groupIds: groupIds
   }
 }
 
@@ -37,9 +37,9 @@ export const getUser = (tabId, groups) => {
   .then(foundUsers => {
     const users = foundUsers.map(groupUser => groupUser.user);
     const userIds = users.map(user => user.id);
-    store.dispatch(get_user(users, userIds, tabId, groups));
+    store.dispatch(get_user(foundUsers, userIds, tabId, groups));
   })
-  .catch(err => console.error(`Getting users for group ${groupId} unsuccessful`, err));
+  .catch(err => console.error(`Getting users for groups unsuccessful`, err));
 };
 
 
@@ -47,19 +47,23 @@ export const getMsg = (tabId, groups) => {
 	axios.get(rootPath + 'messages', {params: {groups}})
   .then(res => res.data)
   .then(foundMessages => {
+    // console.log("found messages", foundMessages)
     const messageIds = foundMessages.reduce((obj, msg) => {
+      console.log('object - msg', obj, msg)
       if(obj[msg.group_id]){
-        obj[msg.group_id].messages.push(msg)
+        obj[msg.group_id].messages.push(msg);
       } else {
-        obj[msg.group_id] = {}
-        obj[msg.group_id].messages = [msg]
+        obj[msg.group_id] = {};
+        obj[msg.group_id].messages = [msg];
       }
+      return obj;
 		}, {})
     const users = foundMessages.map(message => message.user);
-    store.dispatch([get_msg(foundMessages, messageIds, tabId, groupId), get_user(users, null, null, null)]);
+    store.dispatch(get_msg(foundMessages, messageIds, tabId, groups));
+    store.dispatch(get_user(users, null, null, null));
     // store.dispatch(get_user(users, null, null, null))
   })
-  .catch(err => console.error(`Getting Messages for group ${groupId} unsuccessful`, err));
+  .catch(err => console.error(`Getting Messages for groups unsuccessful`, err));
 };
 
 
