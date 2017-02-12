@@ -68,7 +68,6 @@ class SendMessageComponent extends React.Component{
         group_id: groupId
       });
       this.setState({currMessage: ''});
-      //emit doneTyping
       chrome.runtime.sendMessage({type: 'doneTyping', groupId});
     }
   }
@@ -79,16 +78,13 @@ class SendMessageComponent extends React.Component{
     let groupId = this.props.tabs[this.props.tabs.active].activeGroup;
     if(this.state.currMessage =='' && e.target.value !='') {
       chrome.runtime.sendMessage({type: 'typing', groupId}); 
-      console.log("typing from sendchatcomponent")
     }else if(this.state.currMessage !='' && e.target.value ==''){
       chrome.runtime.sendMessage({type: 'doneTyping', groupId});
-      console.log("donetyping from sendchatcomponent")
     }
     this.setState({currMessage: e.target.value});
   }
 
   handleEnter(e){
-    console.log('in handleEnter')
     if (e.keyCode === 13){
       this.sendChat(e);
     }

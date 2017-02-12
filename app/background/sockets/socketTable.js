@@ -32,7 +32,6 @@ export function socketListeners(){
     let tabStore = store.getState().tabs
     if(group == tabStore[tabStore.active].activeGroup){
       chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        console.log("---in background, tab, typing---")
         chrome.tabs.sendMessage(tabStore.active, {username, action: 'typing'}, function(res) {})
       });
     }
@@ -42,7 +41,6 @@ export function socketListeners(){
     let tabStore = store.getState().tabs
     if(group == tabStore[tabStore.active].activeGroup){
       chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        console.log("---in background, tab, donetyping---")
         chrome.tabs.sendMessage(tabStore.active, {username, action: 'doneTyping'}, function(res) {})
       });
     }

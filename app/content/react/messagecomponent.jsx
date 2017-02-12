@@ -73,7 +73,6 @@ class MessageComponent extends React.Component{
   }
 }
 
-// <div className="message-component-username" >{this.props.sender}</div>
 
 
 export default MessageComponent;

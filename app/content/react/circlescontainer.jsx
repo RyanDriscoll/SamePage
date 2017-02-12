@@ -67,7 +67,6 @@ class CircleContainer extends React.Component{
         }
       }
       this.updateCircles(groups);
-    // }
   }
 
   render(){
@@ -84,7 +83,6 @@ class CircleContainer extends React.Component{
         groupList.push(this.state.circles[group]);
       }
     }
-    console.log('groupList', this.state.circles, groupList)
     return (
       <div>
         {

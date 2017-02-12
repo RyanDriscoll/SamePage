@@ -11,14 +11,11 @@ module.exports = {
     sockets.io = require('socket.io')(server);
 
     sockets.io.on('connection', socket => {
-      console.log('connected_', socket.id);
       socket.on('typing', ({username, group}) => {
-        console.log("typing from server")
         socket.broadcast.to(group).emit('typing', {username, group})
         socket.emit('typing', {username, group}) //for testing on single computer
       })
       socket.on('doneTyping', ({username, group}) => {
-        console.log("donetyping from server")        
         socket.broadcast.to(group).emit('doneTyping', {username, group})
         socket.emit('doneTyping', {username, group}) //for testing on single computer
       })

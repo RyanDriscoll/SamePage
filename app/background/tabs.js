@@ -118,7 +118,9 @@ export default function reducer (tabs = initialState, action) {
       }
       return Object.assign({}, tabs, newTab);
     }
-		case 'LOGOUT': return initialState;
+		case 'LOGOUT': {
+      return Object.assign({}, initialState, {active: tabs.active})
+    }
 		default: return tabs;
   }
 }
