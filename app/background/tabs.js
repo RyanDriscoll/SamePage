@@ -141,6 +141,7 @@ export default function reducer (tabs = initialState, action) {
     case REMOVE_TAB:
       let newTabs = Object.assign({}, tabs);
       delete newTabs[action.tabId];
+      console.log("-----------------", tabs, newTabs, action.tabId)
       return newTabs;
     case REMOVE_GROUP:{
       let removeGroup = Object.assign({}, tabs);
