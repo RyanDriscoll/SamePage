@@ -79,12 +79,13 @@ class CircleContainer extends React.Component{
       }
     }
 
-    if(Object.keys(this.props.messages).length !== Object.keys(nextProps.messages).length && Object.keys(groups).length){
+    if(Object.keys(this.props.messages).length !== Object.keys(nextProps.messages).length 
+    && Object.keys(groups).length && ( Object.keys(nextProps.messages).length - Object.keys(this.props.messages).length < 2 )){
       for (let group in nextProps.tabs[activeTab]){
         if (group === 0 || group === 'main' || group === 'activeGroup' ||
           !this.props.tabs[activeTab][group] || !nextProps.tabs[activeTab][group] ||
             !this.props.tabs[activeTab][group].messages || !nextProps.tabs[activeTab][group].messages) continue;
-        if (this.props.tabs[activeTab][group].messages.length !== nextProps.tabs[activeTab][group].messages.length){
+        if (this.props.tabs[activeTab][group].messages.length !== nextProps.tabs[activeTab][group].messages.length && group != activeGroup){
           groups[group].message = true;
         }
       }
