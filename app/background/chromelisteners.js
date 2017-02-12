@@ -21,14 +21,15 @@ export default function setListeners(){
           }
         }
         if (deleteGroup) {
+          console.log("--------leave group socket emit")
           socket.emit('leaveGroup', {group_id: groupId, user_id: currStore.auth.id, tabId: tabId});
         }
       }
-        store.dispatch({
-          type: REMOVE_GROUP,
-          tabId: tabId,
-          // groupId: currStore.tabs[tabId].activeGroup
-        })
+        // store.dispatch({
+        //   type: REMOVE_GROUP,
+        //   tabId: tabId,
+        //   // groupId: currStore.tabs[tabId].activeGroup
+        // })
       // socket.emit('leaveGroup', {group_id: currentStore.tabs[tabId].activeGroup, user_id: currentStore.auth.id})
     }
   })
@@ -44,6 +45,7 @@ export default function setListeners(){
     if (request.type === 'joinRoom'){
       addGroup(sender.url)
     }else if(request.type === 'changeActiveGroup'){
+      console.log("-----change active group")
       store.dispatch({
         type: SWITCH_ACTIVE_GROUP,
         groupId: request.groupId
@@ -65,8 +67,10 @@ export default function setListeners(){
         }
       }
       if (!deleteGroup) {
+        console.log("-----delete group false")
         socket.emit('closeTab', {group_id: groupId, user_id: currStore.auth.id, tabId: tabId, removeGroup: false})
       }else if(deleteGroup){
+        console.log("-----delete group true")        
         socket.emit('closeTab', {group_id: groupId, user_id: currStore.auth.id, tabId: tabId, removeGroup: true}) 
       }
     } 

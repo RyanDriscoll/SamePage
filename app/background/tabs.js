@@ -43,16 +43,16 @@ export default function reducer (tabs = initialState, action) {
       // }
     }
     case SWITCH_ACTIVE_GROUP:{
-      let newActiveGroup = Object.assign({}, tabs, tabs[tabs.active]);
+      let newActiveGroup = Object.assign({}, tabs[tabs.active]);
       newActiveGroup.activeGroup = action.groupId;
-      return newActiveGroup;
+      return Object.assign({}, tabs, {[tabs.active]: newActiveGroup});
     }
     case REMOVE_USER: {
       let newTabs = Object.assign({}, tabs)
         for(let tab in newTabs){
           if(tab == 'active' || tab == 0) continue;
           if(tabs[tab][action.groupId]) {
-            newTabs[tab][action.groupId].users.filter(id => id != action.userId);
+            newTabs[tab][action.groupId].users = newTabs[tab][action.groupId].users.filter(id => id != action.userId);
           }
         }
       return newTabs;
@@ -141,6 +141,7 @@ export default function reducer (tabs = initialState, action) {
     case REMOVE_TAB:
       let newTabs = Object.assign({}, tabs);
       delete newTabs[action.tabId];
+      console.log("-----------------", tabs, newTabs, action.tabId)
       return newTabs;
     case REMOVE_GROUP:{
       let removeGroup = Object.assign({}, tabs);
