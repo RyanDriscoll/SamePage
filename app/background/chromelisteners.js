@@ -50,6 +50,10 @@ export default function setListeners(){
         type: SWITCH_ACTIVE_GROUP,
         groupId: request.groupId
       })
+    }else if(request.type === 'typing'){
+      socket.emit('typing', {username: store.auth.username, group: request.group})
+    }else if(request.type === 'typing'){
+      socket.emit('doneTyping', {username: store.auth.username, group: request.group})
     }
   });
 

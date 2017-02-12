@@ -24,6 +24,23 @@ export default function(table) {
 }
 
 export function socketListeners(){
+
+  socket.on('typing', ({username, group}) => {
+    if(group == store.tabs[store.tabs.active].activeGroup){
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(store.tabs.active, {username}, function(response) {})
+      });
+    }
+  })
+
+  socket.on('doneTyping', ({username, group}) => {
+    if(group == store.tabs[store.tabs.active].activeGroup){
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(store.tabs.active, {username}, function(response) {})
+      });
+    }
+  })
+
   socket.on('joinGroupFromServer', groups => {
     let currentStore = store.getState();
     store.dispatch({

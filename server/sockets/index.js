@@ -84,7 +84,13 @@ module.exports = {
       //   .catch(err => console.log("error in joinGroup socket.on", err, err.stack))
       // })
 
-
+      socket.on('typing', ({username, group}) => {
+        socket.broadcast.to(group).emit('typing', {username, group})
+      })
+      socket.on('doneTyping', ({username, group}) => {
+        socket.broadcast.to(group).emit('doneTyping', {username, group})
+      })
+      
       socket.on('leaveGroup', ({group_id, user_id, tabId}) => {
         GroupUser.destroy({where: {group_id, user_id}})
 		    .then(result => {
