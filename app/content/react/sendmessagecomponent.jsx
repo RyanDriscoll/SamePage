@@ -56,17 +56,18 @@ class SendMessageComponent extends React.Component{
       });
       this.setState({currMessage: ''});
       //emit doneTyping
+      chrome.runtime.sendMessage({type: 'doneTyping', groupId});
     }
   }
 
   handleChatChange(e){
     e.preventDefault();
     //if state from '' to * emit typing else if from * to '' emit doneTyping
-    let group = this.props.tabs[this.props.tabs.active].activeGroup;
+    let groupId = this.props.tabs[this.props.tabs.active].activeGroup;
     if(this.state.currMessage =='' && e.target.value !='') 
-      chrome.runtime.sendMessage({type: 'typing', group}); 
+      chrome.runtime.sendMessage({type: 'typing', groupId}); 
     else if(this.state.currMessage !='' && e.target.value =='')
-      chrome.runtime.sendMessage({type: 'doneTyping', group});
+      chrome.runtime.sendMessage({type: 'doneTyping', groupId});
     this.setState({currMessage: e.target.value});
   }
 
