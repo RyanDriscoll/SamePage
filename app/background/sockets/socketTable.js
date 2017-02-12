@@ -11,7 +11,7 @@ export default function(table) {
       if (table === 'user' && record.user_id === currentStore.auth.id) {
         return;
       }
-      if(`${action}:${table}` == 'remove:user') console.log('REMOVE USER!', record)
+      if(`${action}:${table}` == 'add:msg') console.log('ADD MSG!', record)
       store.dispatch({
         type: `${action.toUpperCase()}_${table.toUpperCase()}`,
         [table]: record.row || null,
@@ -43,12 +43,12 @@ export function socketListeners(){
   })
 
   socket.on('leaveGroupFromServer', (groupId, tabId) => {
-    let currentStore = store.getState();    
+    let currentStore = store.getState();
     store.dispatch({type: REMOVE_GROUP, tabId: tabId, groupId})
   })
 
   socket.on('closeTabFromServer', (tabId) => {
-    let currentStore = store.getState();    
+    let currentStore = store.getState();
     store.dispatch({type: REMOVE_TAB, tabId: tabId})
   })
 

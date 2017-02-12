@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import User from './User.jsx';
 import rootPath from './httpServer.js';
-import {TweenLite} from 'gsap';
 import CircleContainer from './circlescontainer.jsx'
 
 
@@ -10,21 +9,10 @@ class UserContainer extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      collapsed: true,
-      numUsers: 0
     };
-    this.handleUserContainerClick = this.handleUserContainerClick.bind(this);
   }
 
-  handleUserContainerClick(e){
-    e.preventDefault();
-    if (this.state.collapsed) {
-      TweenLite.to(this.collapsedContainer, 0.3, {maxHeight: 215, ease: Power1.easeOut});
-    } else {
-      TweenLite.to(this.collapsedContainer, 0.3, {maxHeight: 0, ease: Power1.easeOut});
-    }
-    this.setState({collapsed: !this.state.collapsed})
-  }
+
 
   render(){
     const tabs = this.props.tabs;
@@ -33,14 +21,9 @@ class UserContainer extends React.Component{
     // else activeGroup = activeGroup[0];
     const activeGroupId = tabs[tabs.active].activeGroup
     const group = tabs[tabs.active][activeGroupId];
-    let userIds =[];
-    if (group) {
-      userIds = group.users;
-    }
+
     return (
-      <div
-        className="user-container shadow"
-        onClick={this.handleUserContainerClick}>
+      <div className="user-container shadow">
         <div
           className="title">
           <img
@@ -52,40 +35,12 @@ class UserContainer extends React.Component{
           src={`${rootPath}messagebubble.png`}
           />
           SamePage
-          <div
-            className="user-icon-container">
-            <img
-              src={`${rootPath}user-icon.png`}
-              className="user-icon-in-user-container" />
-            <div className="number-of-users-icon">
-              {
-                group ?
-                  group.users.length
-                  :
-                  '1'
-              }
-            </div>
-            <CircleContainer store={this.props.store} />
-          </div>
         </div>
-        {
-          <div
-            className="user-container-collapsed"
-            ref={el => {this.collapsedContainer = el;}}>
-            {
-            //   this.state.collapsed ?
-            //     null
-            //   :
-                group && this.props.users && userIds.map(id => {
-                  return (
-                    <div key={id} >
-                      <User username={this.props.users[id].username} />
-                    </div>
-                  );
-                })
-            }
-          </div>
-        }
+        <CircleContainer
+          store={this.props.store}
+          group={group}
+          />
+
       </div>
     );
   }
@@ -93,7 +48,6 @@ class UserContainer extends React.Component{
 
 const mapStateToProps = function(state){
   return {
-    users: state.users,
     tabs: state.tabs
   };
 }

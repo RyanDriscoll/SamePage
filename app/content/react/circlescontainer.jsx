@@ -1,13 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CircleComponent from './circlecomponent.jsx';
+import CircleTitleComponent from './CircleTitleComponent.jsx';
+import User from './User.jsx';
+import {TweenLite} from 'gsap';
 
 class CircleContainer extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      circles:{},
+      circles: {},
+      collapsed: true
+    };
+    this.handleContainerClick = this.handleContainerClick.bind(this);
+  }
+
+  handleContainerClick(e){
+    e.preventDefault();
+    console.log('clicked', this.state.collapsed)
+    if (this.state.collapsed) {
+      TweenLite.to(this.collapsedContainer, 0.3, {maxHeight: 215, ease: Power1.easeOut});
+    } else {
+      TweenLite.to(this.collapsedContainer, 0.3, {maxHeight: 0, ease: Power1.easeOut});
     }
+    this.setState({collapsed: !this.state.collapsed})
   }
 
   updateCircles(groups){
@@ -19,9 +35,9 @@ class CircleContainer extends React.Component{
     let activeGroup = this.props.tabs[activeTab].activeGroup
     let groups = {};
     for (let group in this.props.tabs[activeTab]){
-      if(group === 0 || group === 'active' || group === 'activeGroup' || 
-        !this.props.tabs[activeTab][group] || !nextProps.tabs[activeTab][group] ||
-            !this.props.tabs[activeTab][group].messages || !nextProps.tabs[activeTab][group].messages) continue;
+      if(group === 0 || group === 'active' || group === 'activeGroup' ||
+        !this.props.tabs[activeTab][group] ||
+            !this.props.tabs[activeTab][group].messages) continue;
       if(group == this.props.tabs[activeTab].main){
         groups[group] = {letter: 'M', message: false, id: group, group: true}
       }else{
@@ -47,20 +63,26 @@ class CircleContainer extends React.Component{
     // if(Object.keys(this.props.messages).length !== Object.keys(nextProps.messages).length ){
       for (let group in nextProps.tabs[activeTab]){
         message = false;
-        if(group === 0 || group === 'active' || group === 'activeGroup' ||
+        if (group === 0 || group === 'active' || group === 'activeGroup' ||
           !this.props.tabs[activeTab][group] || !nextProps.tabs[activeTab][group] ||
             !this.props.tabs[activeTab][group].messages || !nextProps.tabs[activeTab][group].messages) continue;
-        if(group == nextProps.tabs[activeTab].main){
-          if(this.props.tabs[activeTab][group].messages.length !== nextProps.tabs[activeTab][group].messages.length){
+        if (group == nextProps.tabs[activeTab].main){
+          if (this.props.tabs[activeTab][group].messages.length !== nextProps.tabs[activeTab][group].messages.length){
             message = true;
           }
-          groups[group] = {letter: 'M', message: message, id: group, group: true}
-        }else {
-          if(this.props.tabs[activeTab][group].messages.length !== nextProps.tabs[activeTab][group].messages.length){
+          groups[group] = {
+            letter: 'M',
+            name: 'Main Page',
+            message: message,
+            id: group,
+            group: true};
+        } else {
+          if (this.props.tabs[activeTab][group].messages.length !== nextProps.tabs[activeTab][group].messages.length){
             message = true;
           }
           groups[group] = {
             letter: nextProps.circles[nextProps.tabs[activeTab][group].circle].name.slice(0,1).toUpperCase(),
+            name: nextProps.circles[nextProps.tabs[activeTab][group].circle].name,
             message: message,
             id: group,
             group: false
@@ -72,6 +94,8 @@ class CircleContainer extends React.Component{
   }
 
   render(){
+    let activeTab = this.props.tabs.active;
+    let activeGroup = this.props.tabs[activeTab].activeGroup;
     if(!Object.keys(this.state.circles).length){
       return (
         <div></div>
@@ -85,21 +109,49 @@ class CircleContainer extends React.Component{
         groupList.push(this.state.circles[group]);
       }
     }
-    console.log('groupList', this.state.circles, groupList)
+    let userIds = [];
+    if (this.props.group) {
+      userIds = this.props.group.users;
+    }
     return (
       <div>
+        <div className="circle-container">
+          {
+            groupList.map( (groupObj)=> {
+              console.log('activeGroup, groupObj.id', this.props.tabs[this.props.tabs.active].activeGroup, groupObj.id)
+              return (
+                <div key={groupObj.id}>
+                  <CircleComponent
+                    name={groupObj.name}
+                    letter={groupObj.letter}
+                    message={groupObj.message}
+                    active={this.props.tabs[this.props.tabs.active].activeGroup == +groupObj.id}
+                    id={groupObj.id} />
+                </div>
+              )
+            })
+          }
+        </div>
+        <div onClick={this.handleContainerClick}>
+          <CircleTitleComponent
+            name={this.state.circles[activeGroup].name}
+            group={this.props.group}
+            />
+        </div>
         {
-          groupList.map( (groupObj)=> {
-            return (
-              <div key={groupObj.id}>
-                <CircleComponent letter={groupObj.letter} 
-                                message={groupObj.message} 
-                                active={this.props.tabs[this.props.tabs.active].activeGroup === groupObj.id}
-                                id={groupObj.id}/>
-
-              </div>
-            )
-          })
+          <div
+            className="user-container-collapsed"
+            ref={el => {this.collapsedContainer = el;}}>
+            {
+              this.props.group && this.props.users && userIds.map(id => {
+                return (
+                  <div key={id} >
+                    <User username={this.props.users[id].username} />
+                  </div>
+                );
+              })
+            }
+          </div>
         }
       </div>
     )
@@ -111,7 +163,8 @@ const mapStateToProps = function(state){
     tabs: state.tabs,
     groups: state.groups,
     circles: state.circles,
-    messages: state.messages
+    messages: state.messages,
+    users: state.users
   }
 }
 
