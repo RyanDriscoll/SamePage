@@ -63,7 +63,7 @@ class CircleContainer extends React.Component{
     // }
     if(Object.keys(this.props.messages).length !== Object.keys(nextProps.messages).length ){
       for (let group in nextProps.tabs[activeTab]){
-        if (group === 0 || group === 'active' || group === 'activeGroup' ||
+        if (group === 0 || group === 'main' || group === 'activeGroup' ||
           !this.props.tabs[activeTab][group] || !nextProps.tabs[activeTab][group] ||
             !this.props.tabs[activeTab][group].messages || !nextProps.tabs[activeTab][group].messages) continue;
         if (this.props.tabs[activeTab][group].messages.length !== nextProps.tabs[activeTab][group].messages.length){
@@ -72,7 +72,7 @@ class CircleContainer extends React.Component{
       }
     }
 
-    if(this.props.tabs[this.props.tabs.active].activeGroup != activeGroup){
+    if(this.props.tabs[this.props.tabs.active].activeGroup != activeGroup && this.props.tabs[this.props.tabs.active].activeGroup != 0 ){
       groups[activeGroup].message = false;
     }
     this.updateCircles(groups);      
