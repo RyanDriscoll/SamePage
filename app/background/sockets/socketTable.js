@@ -24,7 +24,7 @@ export default function(table) {
 
 export function socketListeners(){
 
-  socket.on('logoutFromServer', () => {  
+  socket.on('logoutFromServer', () => {
     store.dispatch({type: 'LOGOUT'})
   })
 
@@ -55,17 +55,17 @@ export function socketListeners(){
     });
     getMsg(currentStore.tabs.active, groups.map(group => group.id));
     getUser(currentStore.tabs.active, groups.map(group => group.id)) //why not include users w groups instead?
- 
+
 
   })
 
   socket.on('leaveGroupFromServer', (groupId, tabId) => {
-    let currentStore = store.getState();    
+    let currentStore = store.getState();
     store.dispatch({type: REMOVE_GROUP, tabId: tabId, groupId})
   })
 
   socket.on('closeTabFromServer', (tabId) => {
-    let currentStore = store.getState();    
+    let currentStore = store.getState();
     store.dispatch({type: REMOVE_TAB, tabId: tabId})
   })
 
