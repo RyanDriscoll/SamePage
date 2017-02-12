@@ -30,6 +30,8 @@ class CircleContainer extends React.Component{
     this.setState({circles: groups})
   }
 
+
+
   componentWillMount(){
     let activeTab = this.props.tabs.active;
     let activeGroup = this.props.tabs[activeTab].activeGroup;
@@ -38,10 +40,11 @@ class CircleContainer extends React.Component{
       if(group === 0 || group === 'active' || group === 'activeGroup' ||
         !this.props.tabs[activeTab][group] || !this.props.tabs[activeTab][group].messages) continue;
       if(group == this.props.tabs[activeTab].main){
-        groups[group] = {letter: 'M', message: false, id: group, group: true}
+        groups[group] = {letter: 'M', name: "Main Page", message: false, id: group, group: true}
       }else{
         groups[group] = {
           letter: this.props.circles[this.props.tabs[activeTab][group].circle].name.slice(0,1).toUpperCase(),
+          name: this.props.circles[this.props.tabs[activeTab][group].circle].name,
           message: false,
           id: group,
           group: false
@@ -54,42 +57,25 @@ class CircleContainer extends React.Component{
   componentWillReceiveProps(nextProps){
     let activeTab = nextProps.tabs.active;
     let activeGroup = nextProps.tabs[activeTab].activeGroup;
-    let groups = {};
-    let message;
+    let groups = Object.assign({}, this.state.circles);
     // if(this.props.tabs[this.props.tabs.active].activeGroup != nextProps.tabs[nextProps.tabs.active].activeGroup){
     //   for()
     // }
     if(Object.keys(this.props.messages).length !== Object.keys(nextProps.messages).length ){
       for (let group in nextProps.tabs[activeTab]){
-        message = false;
         if (group === 0 || group === 'active' || group === 'activeGroup' ||
           !this.props.tabs[activeTab][group] || !nextProps.tabs[activeTab][group] ||
             !this.props.tabs[activeTab][group].messages || !nextProps.tabs[activeTab][group].messages) continue;
-        if (group == nextProps.tabs[activeTab].main){
-          if (this.props.tabs[activeTab][group].messages.length !== nextProps.tabs[activeTab][group].messages.length){
-            message = true;
-          }
-          groups[group] = {
-            letter: 'M',
-            name: 'Main Page',
-            message: message,
-            id: group,
-            group: true};
-        } else {
-          if (this.props.tabs[activeTab][group].messages.length !== nextProps.tabs[activeTab][group].messages.length){
-            message = true;
-          }
-          groups[group] = {
-            letter: nextProps.circles[nextProps.tabs[activeTab][group].circle].name.slice(0,1).toUpperCase(),
-            name: nextProps.circles[nextProps.tabs[activeTab][group].circle].name,
-            message: message,
-            id: group,
-            group: false
-          }
+        if (this.props.tabs[activeTab][group].messages.length !== nextProps.tabs[activeTab][group].messages.length){
+          groups[group].message = true;
         }
       }
-      this.updateCircles(groups);
     }
+
+    if(this.props.tabs[this.props.tabs.active].activeGroup != activeGroup){
+      groups[activeGroup].message = false;
+    }
+    this.updateCircles(groups);      
   }
 
   render(){
