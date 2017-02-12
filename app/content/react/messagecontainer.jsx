@@ -65,7 +65,7 @@ class MessageContainer extends React.Component{
         ref={el => {this.messageContainer = el;}}>
         {
           group && users && messages && messageIds.map(id => {
-            return (
+            return users[messages[id].user_id] && (
               <div key={id}>
                 <MessageComponent
                   content={messages[id].content}
