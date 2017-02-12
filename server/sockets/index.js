@@ -91,6 +91,7 @@ module.exports = {
           socket.broadcast.to(group_id).emit('remove:user', {groupId: group_id, user_id})
           socket.leave(group_id, err => {
             if (err) { throw err }
+            console.log("socket emit from server")
             socket.emit('leaveGroupFromServer', group_id, tabId);
           })
         })
@@ -106,7 +107,7 @@ module.exports = {
             socket.broadcast.to(group_id).emit('remove:user', {groupId: group_id, user_id})
             socket.leave(group_id, err => {
               if (err) { throw err }
-              socket.emit('closeTabFromServer', group_id, tabId);
+              socket.emit('closeTabFromServer', tabId);
             })
           })
           .catch(err => console.log(err))
