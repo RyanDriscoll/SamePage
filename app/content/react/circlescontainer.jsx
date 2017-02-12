@@ -59,7 +59,7 @@ class CircleContainer extends React.Component{
     // if(this.props.tabs[this.props.tabs.active].activeGroup != nextProps.tabs[nextProps.tabs.active].activeGroup){
     //   for()
     // }
-    // if(Object.keys(this.props.messages).length !== Object.keys(nextProps.messages).length ){
+    if(Object.keys(this.props.messages).length !== Object.keys(nextProps.messages).length ){
       for (let group in nextProps.tabs[activeTab]){
         message = false;
         if (group === 0 || group === 'active' || group === 'activeGroup' ||
@@ -89,6 +89,7 @@ class CircleContainer extends React.Component{
         }
       }
       this.updateCircles(groups);
+    }
   }
 
   render(){
@@ -107,13 +108,10 @@ class CircleContainer extends React.Component{
         groupList.push(this.state.circles[group]);
       }
     }
-<<<<<<< HEAD
     let userIds = [];
     if (this.props.group) {
       userIds = this.props.group.users;
     }
-=======
->>>>>>> master
     return (
       <div>
         <div className="circle-container">
