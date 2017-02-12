@@ -51,9 +51,9 @@ export default function setListeners(){
         groupId: request.groupId
       })
     }else if(request.type === 'typing'){
-      socket.emit('typing', {username: store.auth.username, group: request.groupId})
+      socket.emit('typing', {username: store.getState().auth.username, group: request.groupId})
     }else if(request.type === 'doneTyping'){
-      socket.emit('doneTyping', {username: store.auth.username, group: request.groupId})
+      socket.emit('doneTyping', {username: store.getState().auth.username, group: request.groupId})
     }
   });
 

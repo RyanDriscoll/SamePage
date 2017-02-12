@@ -86,9 +86,11 @@ module.exports = {
 
       socket.on('typing', ({username, group}) => {
         socket.broadcast.to(group).emit('typing', {username, group})
+        socket.emit('typing', {username, group})
       })
       socket.on('doneTyping', ({username, group}) => {
         socket.broadcast.to(group).emit('doneTyping', {username, group})
+        socket.emit('doneTyping', {username, group})
       })
       
       socket.on('leaveGroup', ({group_id, user_id, tabId}) => {
