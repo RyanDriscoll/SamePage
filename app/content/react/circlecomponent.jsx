@@ -61,7 +61,7 @@ export default class CircleComponent extends React.Component{
         style={{backgroundColor: this.state.cirlceColor}}
         className="circle-component shadow"
         onClick={this.handleClick}>
-        {this.props.letter}
+        {this.props.letter} {this.props.message || ''}
       </div>
     );
   }

@@ -66,12 +66,12 @@ class CircleContainer extends React.Component{
           !nextProps.tabs[activeTab][group] || !nextProps.tabs[activeTab][group].messages) continue;
       console.log("---------------222222222", group)          
         if(group == nextProps.tabs[activeTab].main){
-          groups[group] = {letter: 'M', name: "Main Page", message: false, id: group, group: true}
+          groups[group] = {letter: 'M', name: "Main Page", message: 0, id: group, group: true}
         }else{
           groups[group] = {
             letter: nextProps.circles[nextProps.tabs[activeTab][group].circle].name.slice(0,1).toUpperCase(),
             name: nextProps.circles[nextProps.tabs[activeTab][group].circle].name,
-            message: false,
+            message: 0,
             id: group,
             group: false
           }
@@ -86,13 +86,13 @@ class CircleContainer extends React.Component{
           !this.props.tabs[activeTab][group] || !nextProps.tabs[activeTab][group] ||
             !this.props.tabs[activeTab][group].messages || !nextProps.tabs[activeTab][group].messages) continue;
         if (this.props.tabs[activeTab][group].messages.length !== nextProps.tabs[activeTab][group].messages.length && group != activeGroup){
-          groups[group].message = true;
+          groups[group].message++;
         }
       }
     }
 
     if(this.props.tabs[this.props.tabs.active].activeGroup != activeGroup && this.props.tabs[this.props.tabs.active].activeGroup != 0 && Object.keys(groups).length){
-      groups[activeGroup].message = false;
+      groups[activeGroup].message = 0;
     }
     this.updateCircles(groups);
   }
