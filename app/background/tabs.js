@@ -43,9 +43,9 @@ export default function reducer (tabs = initialState, action) {
       // }
     }
     case SWITCH_ACTIVE_GROUP:{
-      let newActiveGroup = Object.assign({}, tabs, tabs[tabs.active]);
+      let newActiveGroup = Object.assign({}, tabs[tabs.active]);
       newActiveGroup.activeGroup = action.groupId;
-      return newActiveGroup;
+      return Object.assign({}, tabs, {[tabs.active]: newActiveGroup});
     }
     case REMOVE_USER: {
       let newTabs = Object.assign({}, tabs)

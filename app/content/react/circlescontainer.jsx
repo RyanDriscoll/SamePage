@@ -15,23 +15,25 @@ class CircleContainer extends React.Component{
   }
 
   componentWillMount(){
-    // let activeTab = this.props.tabs.active
-    // let activeGroup = this.props.tabs[activeTab].activeGroup
-    // let groups = {};
-    // for (let group in this.props.tabs[activeTab]){
-    //   if(group === 0 || group === 'active' || group === 'activeGroup') continue;
-    //   if(group == this.props.tabs[activeTab].main){
-    //     groups[group] = {letter: 'M', message: false, id: group, group: true}
-    //   }else{
-    //     groups[group] = {
-    //       letter: this.props.circles[this.props.tabs[activeTab][group].circle].name.slice(0,1).toUpperCase(),
-    //       message: false,
-    //       id: group,
-    //       group: false
-    //     }
-    //   }
-    // }
-    // this.updateCircles(groups);
+    let activeTab = this.props.tabs.active
+    let activeGroup = this.props.tabs[activeTab].activeGroup
+    let groups = {};
+    for (let group in this.props.tabs[activeTab]){
+      if(group === 0 || group === 'active' || group === 'activeGroup' || 
+        !this.props.tabs[activeTab][group] || !nextProps.tabs[activeTab][group] ||
+            !this.props.tabs[activeTab][group].messages || !nextProps.tabs[activeTab][group].messages) continue;
+      if(group == this.props.tabs[activeTab].main){
+        groups[group] = {letter: 'M', message: false, id: group, group: true}
+      }else{
+        groups[group] = {
+          letter: this.props.circles[this.props.tabs[activeTab][group].circle].name.slice(0,1).toUpperCase(),
+          message: false,
+          id: group,
+          group: false
+        }
+      }
+    }
+    this.updateCircles(groups);
   }
 
   componentWillReceiveProps(nextProps){
@@ -42,7 +44,7 @@ class CircleContainer extends React.Component{
     // if(this.props.tabs[this.props.tabs.active].activeGroup != nextProps.tabs[nextProps.tabs.active].activeGroup){
     //   for()
     // }
-    if(Object.keys(this.props.messages).length !== Object.keys(nextProps.messages).length ){
+    // if(Object.keys(this.props.messages).length !== Object.keys(nextProps.messages).length ){
       for (let group in nextProps.tabs[activeTab]){
         message = false;
         if(group === 0 || group === 'active' || group === 'activeGroup' ||
@@ -66,7 +68,7 @@ class CircleContainer extends React.Component{
         }
       }
       this.updateCircles(groups);
-    }
+    // }
   }
 
   render(){
