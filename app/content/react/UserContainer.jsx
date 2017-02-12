@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import User from './User.jsx';
 import rootPath from './httpServer.js';
 import {TweenLite} from 'gsap';
+import CircleContainer from './circlescontainer.jsx'
 
 
 class UserContainer extends React.Component{
@@ -64,6 +65,7 @@ class UserContainer extends React.Component{
                   '1'
               }
             </div>
+            <CircleContainer store={this.props.store} />
           </div>
         </div>
         {

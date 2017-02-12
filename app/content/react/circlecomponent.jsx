@@ -15,7 +15,8 @@ export default class CircleComponent extends React.Component{
 
   render(){
     return (
-      <div className={(this.props.message && !this.props.active) ? 'circle-component-alert' : 'circle-component'}
+      <div style={{height: '25px', width: '25px', backgroundColor: 'blue'}}
+        className={(this.props.message && !this.props.active) ? 'circle-component-alert' : 'circle-component'}
             onClick={this.handleClick}>
         {this.props.letter}
       </div>

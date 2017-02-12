@@ -45,6 +45,7 @@ export default function setListeners(){
     if (request.type === 'joinRoom'){
       addGroup(sender.url)
     }else if(request.type === 'changeActiveGroup'){
+      console.log("-----change active group")
       store.dispatch({
         type: SWITCH_ACTIVE_GROUP,
         groupId: request.groupId
