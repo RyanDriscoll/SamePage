@@ -10,10 +10,12 @@ class SendMessageComponent extends React.Component{
     super(props);
     this.state = {
       currMessage: '',
+      typers: []
     }
     this.sendChat = this.sendChat.bind(this);
     this.handleChatChange = this.handleChatChange.bind(this);
     this.handleEnter = this.handleEnter.bind(this);
+    this.displayTypers = this.displayTypers.bind(this);
 
     // this.sendChatComponent = {
     //   width: '100%',
@@ -45,6 +47,17 @@ class SendMessageComponent extends React.Component{
     this.textarea.focus();
   }
 
+  componentDidMount(){
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+      if (request.action === 'typing') { //maybe in "typing" rendering componnt instead
+        this.setState({typers: [...this.state.typers, request.username]})
+      }else if (request.action === 'doneTyping') {
+        this.setState({typers: this.state.typers.filter(typer => typer != request.username)})
+      }
+    });
+  }
+
+
   sendChat(e){
     e.preventDefault();
     if(this.state.currMessage.length){
@@ -55,11 +68,22 @@ class SendMessageComponent extends React.Component{
         group_id: groupId
       });
       this.setState({currMessage: ''});
+      //emit doneTyping
+      chrome.runtime.sendMessage({type: 'doneTyping', groupId});
     }
   }
 
   handleChatChange(e){
     e.preventDefault();
+    //if state from '' to * emit typing else if from * to '' emit doneTyping
+    let groupId = this.props.tabs[this.props.tabs.active].activeGroup;
+    if(this.state.currMessage =='' && e.target.value !='') {
+      chrome.runtime.sendMessage({type: 'typing', groupId}); 
+      console.log("typing from sendchatcomponent")
+    }else if(this.state.currMessage !='' && e.target.value ==''){
+      chrome.runtime.sendMessage({type: 'doneTyping', groupId});
+      console.log("donetyping from sendchatcomponent")
+    }
     this.setState({currMessage: e.target.value});
   }
 
@@ -70,10 +94,27 @@ class SendMessageComponent extends React.Component{
     }
   }
 
+  displayTypers(){
+    let len = this.state.typers.length;
+    switch (len){
+      case 0:
+        return '';
+      case 1:
+        return `${this.state.typers[0]} is typing...`;
+      case 2:
+        return `${this.state.typers[0]} and ${this.state.typers[1]} are typing...`;
+      case 3:
+        return `${this.state.typers[0]}, ${this.state.typers[1]}, and ${this.state.typers[2]} are typing...`;
+      default:
+        return `${this.state.typers[0]}, ${this.state.typers[1]}, ${this.state.typers[2]}, and ${len -3} other${len==4 ? '' : s} are typing...`;
+    }
+  }
+
 
   render(){
     return (
       <div className="send-chat-container">
+
         <form className="send-chat-form" id="send-chat" action="submit" onSubmit={this.sendChat} >
           <textarea
               ref={el => {this.textarea = el;}}
@@ -87,6 +128,9 @@ class SendMessageComponent extends React.Component{
               form="send-chat"
               onKeyDown={this.handleEnter}
               />
+          <div>
+            {this.displayTypers()}
+          </div>
           <button
             type="submit"
             className="btn-success shadow">

@@ -24,6 +24,27 @@ export default function(table) {
 }
 
 export function socketListeners(){
+        console.log("socket.on from background")        
+  socket.on('typing', ({username, group}) => {
+    let tabStore = store.getState().tabs
+    if(group == tabStore[tabStore.active].activeGroup){
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        console.log("---in background, tab, typing---")
+        chrome.tabs.sendMessage(tabStore.active, {username, action: 'typing'}, function(res) {})
+      });
+    }
+  })
+
+  socket.on('doneTyping', ({username, group}) => {
+    let tabStore = store.getState().tabs
+    if(group == tabStore[tabStore.active].activeGroup){
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        console.log("---in background, tab, donetyping---")
+        chrome.tabs.sendMessage(tabStore.active, {username, action: 'doneTyping'}, function(res) {})
+      });
+    }
+  })
+
   socket.on('joinGroupFromServer', groups => {
     let currentStore = store.getState();
     store.dispatch({

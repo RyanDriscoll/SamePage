@@ -13,17 +13,16 @@ module.exports = {
 
     sockets.io.on('connection', socket => {
       console.log('connected_', socket.id);
-      //sockets[socket.id] = socket
-      // socket.join('whatever')
-
-      // .post('/', (req, res, next) => {
-        // Group.findOrCreate({where: {url: req.body.url, name: req.body.name}})
-        // .then(([group, created]) => {
-        //   GroupUser.create({user_id: req.body.userId, group_id: group.id})
-        //   res.status(201).json(group);
-        // })
-        // .catch(next);
-      // })
+      socket.on('typing', ({username, group}) => {
+        console.log("typing from server")
+        socket.broadcast.to(group).emit('typing', {username, group})
+        socket.emit('typing', {username, group}) //for testing on single computer
+      })
+      socket.on('doneTyping', ({username, group}) => {
+        console.log("donetyping from server")        
+        socket.broadcast.to(group).emit('doneTyping', {username, group})
+        socket.emit('doneTyping', {username, group}) //for testing on single computer
+      })
 
       socket.on('joinGroup', ({url, user_id, circleIds}) => {
         circleIds = circleIds.filter( id => id != 0);
@@ -84,7 +83,8 @@ module.exports = {
       //   .catch(err => console.log("error in joinGroup socket.on", err, err.stack))
       // })
 
-
+      
+      
       socket.on('leaveGroup', ({group_id, user_id, tabId}) => {
         GroupUser.destroy({where: {group_id, user_id}})
 		    .then(result => {
