@@ -25,11 +25,12 @@ class ChatContainer extends React.Component{
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       if (request.action === 'rerender') {
         this.props.joinRoomMessage(this.props.user.id)
-      }else if (request.action === 'typing') { //maybe in "typing" rendering componnt instead
-        console.log("typing: ", request.username) //add to array of typers, instead of console.logging
-      }else if (request.action === 'doneTyping') {
-        console.log("doneTyping: ", request.username) //if typers array empty, display nothing
       }
+      // else if (request.action === 'typing') { //maybe in "typing" rendering componnt instead
+      //   console.log("typing: ", request.username) //add to array of typers, instead of console.logging
+      // }else if (request.action === 'doneTyping') {
+      //   console.log("doneTyping: ", request.username) //if typers array empty, display nothing
+      // }
     });
   }
 

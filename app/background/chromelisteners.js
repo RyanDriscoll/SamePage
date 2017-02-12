@@ -43,6 +43,7 @@ export default function setListeners(){
 
   chrome.runtime.onMessage.addListener(function(request, sender, response){
     if (request.type === 'joinRoom'){
+      console.log("join room")
       addGroup(sender.url)
     }else if(request.type === 'changeActiveGroup'){
       console.log("-----change active group")
@@ -51,6 +52,7 @@ export default function setListeners(){
         groupId: request.groupId
       })
     }else if(request.type === 'typing'){
+      console.log("typing in chrome listeners")
       socket.emit('typing', {username: store.getState().auth.username, group: request.groupId})
     }else if(request.type === 'doneTyping'){
       socket.emit('doneTyping', {username: store.getState().auth.username, group: request.groupId})
