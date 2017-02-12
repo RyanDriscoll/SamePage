@@ -33,35 +33,53 @@ class CircleContainer extends React.Component{
 
 
   componentWillMount(){
-    let activeTab = this.props.tabs.active;
-    let activeGroup = this.props.tabs[activeTab].activeGroup;
-    let groups = {};
-    for (let group in this.props.tabs[activeTab]){
-      if(group === 0 || group === 'active' || group === 'activeGroup' ||
-        !this.props.tabs[activeTab][group] || !this.props.tabs[activeTab][group].messages) continue;
-      if(group == this.props.tabs[activeTab].main){
-        groups[group] = {letter: 'M', name: "Main Page", message: false, id: group, group: true}
-      }else{
-        groups[group] = {
-          letter: this.props.circles[this.props.tabs[activeTab][group].circle].name.slice(0,1).toUpperCase(),
-          name: this.props.circles[this.props.tabs[activeTab][group].circle].name,
-          message: false,
-          id: group,
-          group: false
-        }
-      }
-    }
-    this.updateCircles(groups);
+    // let activeTab = this.props.tabs.active;
+    // let activeGroup = this.props.tabs[activeTab].activeGroup;
+    // let groups = {};
+    // for (let group in this.props.tabs[activeTab]){
+    //   if(group === 0 || group === 'active' || group === 'activeGroup' ||
+    //     !this.props.tabs[activeTab][group] || !this.props.tabs[activeTab][group].messages) continue;
+    //   if(group == this.props.tabs[activeTab].main){
+    //     groups[group] = {letter: 'M', name: "Main Page", message: false, id: group, group: true}
+    //   }else{
+    //     groups[group] = {
+    //       letter: this.props.circles[this.props.tabs[activeTab][group].circle].name.slice(0,1).toUpperCase(),
+    //       name: this.props.circles[this.props.tabs[activeTab][group].circle].name,
+    //       message: false,
+    //       id: group,
+    //       group: false
+    //     }
+    //   }
+    // }
+    // this.updateCircles(groups);
   }
 
   componentWillReceiveProps(nextProps){
     let activeTab = nextProps.tabs.active;
     let activeGroup = nextProps.tabs[activeTab].activeGroup;
     let groups = Object.assign({}, this.state.circles);
-    // if(this.props.tabs[this.props.tabs.active].activeGroup != nextProps.tabs[nextProps.tabs.active].activeGroup){
-    //   for()
-    // }
-    if(Object.keys(this.props.messages).length !== Object.keys(nextProps.messages).length ){
+
+    if(!Object.keys(groups).length && Object.keys(nextProps.tabs[activeTab]).length > 3){
+      console.log("---------------11111111", groups, activeTab)
+      for (let group in nextProps.tabs[activeTab]){
+        if(group === 0 || group === 'main' || group === 'activeGroup' ||
+          !nextProps.tabs[activeTab][group] || !nextProps.tabs[activeTab][group].messages) continue;
+      console.log("---------------222222222", group)          
+        if(group == nextProps.tabs[activeTab].main){
+          groups[group] = {letter: 'M', name: "Main Page", message: false, id: group, group: true}
+        }else{
+          groups[group] = {
+            letter: nextProps.circles[nextProps.tabs[activeTab][group].circle].name.slice(0,1).toUpperCase(),
+            name: nextProps.circles[nextProps.tabs[activeTab][group].circle].name,
+            message: false,
+            id: group,
+            group: false
+          }
+        }
+      }
+    }
+
+    if(Object.keys(this.props.messages).length !== Object.keys(nextProps.messages).length && Object.keys(groups).length){
       for (let group in nextProps.tabs[activeTab]){
         if (group === 0 || group === 'main' || group === 'activeGroup' ||
           !this.props.tabs[activeTab][group] || !nextProps.tabs[activeTab][group] ||
@@ -72,10 +90,10 @@ class CircleContainer extends React.Component{
       }
     }
 
-    if(this.props.tabs[this.props.tabs.active].activeGroup != activeGroup && this.props.tabs[this.props.tabs.active].activeGroup != 0 ){
+    if(this.props.tabs[this.props.tabs.active].activeGroup != activeGroup && this.props.tabs[this.props.tabs.active].activeGroup != 0 && Object.keys(groups).length){
       groups[activeGroup].message = false;
     }
-    this.updateCircles(groups);      
+    this.updateCircles(groups);
   }
 
   render(){
