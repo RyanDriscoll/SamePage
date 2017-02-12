@@ -60,7 +60,6 @@ export const getMsg = (tabId, groups) => {
     const users = foundMessages.map(message => message.user);
     store.dispatch(get_msg(foundMessages, messageIds, tabId, groups));
     store.dispatch(get_user(users, null, null, null));
-    // store.dispatch(get_user(users, null, null, null))
   })
   .catch(err => console.error(`Getting Messages for groups unsuccessful`, err));
 };

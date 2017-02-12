@@ -11,7 +11,6 @@ export default function(table) {
       if (table === 'user' && record.user_id === currentStore.auth.id) {
         return;
       }
-      if(`${action}:${table}` == 'add:msg') console.log('ADD MSG!', record)
       store.dispatch({
         type: `${action.toUpperCase()}_${table.toUpperCase()}`,
         [table]: record.row || null,
@@ -24,6 +23,29 @@ export default function(table) {
 }
 
 export function socketListeners(){
+
+  socket.on('logoutFromServer', () => {
+    store.dispatch({type: 'LOGOUT'})
+  })
+
+  socket.on('typing', ({username, group}) => {
+    let tabStore = store.getState().tabs
+    if(group == tabStore[tabStore.active].activeGroup){
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabStore.active, {username, action: 'typing'}, function(res) {})
+      });
+    }
+  })
+
+  socket.on('doneTyping', ({username, group}) => {
+    let tabStore = store.getState().tabs
+    if(group == tabStore[tabStore.active].activeGroup){
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabStore.active, {username, action: 'doneTyping'}, function(res) {})
+      });
+    }
+  })
+
   socket.on('joinGroupFromServer', groups => {
     let currentStore = store.getState();
     store.dispatch({
@@ -33,12 +55,7 @@ export function socketListeners(){
     });
     getMsg(currentStore.tabs.active, groups.map(group => group.id));
     getUser(currentStore.tabs.active, groups.map(group => group.id)) //why not include users w groups instead?
-    // store.dispatch({ //????
-    //   type: 'ADD_USER',
-    //   groupId: group.id,
-    //   user: currentStore.auth,
-    //   tabId: currentStore.tabs.active
-    // });
+
 
   })
 
