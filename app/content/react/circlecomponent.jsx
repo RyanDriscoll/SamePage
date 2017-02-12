@@ -9,12 +9,14 @@ export default class CircleComponent extends React.Component{
 
   handleClick(e){
     e.preventDefault();
+    console.log("----------clicked circle")
     chrome.runtime.sendMessage({type: 'changeActiveGroup', groupId: this.props.id}, null)
   }
 
   render(){
     return (
-      <div className={(this.props.message && !this.props.active) ? 'circle-component-alert' : 'circle-component'}
+      <div style={{height: '25px', width: '25px', backgroundColor: 'blue'}}
+        className={(this.props.message && !this.props.active) ? 'circle-component-alert' : 'circle-component'}
             onClick={this.handleClick}>
         {this.props.letter}
       </div>
