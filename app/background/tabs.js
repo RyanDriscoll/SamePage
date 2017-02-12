@@ -38,9 +38,6 @@ export default function reducer (tabs = initialState, action) {
         } 
       }
       return newTabs;
-      // else {
-      //   return tabs;
-      // }
     }
     case SWITCH_ACTIVE_GROUP:{
       let newActiveGroup = Object.assign({}, tabs[tabs.active]);
@@ -56,13 +53,6 @@ export default function reducer (tabs = initialState, action) {
           }
         }
       return newTabs;
-      // return Object.assign({}, tabs, {[tabForRemoveUser]:
-      //         Object.assign({}, tabs[tabForRemoveUser], {[action.groupId]:
-      //           Object.assign({}, tabs[tabForRemoveUser][action.groupId], {users:
-      //             tabs[tabForRemoveUser][action.groupId].users.filter(id => id !== action.userId)
-      //           })
-      //         })
-      //       });
     }
     case GET_USER: {
       if(!action.tabId) return tabs;
@@ -71,12 +61,6 @@ export default function reducer (tabs = initialState, action) {
         newTab[user.group_id].users.push(user.user_id);
       })
 			return Object.assign({}, tabs, {[action.tabId]: newTab});
-      // Object.assign({}, tabs, {[action.tabId]:
-      //   Object.assign({}, tabs[action.tabId], {[action.groupId]:
-      //     Object.assign({}, tabs[action.tabId][action.groupId], {users:
-      //       [...action.userIds]})
-      //   })
-      // });
     }
     case ADD_MSG: {
       let newTabs = Object.assign({}, tabs);
@@ -92,33 +76,9 @@ export default function reducer (tabs = initialState, action) {
         }
       }
       return newTabs;
-      // let tabForMessage;
-      // for(let tab in tabs){
-      //   if(tabs[tab][action.msg.group_id]) {
-      //     tabForMessage = tab;
-      //     break;
-      //   }
-      // }
-      // return Object.assign({}, tabs, {[tabs.active]:
-      //   Object.assign({}, tabs[tabs.active], {[action.msg.group_id]:
-      //     Object.assign({}, tabs[tabs.active][action.msg.group_id], {messages:
-      //       [...tabs[tabForMessage][action.msg.group_id].messages, action.msg.id]})
-      //   })
-      // });
     }
 
-    //  action --->>>>>> 
-    // messageIds, groupId, tabId
-
     case GET_MSG: {
-			// return Object.assign({}, tabs, {
-      //   [action.tabId]: Object.assign({}, tabs[action.tabId], action.messageIds)
-        // {
-        //   [action.groupId]: Object.assign({}, tabs[action.tabId][action.groupId], {
-        //     messages: [...action.messageIds]
-        //   })
-        // })
-        
       let newTab = Object.assign({}, tabs[action.tabId]);
       action.messages.forEach( msg => {
         newTab[msg.group_id].messages.push(msg.id);
@@ -141,7 +101,6 @@ export default function reducer (tabs = initialState, action) {
     case REMOVE_TAB:
       let newTabs = Object.assign({}, tabs);
       delete newTabs[action.tabId];
-      console.log("-----------------", tabs, newTabs, action.tabId)
       return newTabs;
     case REMOVE_GROUP:{
       let removeGroup = Object.assign({}, tabs);
@@ -159,8 +118,9 @@ export default function reducer (tabs = initialState, action) {
       }
       return Object.assign({}, tabs, newTab);
     }
-    default: {
-      return tabs;
+		case 'LOGOUT': {
+      return Object.assign({}, initialState, {active: tabs.active, [tabs.active]: {}})
     }
+		default: return tabs;
   }
 }

@@ -25,8 +25,8 @@ export default function reducer(circles = initialState, action) {
 			}, {})
 			return Object.assign({}, circles, fetchedCircles)
 		}
-		default:
-			return circles;
+		case 'LOGOUT': return initialState;
+		default: return circles;
 	}
 }
 

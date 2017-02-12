@@ -9,7 +9,6 @@ export default class CircleComponent extends React.Component{
 
   handleClick(e){
     e.preventDefault();
-    console.log("----------clicked circle")
     chrome.runtime.sendMessage({type: 'changeActiveGroup', groupId: this.props.id}, null)
   }
 

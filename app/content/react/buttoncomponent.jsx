@@ -21,6 +21,17 @@ class ButtonComponent extends React.Component{
     this.joinRoom = this.joinRoom.bind(this);
   }
 
+  componentDidMount(){
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+      if (request.action === 'displayChatboxFalse') { 
+        if (this.state.displayChat) {
+          TweenLite.to(this.button, 1.5, {height: 100, width: 100, borderRadius: '50%', ease: Elastic.easeOut});
+          TweenLite.to(this.img, 1.5, {height: 60, width: 60, ease: Elastic.easeOut});
+        }
+        this.setState({displayChat: false})
+      }
+    });
+  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.user) {
