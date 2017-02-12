@@ -20,8 +20,7 @@ class CircleContainer extends React.Component{
     let groups = {};
     for (let group in this.props.tabs[activeTab]){
       if(group === 0 || group === 'active' || group === 'activeGroup' || 
-        !this.props.tabs[activeTab][group] || !nextProps.tabs[activeTab][group] ||
-            !this.props.tabs[activeTab][group].messages || !nextProps.tabs[activeTab][group].messages) continue;
+        !this.props.tabs[activeTab][group] || !this.props.tabs[activeTab][group].messages) continue;
       if(group == this.props.tabs[activeTab].main){
         groups[group] = {letter: 'M', message: false, id: group, group: true}
       }else{
