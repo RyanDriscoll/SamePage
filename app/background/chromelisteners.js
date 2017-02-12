@@ -23,6 +23,7 @@ export default function setListeners(){
         if (deleteGroup) {
           socket.emit('leaveGroup', {group_id: groupId, user_id: currStore.auth.id, tabId: tabId});
         }
+        socket.emit('doneTyping', {username: store.getState().auth.username, group: groupId})          
       }
     }
   })
@@ -47,6 +48,9 @@ export default function setListeners(){
     }else if(request.type === 'doneTyping'){
       socket.emit('doneTyping', {username: store.getState().auth.username, group: request.groupId})
     }else if(request.type === 'logout'){
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+        chrome.tabs.sendMessage(tabs[0].id, {action: "displayChatboxFalse"}, function(response) {});  
+      });
       socket.emit('leaveAllGroups', {groupIds: Object.keys(store.getState().groups).filter(id=>id), user_id: store.getState().auth.id});
     }
   });
@@ -69,6 +73,7 @@ export default function setListeners(){
       }else if(deleteGroup){
         socket.emit('closeTab', {group_id: groupId, user_id: currStore.auth.id, tabId: tabId, removeGroup: true}) 
       }
-    } 
+      socket.emit('doneTyping', {username: store.getState().auth.username, group: groupId})
+    }
   })
 }

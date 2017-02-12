@@ -13,11 +13,9 @@ module.exports = {
     sockets.io.on('connection', socket => {
       socket.on('typing', ({username, group}) => {
         socket.broadcast.to(group).emit('typing', {username, group})
-        socket.emit('typing', {username, group}) //for testing on single computer
       })
       socket.on('doneTyping', ({username, group}) => {
         socket.broadcast.to(group).emit('doneTyping', {username, group})
-        socket.emit('doneTyping', {username, group}) //for testing on single computer
       })
       socket.on('leaveAllGroups', ({groupIds, user_id}) => {
         GroupUser.destroy({where: {user_id}})

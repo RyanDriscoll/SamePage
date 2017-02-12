@@ -47,9 +47,11 @@ class SendMessageComponent extends React.Component{
     this.textarea.focus();
   }
 
+  
+
   componentDidMount(){
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-      if (request.action === 'typing') { //maybe in "typing" rendering componnt instead
+      if (request.action === 'typing') {
         this.setState({typers: [...this.state.typers, request.username]})
       }else if (request.action === 'doneTyping') {
         this.setState({typers: this.state.typers.filter(typer => typer != request.username)})
