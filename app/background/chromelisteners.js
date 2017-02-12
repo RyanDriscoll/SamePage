@@ -51,7 +51,7 @@ export default function setListeners(){
     }else if(request.type === 'doneTyping'){
       socket.emit('doneTyping', {username: store.getState().auth.username, group: request.groupId})
     }else if(request.type === 'logout'){
-      socket.emit('leaveAllGroups', {groupIds: Object.keys(store.getState().groups.filter(id=>id)), user_id: store.getState().auth.id});
+      socket.emit('leaveAllGroups', {groupIds: Object.keys(store.getState().groups).filter(id=>id), user_id: store.getState().auth.id});
     }
   });
 
