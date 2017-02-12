@@ -21,28 +21,9 @@ class MessageContainer extends React.Component{
     this.messageContainer.scrollTop = this.messageContainer.scrollHeight;
   }
 
-  //component will receive props?
   componentWillReceiveProps() {
     this.messageContainer.scrollTop = this.messageContainer.scrollHeight;
   }
-
-
-  // shouldComponentUpdate(nextProps) {
-  //   const propsMessagesLength = Object.keys(this.props.messages).length;
-  //   const nextPropsMessagesLength = Object.keys(nextProps.messages).length;
-
-  //   // if (this.props.tabs.messages.length !== nextProps.tabs.messages.length && Object.keys(this.props.messages).length === Object.keys(nextProps.messages).length) {
-  //   //   console.log('in shouldComponentUpdate', this.props, nextProps)
-  //   //   return false;
-  //   // }
-  //   if (propsMessagesLength === nextPropsMessagesLength) {
-  //     return false;
-  //   }
-  //   return true;
-  // }
-
-
-
 
   render(){
     const tabs = this.props.tabs;

@@ -31,8 +31,8 @@ class CircleContainer extends React.Component{
   }
 
   componentWillMount(){
-    let activeTab = this.props.tabs.active
-    let activeGroup = this.props.tabs[activeTab].activeGroup
+    let activeTab = this.props.tabs.active;
+    let activeGroup = this.props.tabs[activeTab].activeGroup;
     let groups = {};
     for (let group in this.props.tabs[activeTab]){
       if(group === 0 || group === 'active' || group === 'activeGroup' ||
@@ -54,7 +54,7 @@ class CircleContainer extends React.Component{
 
   componentWillReceiveProps(nextProps){
     let activeTab = nextProps.tabs.active;
-    let activeGroup = nextProps.tabs[activeTab].activeGroup
+    let activeGroup = nextProps.tabs[activeTab].activeGroup;
     let groups = {};
     let message;
     // if(this.props.tabs[this.props.tabs.active].activeGroup != nextProps.tabs[nextProps.tabs.active].activeGroup){
