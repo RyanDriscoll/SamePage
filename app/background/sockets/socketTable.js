@@ -26,17 +26,20 @@ export default function(table) {
 export function socketListeners(){
 
   socket.on('typing', ({username, group}) => {
-    if(group == store.tabs[store.tabs.active].activeGroup){
+    let tabStore = store.getState().tabs
+    if(group == tabStore[tabStore.active].activeGroup){
       chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(store.tabs.active, {username}, function(response) {})
+        // console.log("---in background, tab, userame obj:---", tabStore.active, {username})
+        chrome.tabs.sendMessage(tabStore.active, {username}, function(res) {})
       });
     }
   })
 
   socket.on('doneTyping', ({username, group}) => {
-    if(group == store.tabs[store.tabs.active].activeGroup){
+    let tabStore = store.getState().tabs
+    if(group == tabStore[tabStore.active].activeGroup){
       chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(store.tabs.active, {username}, function(response) {})
+        chrome.tabs.sendMessage(tabStore.active, {username}, function(res) {})
       });
     }
   })
