@@ -23,6 +23,7 @@ class Login extends React.Component {
   }
   handleLogout() {
     this.setState({loginAttempts: 0});
+    chrome.runtime.sendMessage({type: 'logout', groupId});
     this.props.logout();
   }
   componentWillReceiveProps(nextProps) {

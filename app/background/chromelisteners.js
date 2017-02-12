@@ -25,12 +25,6 @@ export default function setListeners(){
           socket.emit('leaveGroup', {group_id: groupId, user_id: currStore.auth.id, tabId: tabId});
         }
       }
-        // store.dispatch({
-        //   type: REMOVE_GROUP,
-        //   tabId: tabId,
-        //   // groupId: currStore.tabs[tabId].activeGroup
-        // })
-      // socket.emit('leaveGroup', {group_id: currentStore.tabs[tabId].activeGroup, user_id: currentStore.auth.id})
     }
   })
 
@@ -56,6 +50,8 @@ export default function setListeners(){
       socket.emit('typing', {username: store.getState().auth.username, group: request.groupId})
     }else if(request.type === 'doneTyping'){
       socket.emit('doneTyping', {username: store.getState().auth.username, group: request.groupId})
+    }else if(request.type === 'logout'){
+      socket.emit('leaveAllGroups', {groupIds: Object.keys(store.getState().groups.filter(id=>id)), user_id: store.getState().auth.id});
     }
   });
 

@@ -23,6 +23,22 @@ module.exports = {
         socket.broadcast.to(group).emit('doneTyping', {username, group})
         socket.emit('doneTyping', {username, group}) //for testing on single computer
       })
+      socket.on('leaveAllGroups', ({groupIds, user_id}) => {
+        GroupUser.destroy({where: {user_id}})
+		    .then(result => {
+          groupIds.forEach(id=>
+            socket.broadcast.to(id).emit('remove:user', {groupId: id, user_id})
+          )
+          socket.leave(group_id, err => {
+            if (err) { throw err }
+            socket.emit('logoutFromServer');
+          })
+        })
+        .catch(err => console.log(err))
+
+
+        socket.broadcast.to(group).emit('remove:user', {username, group})
+      })
 
       socket.on('joinGroup', ({url, user_id, circleIds}) => {
         circleIds = circleIds.filter( id => id != 0);
