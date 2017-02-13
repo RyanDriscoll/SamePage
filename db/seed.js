@@ -1,23 +1,23 @@
 const db = require('APP/db')
 
 const seedUsers = () => db.Promise.map([
-  {username: 'Alan', email: 'alan@fs.com', password: '123'},
-  {username: 'Ryan', email: 'ryan@fs.com', password: '123'},
-  {username: 'Tom', email: 'tom@fs.com', password: '123'},
-  {username: 'KD', email: 'kd@fs.com', password: '123'},
-  {username: 'Mike', email: 'mike@fs.com', password: '123'},
-  {username: 'Claire', email: 'claire@fs.com', password: '123'},
-  {username: 'Waseem', email: 'waseem@fs.com', password: '123'},
-  {username: 'Danielle', email: 'danielle@fs.com', password: '123'},
-  {username: 'Andy', email: 'andy@fs.com', password: '123'},
-  {username: 'Alexis', email: 'alexis@fs.com', password: '123'},
-  {username: 'Jean', email: 'jean@fs.com', password: '123'},
-  {username: 'Rebekah', email: 'rebekah@fs.com', password: '123'},
-  {username: 'Hal', email: 'hal@fs.com', password: '123'},
-  {username: 'Spencer', email: 'spencer@fs.com', password: '123'},
-  {username: 'Alvin', email: 'alvin@fs.com', password: '123'},
-  {username: 'Joe', email: 'joe@fs.com', password: '123'},
-  {username: 'Alex', email: 'alex@fs.com', password: '123'}
+  {id: 1, username: 'Alan', email: 'alan@fs.com', password: '123'},
+  {id: 2, username: 'Ryan', email: 'ryan@fs.com', password: '123'},
+  {id: 3, username: 'Tom', email: 'tom@fs.com', password: '123'},
+  {id: 4, username: 'KD', email: 'kd@fs.com', password: '123'},
+  {id: 5, username: 'Mike', email: 'mike@fs.com', password: '123'},
+  {id: 6, username: 'Claire', email: 'claire@fs.com', password: '123'},
+  {id: 7, username: 'Waseem', email: 'waseem@fs.com', password: '123'},
+  {id: 8, username: 'Danielle', email: 'danielle@fs.com', password: '123'},
+  {id: 9, username: 'Andy', email: 'andy@fs.com', password: '123'},
+  {id: 10, username: 'Alexis', email: 'alexis@fs.com', password: '123'},
+  {id: 11, username: 'Jean', email: 'jean@fs.com', password: '123'},
+  {id: 12, username: 'Rebekah', email: 'rebekah@fs.com', password: '123'},
+  {id: 13, username: 'Hal', email: 'hal@fs.com', password: '123'},
+  {id: 14, username: 'Spencer', email: 'spencer@fs.com', password: '123'},
+  {id: 15, username: 'Alvin', email: 'alvin@fs.com', password: '123'},
+  {id: 16, username: 'Joe', email: 'joe@fs.com', password: '123'},
+  {id: 17, username: 'Alex', email: 'alex@fs.com', password: '123'}
 ], user => db.model('users').create(user))
 
 // const seedMessages = () => db.Promise.map([
@@ -48,10 +48,10 @@ const seedUsers = () => db.Promise.map([
 // ], groupuser => db.model('group_user').create(groupuser))
 
 const seedCircles = () => db.Promise.map([
-  {name: 'Fullstack', creator: 2},
-  {name: 'Hatch', creator: 2},
-  {name: 'Drawsome', creator: 2},
-  {name: 'Notion', creator: 2}
+  {id: 1, name: 'Fullstack', creator: 2},
+  {id: 2, name: 'Hatch', creator: 2},
+  {id: 3, name: 'Drawsome', creator: 2},
+  {id: 4, name: 'Notion', creator: 2}
 ], circle => db.model('circles').create(circle))
 
 const seedCircleUsers = () => db.Promise.map([
