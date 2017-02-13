@@ -45,7 +45,7 @@
   top: 0vh;
   height: 100vh;
   right: -260px;
-  z-index: calc(9999 * 9999);
+  z-index: calc(9999 * 9999 * 9999);
   background: #e2e1e0;
   width: 250px;
   display: flex;
