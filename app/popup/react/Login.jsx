@@ -14,7 +14,6 @@ class Login extends React.Component {
   handleSubmit(evt) {
     evt.preventDefault();
     this.props.login(evt.target.email.value, evt.target.password.value);
-    console.log('in handleSubmit login attempts >', this.state.loginAttempts)
     setTimeout(() => {
       let count = this.state.loginAttempts;
       count++;

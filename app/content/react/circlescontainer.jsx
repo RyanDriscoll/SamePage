@@ -19,7 +19,6 @@ class CircleContainer extends React.Component{
 
   handleContainerClick(e){
     e.preventDefault();
-    console.log(this.state.collapsed)
     if (this.state.collapsed) {
       TweenLite.to(this.collapsedContainer, 0.3, {maxHeight: 215, ease: Power1.easeOut});
     } else {
@@ -66,7 +65,7 @@ class CircleContainer extends React.Component{
         }
       }
     }
-    if (this.props.tabs[this.props.tabs.active].activeGroup != activeGroup && this.props.tabs[this.props.tabs.active].activeGroup != 0 && Object.keys(groups).length && activeGroup){
+    if (this.props.tabs[this.props.tabs.active].activeGroup != activeGroup && this.props.tabs[this.props.tabs.active].activeGroup != 0 && Object.keys(groups).length && activeGroup && groups[activeGroup]){
       groups[activeGroup].message = 0;
     }
     this.updateCircles(groups);

@@ -39,9 +39,9 @@ export default class CircleComponent extends React.Component{
     this.setState({
       circleColor: this.state.colors[index]
     });
-    if (this.props.message && !this.props.active && !this.tween.isActive()) {
+    if (nextProps.message && !nextProps.active && !this.tween.isActive()) {
       this.tween.play();
-    } else if (!this.props.message){
+    } else if (!nextProps.message){
       this.tween.time(0).pause();
     }
   }
@@ -56,6 +56,9 @@ export default class CircleComponent extends React.Component{
 
   handleClick(e){
     e.preventDefault();
+    if (this.tween.isActive()) {
+      this.tween.time(0).pause();
+    }
     chrome.runtime.sendMessage({type: 'changeActiveGroup', groupId: this.props.id}, null)
   }
 

@@ -47,7 +47,6 @@ export const getMsg = (tabId, groups) => {
 	axios.get(rootPath + 'messages', {params: {groups}})
   .then(res => res.data)
   .then(foundMessages => {
-    // console.log("found messages", foundMessages)
     const messageIds = foundMessages.reduce((obj, msg) => {
       if(obj[msg.group_id]){
         obj[msg.group_id].messages.push(msg);
