@@ -68,8 +68,8 @@ class ChatContainer extends React.Component{
               style={this.state.style}
               >
 
-              <UserContainer store={this.props.store} />
-              {/*<CirclesContainer store={this.props.store} />*/}
+              {/*<UserContainer store={this.props.store} />*/}
+              <CirclesContainer store={this.props.store} />
               <MessageContainer store={this.props.store} />
               <SendMessageComponent store={this.props.store} />
             </div>

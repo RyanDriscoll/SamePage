@@ -8,7 +8,7 @@ class CircleTitle extends React.Component{
     super(props);
     this.state = {
       titleColor: '',
-      colors: ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4caf50', '#558b2f', '#ef6c00', '#ff5722', '#795548']
+      colors: ['#e91e63', '#3f51b5', '#9c27b0', '#673ab7', '#f44336', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4caf50', '#558b2f', '#ef6c00', '#ff5722']
     };
     this.hashNameToColorIndex = this.hashNameToColorIndex.bind(this);
   }
@@ -45,16 +45,7 @@ class CircleTitle extends React.Component{
           <img
             src={`${rootPath}user-icon.png`}
             className="user-icon-in-user-container" />
-          <div
-            className="number-of-users-icon"
-            style={{backgroundColor: color}}>
-            {
-              this.props.group ?
-                this.props.group.users.length
-                :
-                '1'
-            }
-          </div>
+
         </div>
       </div>
     )

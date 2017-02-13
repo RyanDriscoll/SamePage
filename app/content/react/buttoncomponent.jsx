@@ -69,7 +69,7 @@ class ButtonComponent extends React.Component{
     if (!this.state.displayChat) {
       TweenLite.to(this.button, 1.5, {height: 35, width: 75, borderRadius: 3, ease: Elastic.easeOut});
       TweenLite.to(this.bubImg, 1.5, {height: 0, width: 0, autoAlpha: 0, ease: Elastic.easeOut});
-      TweenLite.to(this.xImg, 1.5, {height: 30, width: 30, autoAlpha: 1, ease: Elastic.easeOut});
+      TweenLite.to(this.xImg, 1.5, {height: 20, width: 20, autoAlpha: 1, ease: Elastic.easeOut});
       this.joinRoom(this.props.user.id)
     } else {
       TweenLite.to(this.button, 1.5, {height: 100, width: 100, borderRadius: '50%', ease: Elastic.easeOut});
@@ -107,7 +107,7 @@ class ButtonComponent extends React.Component{
                   />
                 <img
                   className="button-img"
-                  src={`${rootPath}circle-x.png`}
+                  src={`${rootPath}close_50.png`}
                   ref={el => {this.xImg = el;}}
                   />
               </button>

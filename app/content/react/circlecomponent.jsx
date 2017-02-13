@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {TweenMax} from 'gsap';
+import rootPath from './httpServer';
 
 
 export default class CircleComponent extends React.Component{
@@ -7,7 +8,7 @@ export default class CircleComponent extends React.Component{
     super(props);
     this.state = {
       circleColor: '',
-      colors: ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4caf50', '#558b2f', '#ef6c00', '#ff5722', '#795548']
+      colors: ['#e91e63', '#3f51b5', '#9c27b0', '#673ab7', '#f44336', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4caf50', '#558b2f', '#ef6c00', '#ff5722']
     };
     this.handleClick = this.handleClick.bind(this);
     this.hashNameToColorIndex = this.hashNameToColorIndex.bind(this);
@@ -68,7 +69,18 @@ export default class CircleComponent extends React.Component{
           style={{backgroundColor: this.state.circleColor}}
           className="circle-component shadow"
           onClick={this.handleClick}>
-          {this.props.letter}
+          {
+            this.props.letter ? this.props.letter
+            :
+            <img
+              className="title-button-img"
+              style={{
+                height: '20px',
+                width: '20px'
+              }}
+              src={`${rootPath}messagebubblewhite.png`}
+            />
+          }
         </div>
           { this.props.message ?
             <div className="number-of-messages-icon shadow">
