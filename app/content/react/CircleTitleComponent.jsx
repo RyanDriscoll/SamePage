@@ -45,7 +45,9 @@ class CircleTitle extends React.Component{
           <img
             src={`${rootPath}user-icon.png`}
             className="user-icon-in-user-container" />
-          <div className="number-of-users-icon">
+          <div
+            className="number-of-users-icon"
+            style={{backgroundColor: color}}>
             {
               this.props.group ?
                 this.props.group.users.length

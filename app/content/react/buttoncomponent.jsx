@@ -23,7 +23,7 @@ class ButtonComponent extends React.Component{
 
   componentDidMount(){
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-      if (request.action === 'displayChatboxFalse') { 
+      if (request.action === 'displayChatboxFalse') {
         if (this.state.displayChat) {
           TweenLite.to(this.button, 1.5, {height: 100, width: 100, borderRadius: '50%', ease: Elastic.easeOut});
           TweenLite.to(this.img, 1.5, {height: 60, width: 60, ease: Elastic.easeOut});
@@ -31,6 +31,7 @@ class ButtonComponent extends React.Component{
         this.setState({displayChat: false})
       }
     });
+    TweenLite.set(this.xImg, {height: 0, width: 0, autoAlpha: 0});
   }
 
   componentWillReceiveProps(nextProps) {
@@ -66,12 +67,14 @@ class ButtonComponent extends React.Component{
   toggleChatDisplay(e){
     e.preventDefault();
     if (!this.state.displayChat) {
-      TweenLite.to(this.button, 1.5, {height: 50, width: 75, borderRadius: 3, ease: Elastic.easeOut});
-      TweenLite.to(this.img, 1.5, {height: 30, width: 30, ease: Elastic.easeOut});
+      TweenLite.to(this.button, 1.5, {height: 35, width: 75, borderRadius: 3, ease: Elastic.easeOut});
+      TweenLite.to(this.bubImg, 1.5, {height: 0, width: 0, autoAlpha: 0, ease: Elastic.easeOut});
+      TweenLite.to(this.xImg, 1.5, {height: 30, width: 30, autoAlpha: 1, ease: Elastic.easeOut});
       this.joinRoom(this.props.user.id)
     } else {
       TweenLite.to(this.button, 1.5, {height: 100, width: 100, borderRadius: '50%', ease: Elastic.easeOut});
-      TweenLite.to(this.img, 1.5, {height: 60, width: 60, ease: Elastic.easeOut});
+      TweenLite.to(this.xImg, 0.5, {height: 0, width: 0, autoAlpha: 0});
+      TweenLite.to(this.bubImg, 1.5, {height: 60, width: 60, autoAlpha: 1, ease: Elastic.easeOut});
     }
     // chrome.runtime.sendMessage({type: 'joinRoom', user: this.props.user.id}, null)
 
@@ -99,12 +102,13 @@ class ButtonComponent extends React.Component{
                 onClick={this.toggleChatDisplay}>
                 <img
                   className="button-img"
-                  style={{
-                    height: '60px',
-                    width: '60px'
-                  }}
                   src={`${rootPath}messagebubble.png`}
-                  ref={el => {this.img = el;}}
+                  ref={el => {this.bubImg = el;}}
+                  />
+                <img
+                  className="button-img"
+                  src={`${rootPath}circle-x.png`}
+                  ref={el => {this.xImg = el;}}
                   />
               </button>
           </div>

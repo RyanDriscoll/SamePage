@@ -27,7 +27,7 @@ class UserContainer extends React.Component{
         <div
           className="title">
           <img
-          className="button-img"
+          className="title-button-img"
           style={{
             height: '40px',
             width: '40px'
