@@ -35,8 +35,7 @@ class CircleContainer extends React.Component{
     let activeTab = nextProps.tabs.active;
     let activeGroup = nextProps.tabs[activeTab].activeGroup;
     let groups = Object.assign({}, this.state.circles);
-
-    if (!Object.keys(groups).length && Object.keys(nextProps.tabs[activeTab]).length > 3){
+    if (!Object.keys(groups).length && Object.keys(nextProps.tabs[activeTab]).length >= 3){
       for (let group in nextProps.tabs[activeTab]){
         if (group === 0 || group === 'main' || group === 'activeGroup' ||
           !nextProps.tabs[activeTab][group] || !nextProps.tabs[activeTab][group].messages) continue;
