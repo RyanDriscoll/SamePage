@@ -63,8 +63,9 @@ module.exports = {
           })
         })
           .catch(err=>console.log("error in joinGroup socket.on", err, err.stack))
-        
-      
+
+
+    })
       socket.on('leaveGroup', ({group_id, user_id, tabId}) => {
         GroupUser.destroy({where: {group_id, user_id}})
 		    .then(result => {
@@ -79,7 +80,7 @@ module.exports = {
 
       socket.on('closeTab', ({group_id, user_id, tabId, removeGroup}) => {
         if(!removeGroup){
-          socket.emit('closeTabFromServer', tabId);       
+          socket.emit('closeTabFromServer', tabId);
         }else {
           GroupUser.destroy({where: {group_id, user_id}})
           .then(result => {
@@ -96,7 +97,6 @@ module.exports = {
         console.log("disconnected___", socket.id)
       })
     })
-    }) 
   },
   get: function() { return sockets; }
 }
