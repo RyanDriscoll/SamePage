@@ -1,15 +1,21 @@
 /* -----------------    CONSTANTS     ------------------ */
 
-export const ADD_USER = 'ADD_USER';
-export const GET_USER = 'GET_USER';
-export const REMOVE_USER = 'REMOVE_USER';
+import { ADD_GROUP } from './groups';
+
+import { ADD_USER } from './users';
+import { GET_USER } from './users';
+import { REMOVE_USER } from './users';
+
+import { ADD_MSG } from './messages';
+import { GET_MSG } from './messages';
+
 export const REMOVE_TAB = 'REMOVE_TAB';
 export const REMOVE_GROUP = "REMOVE_GROUP";
-export const ADD_MSG = 'ADD_MSG';
-export const GET_MSG = 'GET_MSG';
-export const ADD_GROUP = 'ADD_GROUP';
 export const CHANGE_ACTIVE = 'CHANGE_ACTIVE';
 export const SWITCH_ACTIVE_GROUP = 'SWITCH_ACTIVE_GROUP';
+export const LOGOUT = 'LOGOUT';
+
+/* -----------------    REDUCER     ------------------ */
 
 const initialState = {
   active: 0,
@@ -40,9 +46,9 @@ export default function reducer (tabs = initialState, action) {
       return newTabs;
     }
     case SWITCH_ACTIVE_GROUP:{
-      let newActiveGroup = Object.assign({}, tabs[tabs.active]);
-      newActiveGroup.activeGroup = action.groupId;
-      return Object.assign({}, tabs, {[tabs.active]: newActiveGroup});
+      let newTab = Object.assign({}, tabs[tabs.active]);
+      newTab.activeGroup = action.groupId;
+      return Object.assign({}, tabs, {[tabs.active]: newTab});
     }
     case REMOVE_USER: {
       let newTabs = Object.assign({}, tabs)
@@ -85,8 +91,7 @@ export default function reducer (tabs = initialState, action) {
       })
 			return Object.assign({}, tabs, {[action.tabId]: newTab});
     }
-    case ADD_GROUP:
-
+    case ADD_GROUP:{
       return Object.assign({}, tabs, {
         [action.tabId]: Object.assign({}, ...action.group.map(groupInst => {
           if(groupInst.circle_id){
@@ -98,27 +103,22 @@ export default function reducer (tabs = initialState, action) {
           }
         }))
       })
-    case REMOVE_TAB:
+    }
+    case REMOVE_TAB:{
       let newTabs = Object.assign({}, tabs);
       delete newTabs[action.tabId];
       return newTabs;
+    }
     case REMOVE_GROUP:{
-      let removeGroup = Object.assign({}, tabs);
-      removeGroup[action.tabId] = {}
-      removeGroup[action.tabId].activeGroup = 0;
-      removeGroup[action.tabId].main = 0;
-      return removeGroup;
+      return Object.assign({}, tabs, {[action.tabId]: {activeGroup: 0, main: 0, 0: {}}});
     }
     case CHANGE_ACTIVE: {
       let newTab
-      if(tabs[action.tabId]){
-        newTab = {active: action.tabId}
-      } else{
-        newTab = {active: action.tabId, [action.tabId]: {}}
-      }
+      if(tabs[action.tabId]) newTab = {active: action.tabId}
+      else newTab = {active: action.tabId, [action.tabId]: {}}
       return Object.assign({}, tabs, newTab);
     }
-		case 'LOGOUT': {
+		case LOGOUT: {
       return Object.assign({}, initialState, {active: tabs.active, [tabs.active]: {}})
     }
 		default: return tabs;

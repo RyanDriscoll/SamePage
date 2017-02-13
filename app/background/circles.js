@@ -2,10 +2,10 @@ import axios from 'axios'
 import rootPath from './httpServer.jsx'
 import store from './store'
 
-/* -------------------- ACTIONS --------------------*/
+/* -------------------- CONSTANTS --------------------*/
 
-const GET_CIRCLE = 'GET_CIRCLE'
-
+export const GET_CIRCLE = 'GET_CIRCLE'
+import LOGOUT from './tabs';
 
 
 /* ----------------------REDUCER -------------------*/
@@ -25,19 +25,10 @@ export default function reducer(circles = initialState, action) {
 			}, {})
 			return Object.assign({}, circles, fetchedCircles)
 		}
-		case 'LOGOUT': return initialState;
+		case LOGOUT: return initialState;
 		default: return circles;
 	}
 }
 
 /* ------------------- DISPATCHERS -----------------------------------*/
 
-export const getCircle = user_id => {
-	axios.get(rootPath + 'circles', {params: {user_id: user_id}})
-	.then (res => res.data)
-	.then(circles => {
-		let mappedCircles = circles.map( (circle) => circle.circle )
-		store.dispatch({type: GET_CIRCLE, circles: mappedCircles})
-	})
-	.catch(err => console.error(`Error fetching circles for user ${user_id} unsuccessful`, err))
-}

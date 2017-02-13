@@ -30,9 +30,11 @@ export default function setListeners(){
 
   chrome.tabs.onActivated.addListener(function({tabId, windowId}){
     store.dispatch(change_active(tabId));
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-        chrome.tabs.sendMessage(tabs[0].id, {action: "rerender"}, function(response) {});  
-    });
+    if (Object.keys(store.tabs[tabId]) > 3){
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+          chrome.tabs.sendMessage(tabs[0].id, {action: "rerender"}, function(response) {});  
+      });
+    }
   });
 
   chrome.runtime.onMessage.addListener(function(request, sender, response){
@@ -51,7 +53,10 @@ export default function setListeners(){
       chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
         chrome.tabs.sendMessage(tabs[0].id, {action: "displayChatboxFalse"}, function(response) {});  
       });
-      socket.emit('leaveAllGroups', {groupIds: Object.keys(store.getState().groups).filter(id=>id), user_id: store.getState().auth.id});
+      socket.emit('leaveAllGroups', {
+        groupIds: Object.keys(store.getState().groups).filter(id=>id), 
+        user_id: store.getState().auth.id
+      });
     }
   });
 
@@ -68,12 +73,16 @@ export default function setListeners(){
           break;
         }
       }
-      if (!deleteGroup) {
-        socket.emit('closeTab', {group_id: groupId, user_id: currStore.auth.id, tabId: tabId, removeGroup: false})
-      }else if(deleteGroup){
-        socket.emit('closeTab', {group_id: groupId, user_id: currStore.auth.id, tabId: tabId, removeGroup: true}) 
-      }
-      socket.emit('doneTyping', {username: store.getState().auth.username, group: groupId})
+      socket.emit('closeTab', {
+        group_id: groupId, 
+        user_id: currStore.auth.id, 
+        tabId: tabId, 
+        removeGroup: deleteGroup
+      })
+      socket.emit('doneTyping', {
+        username: store.getState().auth.username, 
+        group: groupId
+      })
     }
   })
 }

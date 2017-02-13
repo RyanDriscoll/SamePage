@@ -1,8 +1,13 @@
-import { GET_USER, GET_MSG, CHANGE_ACTIVE } from './tabs.js';
+import { GET_USER } from './users.js';
+import { GET_MSG } from './messages.js';
+import { GET_CIRCLE } from './circles.js';
+import { CHANGE_ACTIVE } from './tabs.js';
 import rootPath from './httpServer.jsx';
 import axios from 'axios';
 import store from './store.js';
 import socket from './sockets/io';
+
+/* ------------   ACTION CREATORS     ------------------ */
 
 export const get_user = (users, userIds, tabId, groupIds) => {
   return {
@@ -73,4 +78,14 @@ export const addGroup = (url) => {
 export const removeUser = (groupId, userId) => {
   axios.delete(rootPath + 'groups/users', {data: {groupId, userId}})
   .catch(err => console.log(err, err.stack))
+}
+
+export const getCircle = user_id => {
+  axios.get(rootPath + 'circles', {params: {user_id: user_id}})
+  .then (res => res.data)
+  .then(circles => {
+    let mappedCircles = circles.map( (circle) => circle.circle )
+    store.dispatch({type: GET_CIRCLE, circles: mappedCircles})
+  })
+  .catch(err => console.error(`Error fetching circles for user ${user_id} unsuccessful`, err))
 }

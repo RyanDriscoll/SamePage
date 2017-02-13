@@ -1,11 +1,10 @@
 
 /* -----------------    CONSTANTS     ------------------ */
 
-const GET_USER = 'GET_USER';
-const ADD_USER = 'ADD_USER';
-const REMOVE_USER = 'REMOVE_USER';
-
-/* ------------   ACTION CREATORS     ------------------ */
+import LOGOUT from './tabs';
+export const GET_USER = 'GET_USER';
+export const ADD_USER = 'ADD_USER';
+export const REMOVE_USER = 'REMOVE_USER';
 
 /* ------------       REDUCERS     ------------------ */
 const initialState = {
@@ -32,7 +31,7 @@ export default function reducer (users = initialState, action) {
 		case REMOVE_USER: {
 			return users;
 		}
-		case 'LOGOUT': return initialState;
+		case LOGOUT: return initialState;
 		default: return users;
 	}
 }
