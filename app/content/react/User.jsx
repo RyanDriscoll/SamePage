@@ -7,7 +7,7 @@ class User extends React.Component{
     super(props);
     this.state = {
       userColor: '',
-      colors: ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4caf50', '#558b2f', '#ef6c00', '#ff5722', '#795548']
+      colors: ['#e91e63', '#3f51b5', '#9c27b0', '#673ab7', '#f44336', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4caf50', '#558b2f', '#ef6c00', '#ff5722']
     };
     this.hashUsernameToColorsIndex = this.hashUsernameToColorsIndex.bind(this);
   }

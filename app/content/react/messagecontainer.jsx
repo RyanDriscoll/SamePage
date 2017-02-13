@@ -21,9 +21,20 @@ class MessageContainer extends React.Component{
     this.messageContainer.scrollTop = this.messageContainer.scrollHeight;
   }
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps(nextProps) {
     this.messageContainer.scrollTop = this.messageContainer.scrollHeight;
   }
+
+  // shouldComponentUpdate(nextProps) {
+  //   if ((Object.keys(nextProps.messages).length !== Object.keys(this.props.messages).length) || (this.props.tabs[this.props.tabs.active].activeGroup != nextProps.tabs[nextProps.tabs.active].activeGroup) || (Object.keys(nextProps.users).length !== Object.keys(this.props.users).length)) {
+  //     console.log('true', Object.keys(nextProps.messages).length, Object.keys(this.props.messages).length)
+  //     console.log('true', this.props.tabs[this.props.tabs.active].activeGroup, nextProps.tabs[nextProps.tabs.active].activeGroup)
+  //     return true;
+  //   }
+  //   console.log('false', Object.keys(nextProps.messages).length, Object.keys(this.props.messages).length)
+  //     console.log('false', this.props.tabs[this.props.tabs.active].activeGroup, nextProps.tabs[nextProps.tabs.active].activeGroup)
+  //   return false;
+  // }
 
   render(){
     const tabs = this.props.tabs;
