@@ -1,6 +1,6 @@
-const db = require('APP/db')
+var db = require('APP/db')
 
-const seedUsers = () => db.Promise.map([
+var seedUsers = () => db.Promise.map([
   {username: 'so many', email: 'god@example.com', password: '123'},
   {username: 'Barack Obama', email: 'barack@example.gov', password: '123'},
   {username: 'Alan', email: 'alan@bomberboy.com', password: '123'},
@@ -9,7 +9,7 @@ const seedUsers = () => db.Promise.map([
   {username: 'KD', email: 'kd@dijkstra.com', password: '123'},
 ], user => db.model('users').create(user))
 
-const seedMessages = () => db.Promise.map([
+var seedMessages = () => db.Promise.map([
   {content: 'What is up?', group_id: 3, user_id: 6},
   {content: 'Trump sucks', group_id: 2, user_id: 5},
   {content: 'Tell me about it!', group_id: 3, user_id: 4},
@@ -18,7 +18,7 @@ const seedMessages = () => db.Promise.map([
   {content: 'ur all dubmn!', group_id: 1, user_id: 1},
 ], message => db.model('messages').create(message))
 
-const seedGroups = () => db.Promise.map([
+var seedGroups = () => db.Promise.map([
   {url: 'www.google.com', circle_id: null},
   {url: 'www.github.com', circle_id: null},
   {url: 'www.fullstackacademy.com', circle_id: 1},
@@ -27,7 +27,7 @@ const seedGroups = () => db.Promise.map([
   {url: 'https://en.wikipedia.org/wiki/Sloth', circle_id: 2},
 ], group => db.model('groups').create(group))
 
-const seedGroupUsers = () => db.Promise.map([
+var seedGroupUsers = () => db.Promise.map([
   {user_id: 1, group_id: 1},
   {user_id: 2, group_id: 1},
   {user_id: 4, group_id: 2},
@@ -36,13 +36,13 @@ const seedGroupUsers = () => db.Promise.map([
   {user_id: 3, group_id: 5},
 ], groupuser => db.model('group_user').create(groupuser))
 
-const seedCircles = () => db.Promise.map([
+var seedCircles = () => db.Promise.map([
   {name: 'Fullstack', creator: 1},
   {name: 'Sloth Fanatics', creator: 1},
   {name: 'Javascript rulez', creator: 2}
 ], circle => db.model('circles').create(circle))
 
-const seedCircleUsers = () => db.Promise.map([
+var seedCircleUsers = () => db.Promise.map([
   {user_id: 1, circle_id: 1},
   {user_id: 2, circle_id: 1},
   {user_id: 4, circle_id: 2},
