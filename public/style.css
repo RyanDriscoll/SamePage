@@ -6,7 +6,7 @@
   position: fixed;
   bottom: -150px;
   right: 5px;
-  z-index: 9999;
+  z-index: calc(9999 * 9999);
   height: 100px;
   width: 100px;
   border-radius: 50%;
@@ -45,7 +45,7 @@
   top: 0vh;
   height: 100vh;
   right: -260px;
-  z-index: 9999;
+  z-index: calc(9999 * 9999);
   background: #e2e1e0;
   width: 250px;
   display: flex;
@@ -192,7 +192,7 @@
   box-sizing: border-box;
   margin: 0px 5px auto 5px;
   border-radius: 3px;
-  z-index: 99999;
+  z-index: calc(9999 * 9999);
   background-color: white;
   width: 240px;
 }
@@ -209,7 +209,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  z-index: 99999;
+  z-index: calc(9999 * 9999);
 }
 
 .circle-container {
@@ -217,7 +217,7 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  z-index: 99999;
+  z-index: calc(9999 * 9999);
   overflow: visible;
   padding-bottom: 5px;
 }
