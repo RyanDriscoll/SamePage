@@ -24,7 +24,8 @@ module.exports = require('express').Router()
 
 	.get('/group_users', (req, res, next) => {
 		GroupUser.findAll({
-			where: { group_id: { $in: req.query.groups } }, include: [ { model: User, attributes: ['id', 'username'] } ]
+			where: { group_id: { $in: req.query.groups } }, 
+			include: [ { model: User, attributes: ['id', 'username'] } ]
 		})
 		.then(groupUsers => res.json(groupUsers))
 		.catch(next);

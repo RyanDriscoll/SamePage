@@ -21,7 +21,7 @@ export default function setListeners(){
           }
         }
         if (deleteGroup) {
-          socket.emit('leaveGroup', {group_id: groupId, user_id: currStore.auth.id, tabId: tabId});
+          socket.emit('leaveGroup', {group_id, tabId, user_id: currStore.auth.id});
         }
         socket.emit('doneTyping', {username: store.getState().auth.username, group: groupId})          
       }
@@ -41,10 +41,7 @@ export default function setListeners(){
     if (request.type === 'joinRoom'){
       addGroup(sender.url)
     }else if(request.type === 'changeActiveGroup'){
-      store.dispatch({
-        type: SWITCH_ACTIVE_GROUP,
-        groupId: request.groupId
-      })
+      store.dispatch({type: SWITCH_ACTIVE_GROUP, groupId: request.groupId})
     }else if(request.type === 'typing'){
       socket.emit('typing', {username: store.getState().auth.username, group: request.groupId})
     }else if(request.type === 'doneTyping'){

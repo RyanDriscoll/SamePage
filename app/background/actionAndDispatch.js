@@ -54,12 +54,10 @@ export const getMsg = (tabId, groups) => {
   .then(foundMessages => {
     // console.log("found messages", foundMessages)
     const messageIds = foundMessages.reduce((obj, msg) => {
-      if(obj[msg.group_id]){
-        obj[msg.group_id].messages.push(msg);
-      } else {
-        obj[msg.group_id] = {};
-        obj[msg.group_id].messages = [msg];
-      }
+      if(obj[msg.group_id]) obj[msg.group_id].messages.push(msg);
+      else obj[msg.group_id] = {messages: [msg]}
+        // obj[msg.group_id] = {};
+        // obj[msg.group_id].messages = [msg];
       return obj;
 		}, {})
     const users = foundMessages.map(message => message.user);
@@ -72,7 +70,7 @@ export const getMsg = (tabId, groups) => {
 
 export const addGroup = (url) => {
   let circleIds = [null, ...Object.keys(store.getState().circles)]
-  socket.emit('joinGroup', {url: url, user_id: store.getState().auth.id, circleIds:circleIds});
+  socket.emit('joinGroup', {url, circleIds, user_id: store.getState().auth.id});
 };
 
 export const removeUser = (groupId, userId) => {

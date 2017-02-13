@@ -2,7 +2,7 @@ import socket from './io';
 import store from '../store';
 const actions = ['add', 'update', 'remove', 'get'];
 import {getUser, getMsg } from '../actionAndDispatch.js';
-import {REMOVE_GROUP, REMOVE_TAB} from '../tabs.js';
+import {REMOVE_GROUP, REMOVE_TAB, LOGOUT} from '../tabs.js';
 
 export default function(table) {
   for (const action of actions) {
@@ -25,7 +25,7 @@ export default function(table) {
 export function socketListeners(){
 
   socket.on('logoutFromServer', () => {
-    store.dispatch({type: 'LOGOUT'})
+    store.dispatch({type: LOGOUT})
   })
 
   socket.on('typing', ({username, group}) => {
@@ -55,17 +55,13 @@ export function socketListeners(){
     });
     getMsg(currentStore.tabs.active, groups.map(group => group.id));
     getUser(currentStore.tabs.active, groups.map(group => group.id)) //why not include users w groups instead?
-
-
   })
 
   socket.on('leaveGroupFromServer', (groupId, tabId) => {
-    let currentStore = store.getState();
     store.dispatch({type: REMOVE_GROUP, tabId: tabId, groupId})
   })
 
   socket.on('closeTabFromServer', (tabId) => {
-    let currentStore = store.getState();
     store.dispatch({type: REMOVE_TAB, tabId: tabId})
   })
 
