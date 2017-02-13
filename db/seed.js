@@ -55,6 +55,7 @@ const seedCircles = () => db.Promise.map([
 ], circle => db.model('circles').create(circle))
 
 const seedCircleUsers = () => db.Promise.map([
+  {user_id: 17, circle_id: 1},
   {user_id: 1, circle_id: 1},
   {user_id: 2, circle_id: 1},
   {user_id: 3, circle_id: 1},
