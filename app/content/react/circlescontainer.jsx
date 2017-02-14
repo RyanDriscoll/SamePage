@@ -28,6 +28,7 @@ class CircleContainer extends React.Component{
   }
 
   componentWillMount(){
+    console.log("local tab", this.props.tabs.active)
     this.setState({localTab: this.props.tabs.active})
   }
 
@@ -37,7 +38,7 @@ class CircleContainer extends React.Component{
     let activeGroup = nextTab.activeGroup;
     let newGroups = Object.assign({}, this.state.groups);
 
-    if(activeGroup && !thisTab.activeGroup && !Object.keys(newGroups).length && this.state.localTab == nextProps.tabs.active){
+    if(activeGroup && !Object.keys(newGroups).length && (this.state.localTab == nextProps.tabs.active)){
       for (let group in nextTab){
         if(group === 'main' || group === 'activeGroup') continue;
         if(group == nextTab.main) newGroups[group] = {
@@ -53,13 +54,13 @@ class CircleContainer extends React.Component{
             message: 0,
             group: false}
       }
-    }else if(Object.keys(this.props.messages).length + 1 === Object.keys(nextProps.messages).length && this.state.localTab == nextProps.tabs.active){
+    }else if(Object.keys(this.props.messages).length + 1 === Object.keys(nextProps.messages).length && (this.state.localTab == nextProps.tabs.active)){
       for (let group in nextTab){
         if (group === 'main' || group === 'activeGroup' || group == activeGroup) continue;
         if(thisTab[group].messages.length !== nextTab[group].messages.length)
           if(newGroups[activeGroup]) newGroups[group].message++;
       }
-    }else if(thisTab.activeGroup !== activeGroup && this.props.tabs.active === nextProps.tabs.active && this.state.localTab == nextProps.tabs.active)
+    }else if(thisTab.activeGroup !== activeGroup && this.props.tabs.active === nextProps.tabs.active && (this.state.localTab == nextProps.tabs.active))
         if(newGroups[activeGroup]) newGroups[activeGroup].message = 0;
     else return;
 
@@ -68,9 +69,15 @@ class CircleContainer extends React.Component{
 
   render(){
     let activeTab = this.props.tabs[this.props.tabs.active]
-    let groups = this.state.groups
-    console.log("outside if", groups, groups[activeTab.activeGroup], activeTab.activeGroup)
-    if( !Object.keys(groups).length || !groups[activeTab.activeGroup] || this.state.localTab != this.props.tabs.active){
+    let theActiveGroup = activeTab.activeGroup;
+    let groups = this.state.groups;
+    let mainGroup = activeTab.main;
+
+    const tabs = this.props.tabs;
+    const activeGroupId = tabs[tabs.active].activeGroup;
+    const group = tabs[tabs.active][activeGroupId];
+
+    if( !Object.keys(groups).length || !groups[theActiveGroup] || this.state.localTab != this.props.tabs.active){
       return (
         <div />
       );
@@ -81,14 +88,14 @@ class CircleContainer extends React.Component{
           groupList.unshift(groups[group]);
       else groupList.push(groups[group]);
     }
-    let userIds = activeTab.activeGroup ? activeTab[activeTab.activeGroup].users : [];
+    let userIds = theActiveGroup ? activeTab[theActiveGroup].users : [];
 
     return (
       <div className="user-container shadow">
         <div
           className="title">
           {
-            activeGroup == mainGroup ?
+            theActiveGroup == mainGroup ?
             <img
             className="title-button-img"
             style={{height: '40px', width: '40px', paddingLeft: '3px'}}
@@ -102,16 +109,17 @@ class CircleContainer extends React.Component{
             />
           }
           {
-            this.state.circles[activeGroup] &&
-            this.state.circles[activeGroup].name
+            this.state.groups[theActiveGroup] &&
+            this.state.groups[theActiveGroup].name
           }
           <div
             onClick={this.handleContainerClick}>
             {
-              this.state.circles[activeGroup] &&
+              this.state.groups[theActiveGroup] &&
               <UserIcon
-                name={this.state.circles[activeGroup].name}
+                name={this.state.groups[theActiveGroup].name}
                 group={group}
+                nameToColor={this.props.nameToColor}
               />
             }
           </div>
@@ -125,7 +133,7 @@ class CircleContainer extends React.Component{
                     name={groupObj.name}
                     letter={groupObj.letter}
                     message={groupObj.message}
-                    active={activeTab.activeGroup == +groupObj.id}
+                    active={theActiveGroup == +groupObj.id}
                     id={groupObj.id}
                     nameToColor={this.props.nameToColor}
                   />
@@ -139,7 +147,7 @@ class CircleContainer extends React.Component{
             className="user-container-collapsed"
             ref={el => {this.collapsedContainer = el;}}>
             {
-              activeTab.activeGroup && this.props.users && userIds.map(id => {
+              theActiveGroup && this.props.users && userIds.map(id => {
                 return (
                   <div key={id} >
                     <User
