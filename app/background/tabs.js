@@ -55,13 +55,8 @@ export default function reducer (tabs = initialState, action) {
       let newTabs = Object.assign({}, tabs)
         for(let tab in newTabs){
           if(tab == 'active' || tab == 0) continue;
-          if(tabs[tab][action.groupId]) {
-            newTabs[tab] = Object.assign({}, {
-              [action.groupId]: Object.assign({}, newTabs[tab][action.groupId],
-                {user: newTabs[tab][action.groupId].users.filter(id => id != action.userId)}
-              )
-            })
-            //newTabs[tab][action.groupId].users = newTabs[tab][action.groupId].users.filter(id => id != action.userId);
+          if(newTabs[tab][action.groupId]) {
+            newTabs[tab][action.groupId].users = newTabs[tab][action.groupId].users.filter(id => id != action.userId);
           }
         }
       return newTabs;
