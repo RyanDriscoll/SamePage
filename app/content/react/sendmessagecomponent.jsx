@@ -15,39 +15,9 @@ class SendMessageComponent extends React.Component{
     this.sendChat = this.sendChat.bind(this);
     this.handleChatChange = this.handleChatChange.bind(this);
     this.handleEnter = this.handleEnter.bind(this);
-    // this.displayTypers = this.displayTypers.bind(this);
 
-    // this.sendChatComponent = {
-    //   width: '100%',
-    //   textAlign: 'center',
-    //   height: '8%',
-    //   padding: '5px'
-    // }
-    this.chatInput = {
-      width: '85%',
-      height: '35%',
-      margin: 'auto',
-      fontSize: '11px'
-    }
-    this.sendChatBtn = {
-      width: '29%',
-      backgroundColor: 'green',
-      color: 'black',
-      border: '2px solid blue',
-      borderRadius: '3px',
-      margin: 'auto',
-      height: '35%',
-      fontSize: '11px',
-      padding: '2px',
-      lineHeight: 'normal'
-    }
+    this.displayTypers = this.displayTypers.bind(this);
   }
-
-  componentDidUpdate() {
-    this.textarea.focus();
-  }
-
-  
 
   componentDidMount(){
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -58,7 +28,6 @@ class SendMessageComponent extends React.Component{
       }
     });
   }
-
 
   sendChat(e){
     e.preventDefault();
@@ -72,6 +41,7 @@ class SendMessageComponent extends React.Component{
       this.setState({currMessage: ''});
       chrome.runtime.sendMessage({type: 'doneTyping', groupId});
     }
+    this.textarea.focus();
   }
 
   handleChatChange(e){
@@ -79,7 +49,7 @@ class SendMessageComponent extends React.Component{
     //if state from '' to * emit typing else if from * to '' emit doneTyping
     let groupId = this.props.tabs[this.props.tabs.active].activeGroup;
     if(this.state.currMessage =='' && e.target.value !='') {
-      chrome.runtime.sendMessage({type: 'typing', groupId}); 
+      chrome.runtime.sendMessage({type: 'typing', groupId});
     }else if(this.state.currMessage !='' && e.target.value ==''){
       chrome.runtime.sendMessage({type: 'doneTyping', groupId});
     }
@@ -124,7 +94,7 @@ class SendMessageComponent extends React.Component{
               form="send-chat"
               onKeyDown={this.handleEnter}
               />
-          <div>
+          <div className="typers">
             {this.displayTypers()}
           </div>
           <button
@@ -137,13 +107,5 @@ class SendMessageComponent extends React.Component{
     )
   }
 }
-
-// const mapStateToProps = function(state){
-//   return {
-//     user: state.auth,
-//     // active: state.active,
-//     tabs: state.tabs
-//   }
-// }
 
 export default connect(({tabs, auth})=>({tabs, user: auth}))(SendMessageComponent);

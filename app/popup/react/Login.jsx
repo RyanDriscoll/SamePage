@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link, hashHistory} from 'react-router';
 import {connect} from 'react-redux';
+import rootPath from './httpServer';
 
 class Login extends React.Component {
   constructor(props) {
@@ -14,7 +15,6 @@ class Login extends React.Component {
   handleSubmit(evt) {
     evt.preventDefault();
     this.props.login(evt.target.email.value, evt.target.password.value);
-    console.log('in handleSubmit login attempts >', this.state.loginAttempts)
     setTimeout(() => {
       let count = this.state.loginAttempts;
       count++;
@@ -26,34 +26,66 @@ class Login extends React.Component {
     chrome.runtime.sendMessage({type: 'logout'});
     this.props.logout();
   }
-  componentWillReceiveProps(nextProps) {
-    // console.log('in componentWillReceiveProps this.props.auth, nextProps.auth', this.props.auth, nextProps.auth)
-    // if (!nextProps.auth) {
-    // }
-  }
+  // componentDidUpdate(nextProps) {
+  //   if (!this.props.auth && nextProps.auth) {
+  //     setTimeout(() => {
+  //       window.close();
+  //     }, 1500);
+  //   }
+  // }
   componentWillUpdate(nextProps) {
     // console.log('componentWillUpdate nextProps', nextProps);
   }
   renderLogin() {
     return (
       <div>
-        <div style={stylesheet.welcomeStyle} >Welcome to RAKT Chat</div>
+        <div style={stylesheet.welcomeStyle} >
+          <img
+            className="title-button-img"
+            style={{height: '40px', width: '40px', paddingLeft: '3px'}}
+            src={`${rootPath}messagebubble.png`}
+          />
+          <div>SamePage</div>
+        </div>
         <form onSubmit={this.handleSubmit}>
           <input name="email" placeholder="email" style={stylesheet.inputFieldStyle}/>
           <input name="password" type="password" placeholder="password" style={stylesheet.inputFieldStyle}/>
-          <input type="submit" value="Login" style={stylesheet.loginBtnStyle}/>
+          <input
+            type="submit"
+            value="Login"
+            style={stylesheet.btnStyle}/>
         </form>
-        <Link to='/signup'>
-          <p>No account? Sign up here!</p>
-        </Link>
+        <div style={stylesheet.signup}>
+          <Link
+            to='/signup'
+            style={{textDecoration: 'none'}}>
+            <p>No account? Sign up here!</p>
+          </Link>
+        </div>
         {
-          this.state.loginAttempts > 0 && !this.props.auth ? <div>Login unsuccessful, please try again</div> : <div />
+          this.state.loginAttempts > 0 && !this.props.auth ? <div style={stylesheet.loginFail}>Login unsuccessful, please try again</div> : <div />
         }
       </div>
     )
   }
   renderLogout() {
-    return <button style={stylesheet.logoutBtnStyle} onClick={this.handleLogout}>Logout</button>
+    return (
+      <div>
+        <div style={stylesheet.welcomeStyle} >
+            <img
+              className="title-button-img"
+              style={{height: '40px', width: '40px', paddingLeft: '3px'}}
+              src={`${rootPath}messagebubble.png`}
+            />
+            <div>SamePage</div>
+          </div>
+        <button
+          style={stylesheet.btnStyle}
+          onClick={this.handleLogout}>
+          Logout
+        </button>
+      </div>
+    );
   }
   render() {
     return (
@@ -66,40 +98,73 @@ class Login extends React.Component {
   }
 }
 const stylesheet = {
-  loginBtnStyle: {
-    backgroundColor: 'green',
+  btnStyle: {
+    color: '#fff',
+    fontSize: '20px',
+    backgroundColor: '#5cb85c',
+    border: 'none',
+    height: '35px',
+    width: '75px',
     borderRadius: '3px',
-    color: 'white',
-    border: '1px solid black',
-    width: '80%',
-    marginTop: '10px',
-    marginBottom: '5px'
-  },
-  logoutBtnStyle: {
-    backgroundColor: 'red',
-    borderRadius: '3px',
-    color: 'white',
-    border: '1px solid black',
-    width: '150px',
+    margin: '20px auto',
+    outline: 'none',
+    cursor: 'pointer',
+    display: 'block',
+    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
   },
   inputFieldStyle: {
-    marginTop: '5px',
-    width: '200px',
-    height: '2em'
+    width: '150px',
+    height: '25px',
+    fontSize: '14px',
+    padding: '5px',
+    boxSizing: 'border-box',
+    display: 'block',
+    borderRadius: '3px',
+    border: 'none',
+    outline: 'none',
+    margin: '10px auto',
+    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
+  },
+  loginFail: {
+    height: '25px',
+    background: 'red',
+    color: 'white',
+    fontSize: '12px',
+    padding: '5px',
+    boxSizing: 'border-box',
+    display: 'block',
+    borderRadius: '3px',
+    border: 'none',
+    outline: 'none',
+    margin: 'auto',
+    position: 'absolute',
+    bottom: '11px',
+    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
   },
   welcomeStyle: {
-    color: 'white',
-    width: '95%',
-    textDecoration: 'underline',
-    margin: '5px auto 5px auto',
-    fontSize: '1.5em'
+    background: 'white',
+    fontSize: '28px',
+    borderRadius: '3px',
+    border: 'none',
+    display: 'flex',
+    justifyContent: 'space-around',
+    padding: '5px',
+    margin: '10px',
+    alignItems: 'center',
+    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
+  },
+  signup: {
+    margin: 'auto',
+    textAlign: 'center'
   },
   popupStyle: {
-    backgroundColor: '#2c75ea',
-    textAlign: 'center',
-    padding: '10px',
-    borderRadius: '3px',
-    border: '1px solid black'
+    fontFamily: 'Helvetica Neue',
+    background: '#e2e1e0',
+    width: '250px',
+    height: '250px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
   }
 };
 

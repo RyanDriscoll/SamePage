@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {TweenLite} from 'gsap';
 import MessageContainer from './messagecontainer.jsx';
-import UserContainer from './UserContainer.jsx';
 import SendMessageComponent from './sendmessagecomponent.jsx';
-import rootPath from './httpServer.js';
 import CirclesContainer from './circlescontainer.jsx';
 
 
@@ -17,15 +14,15 @@ class ChatContainer extends React.Component{
         right: this.props.mounted ? '0' : '-260px',
         transition: 'all 0.5s cubic-bezier(0.39, 0.575, 0.565, 1)'
       }
-          };
+    };
     this.nameToColor = this.nameToColor.bind(this)
   }
 
 
-  componentDidMount(){ // on the button instead??
+  componentDidMount(){
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       if (request.action === 'rerender') {
-        this.props.joinRoomMessage()//(this.props.user.id)
+        this.props.joinRoomMessage()
       }
     });
   }
@@ -38,7 +35,6 @@ class ChatContainer extends React.Component{
           transition: 'all 0.5s cubic-bezier(0.39, 0.575, 0.565, 1)'
         }
       });
-      // TweenLite.to(this.el, 0.5, {x: -260, ease: Bounce.easeOut})
     } else {
       this.setState({
         style: {
@@ -46,7 +42,6 @@ class ChatContainer extends React.Component{
           transition: 'all 0.5s cubic-bezier(0.39, 0.575, 0.565, 1)'
         }
       });
-      // TweenLite.to(this.el, 0.3, {x: 0, ease: Power1.easeIn})
     }
   }
 
@@ -70,11 +65,9 @@ class ChatContainer extends React.Component{
               className="chat-container shadow"
               style={this.state.style}
               >
-
-              <UserContainer nameToColor={this.nameToColor} store={this.props.store} />
-              {/*<CirclesContainer store={this.props.store} />*/}
+              <CirclesContainer nameToColor={this.nameToColor} store={this.props.store} />
               <MessageContainer nameToColor={this.nameToColor} store={this.props.store} />
-              <SendMessageComponent store={this.props.store}/>
+              <SendMessageComponent store={this.props.store} />
             </div>
             :
             null
@@ -83,7 +76,5 @@ class ChatContainer extends React.Component{
     );
   }
 }
-
-// const mapStateToP
 
 export default connect(({auth})=>({user: auth}))(ChatContainer);

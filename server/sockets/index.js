@@ -61,11 +61,9 @@ module.exports = {
       })
 
       socket.on('joinGroup', ({url, user_id, circleIds}) => {
-        console.log("khhhhhhhhhhhhhhhhhhhhhh", circleIds)
         circleIds.push(null);
         Group.findAll({where: {url:url, circle_id: {$or: [{$eq: null}, {$in:circleIds}]} }})
         .then(groups => {
-          console.log("lllllllllll in findall", groups.length)
           if(groups.length !== circleIds.length){
             let foundIds = groups.map(group=> group.circle_id && ""+group.circle_id)
             // let unfoundIds = circleIds.filter(id => foundIds.indexOf(id ? +id : null) == -1).map( id => id ? +id : null)
@@ -80,13 +78,11 @@ module.exports = {
           }else return groups
         })
         .then(allGroups => {
-          console.log("in .then after all groups", allGroups.length)
           allGroups.forEach(group=>{
             socket.join(group.id, err => {
               if (err) throw err
               GroupUser.findOrCreate({where:{user_id: user_id, group_id: group.id}})
               .then(()=> {
-          console.log("in .then after groupuser findorcreate")
                 return User.findById(user_id)
               })
               .then(user=>

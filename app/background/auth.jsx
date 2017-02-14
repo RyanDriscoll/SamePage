@@ -33,7 +33,7 @@ export const whoami = () => {
         getCircle(user.id)
       })
       .catch(failed =>{
-        console.log("------------>>>>>>>>>>>>>>failure", failed, failed.stack)
+        console.error("------------>>>>>>>>>>>>>>failure", failed, failed.stack)
         dispatch(authenticated(null))
       })
   }
