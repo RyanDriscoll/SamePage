@@ -34,6 +34,7 @@ export default function reducer (tabs = initialState, action) {
       let newTabs = Object.assign({}, tabs);
       let group = newTabs[tabs.active][action.groupId]
       for(let tab in newTabs){
+        if(tab == 'active' || tab == 0) continue;
         if(group && group.users.indexOf(action.user.id) < 0){
           newTabs = Object.assign({}, newTabs, {
             [tab]: Object.assign({}, newTabs[tab], {
