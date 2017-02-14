@@ -18,10 +18,6 @@ class SendMessageComponent extends React.Component{
     this.displayTypers = this.displayTypers.bind(this);
   }
 
-  componentDidUpdate() {
-    this.textarea.focus();
-  }
-
   componentDidMount(){
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       if (request.action === 'typing') {
@@ -44,6 +40,7 @@ class SendMessageComponent extends React.Component{
       this.setState({currMessage: ''});
       chrome.runtime.sendMessage({type: 'doneTyping', groupId});
     }
+    this.textarea.focus();
   }
 
   handleChatChange(e){

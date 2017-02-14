@@ -65,6 +65,7 @@ class CircleContainer extends React.Component{
       }
     }
     if (this.props.tabs[this.props.tabs.active].activeGroup != activeGroup && this.props.tabs[this.props.tabs.active].activeGroup != 0 && Object.keys(groups).length && activeGroup && groups[activeGroup]){
+      console.log('------groups[activeGroup]', groups, activeGroup)
       groups[activeGroup].message = 0;
     }
     this.updateCircles(groups);
@@ -94,6 +95,7 @@ class CircleContainer extends React.Component{
     if (group) {
       userIds = group.users;
     }
+    console.log('this.state.circles[activeGroup]', this.state.circles[activeGroup])
     return (
       <div className="user-container shadow">
         <div
@@ -113,20 +115,17 @@ class CircleContainer extends React.Component{
             />
           }
           {
-            this.state.circles[activeGroup] ?
-            this.state.circles[activeGroup].name :
-            ''
+            this.state.circles[activeGroup] &&
+            this.state.circles[activeGroup].name
           }
           <div
             onClick={this.handleContainerClick}>
             {
-              this.state.circles[activeGroup] ?
+              this.state.circles[activeGroup] &&
               <UserIcon
                 name={this.state.circles[activeGroup].name}
                 group={group}
               />
-              :
-              <div />
             }
           </div>
         </div>
