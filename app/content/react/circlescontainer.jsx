@@ -10,14 +10,15 @@ class CircleContainer extends React.Component{
     super(props);
     this.state = {
       groups: {},
-      collapsed: true
+      collapsed: true,
+      localTab: 0
     };
     this.handleContainerClick = this.handleContainerClick.bind(this);
   }
 
   handleContainerClick(e){
     e.preventDefault();
-    console.log('clicked', this.state.collapsed)
+    // console.log('clicked', this.state.collapsed)
     if (this.state.collapsed)
          TweenLite.to(this.collapsedContainer, 0.3, {maxHeight:215,ease: Power1.easeOut});
     else TweenLite.to(this.collapsedContainer, 0.3, {maxHeight: 0, ease: Power1.easeOut});
@@ -25,6 +26,9 @@ class CircleContainer extends React.Component{
     this.setState( {collapsed: !this.state.collapsed} )
   }
 
+  componentWillMount(){
+    this.setState({localTab: this.props.tabs.active})
+  }
   // updateCircles(groups){
   //   this.setState( {groups: groups} )
   // }
@@ -35,14 +39,14 @@ class CircleContainer extends React.Component{
     let activeGroup = nextTab.activeGroup;
     let newGroups = Object.assign({}, this.state.groups);
 //if there is a main now else check msg+1 or group switch
-    if(activeGroup && !thisTab.activeGroup){
+    if(activeGroup && !thisTab.activeGroup && !Object.keys(newGroups).length && this.state.localTab == nextProps.tabs.active){
       for (let group in nextTab){
         if(group === 'main' || group === 'activeGroup') continue;
         if(group == nextTab.main) newGroups[group] = {
-            id: group, 
-            letter: 'M', 
-            name: "Main Page", 
-            message: 0, 
+            id: group,
+            letter: 'M',
+            name: "Main Page",
+            message: 0,
             group: true}
         else newGroups[group] = {
             id: group,
@@ -51,25 +55,24 @@ class CircleContainer extends React.Component{
             message: 0,
             group: false}
       }
-    }else if(Object.keys(this.props.messages).length + 1 === Object.keys(nextProps.messages).length){
+    }else if(Object.keys(this.props.messages).length + 1 === Object.keys(nextProps.messages).length && this.state.localTab == nextProps.tabs.active){
       for (let group in nextTab){
-        if (group === 'main' || group === 'activeGroup' || group === activeGroup) continue;
+        if (group === 'main' || group === 'activeGroup' || group == activeGroup) continue;
         if(thisTab[group].messages.length !== nextTab[group].messages.length)
-          newGroups[group].message++;
+          if(newGroups[activeGroup]) newGroups[group].message++;
       }
-    }else if(thisTab.activeGroup !== activeGroup && this.props.tabs.active === nextProps.tabs.active) 
-        newGroups[activeGroup].message = 0;
+    }else if(thisTab.activeGroup !== activeGroup && this.props.tabs.active === nextProps.tabs.active && this.state.localTab == nextProps.tabs.active)
+        if(newGroups[activeGroup]) newGroups[activeGroup].message = 0;
     else return;
-    
+
     this.setState( {groups: newGroups} )
   }
 
   render(){
     let activeTab = this.props.tabs[this.props.tabs.active]
-    let activeGroup = activeTab[activeTab.activeGroup]
     let groups = this.state.groups
-console.log("local GROUPS!!!", groups, activeTab)
-    if( !Object.keys(groups).length || !groups[activeTab.activeGroup]){
+    console.log("outside if", groups, groups[activeTab.activeGroup], activeTab.activeGroup)
+    if( !Object.keys(groups).length || !groups[activeTab.activeGroup] || this.state.localTab != this.props.tabs.active){
       return (
         <div></div>
       )
@@ -80,13 +83,14 @@ console.log("local GROUPS!!!", groups, activeTab)
           groupList.unshift(groups[group]);
       else groupList.push(groups[group]);
     }
-    let userIds = activeGroup ? activeGroup.users : [];
+    let userIds = activeTab.activeGroup ? activeTab[activeTab.activeGroup].users : [];
     // if (activeGroup) userIds = activeGroup.users;
+    // console.log("grouplist", groupList)
     return (
       <div>
         <div className="circle-container">
           {
-            groupList.map( (groupObj)=> {
+            groupList && groupList.map( (groupObj)=> {
               return (
                 <div key={groupObj.id}>
                   <CircleComponent
@@ -102,23 +106,23 @@ console.log("local GROUPS!!!", groups, activeTab)
             })
           }
         </div>
-        <div onClick={this.handleContainerClick}>
+        {/*<div onClick={this.handleContainerClick}>
           <CircleTitleComponent
             name={groups[activeTab.activeGroup].name}
-            group={activeGroup}
+            group={activeTab.activeGroup}
             nameToColor={this.props.nameToColor}
           />
-        </div>
+        </div>*/}
         {
           <div
             className="user-container-collapsed"
             ref={el => {this.collapsedContainer = el;}}>
             {
-              activeGroup && this.props.users && userIds.map(id => {
+              activeTab.activeGroup && this.props.users && userIds.map(id => {
                 return (
                   <div key={id} >
-                    <User 
-                      username={this.props.users[id].username} 
+                    <User
+                      username={this.props.users[id].username}
                       nameToColor={this.props.nameToColor}
                     />
                   </div>

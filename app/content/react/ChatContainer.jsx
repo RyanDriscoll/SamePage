@@ -56,7 +56,7 @@ class ChatContainer extends React.Component{
     for (let i = 0; i < name.length; i++) {
       total += name.charCodeAt(i);
     }
-    return total % colors.length;
+    return colors[total % colors.length];
   }
 
   render(){
@@ -84,6 +84,6 @@ class ChatContainer extends React.Component{
   }
 }
 
-// const mapStateToP            
+// const mapStateToP
 
 export default connect(({auth})=>({user: auth}))(ChatContainer);

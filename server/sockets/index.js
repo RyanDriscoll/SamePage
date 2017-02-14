@@ -15,11 +15,11 @@ module.exports = {
       socket.on('typing', ({username, group}) => {
         socket.broadcast.to(group).emit('typing', {username, group})
       })
-      
+
       socket.on('doneTyping', ({username, group}) => {
         socket.broadcast.to(group).emit('doneTyping', {username, group})
       })
-      
+
       socket.on('leaveGroup', ({group_id, user_id, tabId}) => {
         GroupUser.destroy({where: {group_id, user_id}})
         .then(result => {
@@ -31,7 +31,7 @@ module.exports = {
         })
         .catch(err => console.log(err))
       })
-      
+
       socket.on('leaveAllGroups', ({groupIds, user_id}) => {
         GroupUser.destroy({where: {user_id}})
         .then(result => {
@@ -46,7 +46,7 @@ module.exports = {
 
       socket.on('closeTab', ({group_id, user_id, tabId, removeGroup}) => {
         if(!removeGroup){
-          socket.emit('closeTabFromServer', tabId);       
+          socket.emit('closeTabFromServer', tabId);
         }else {
           GroupUser.destroy({where: {group_id, user_id}})
           .then(result => {
@@ -61,10 +61,11 @@ module.exports = {
       })
 
       socket.on('joinGroup', ({url, user_id, circleIds}) => {
-        console.log("khhhhhhhhhhhhhhhhhhhhhh")
+        console.log("khhhhhhhhhhhhhhhhhhhhhh", circleIds)
+        circleIds.push(null);
         Group.findAll({where: {url:url, circle_id: {$or: [{$eq: null}, {$in:circleIds}]} }})
         .then(groups => {
-          console.log("lllllllllll in findall")
+          console.log("lllllllllll in findall", groups.length)
           if(groups.length !== circleIds.length){
             let foundIds = groups.map(group=> group.circle_id && ""+group.circle_id)
             // let unfoundIds = circleIds.filter(id => foundIds.indexOf(id ? +id : null) == -1).map( id => id ? +id : null)
@@ -79,12 +80,13 @@ module.exports = {
           }else return groups
         })
         .then(allGroups => {
+          console.log("in .then after all groups", allGroups.length)
           allGroups.forEach(group=>{
             socket.join(group.id, err => {
               if (err) throw err
               GroupUser.findOrCreate({where:{user_id: user_id, group_id: group.id}})
               .then(()=> {
-                if(!group.circle_id) socket.emit('joinGroupFromServer', allGroups)
+          console.log("in .then after groupuser findorcreate")
                 return User.findById(user_id)
               })
               .then(user=>
@@ -93,7 +95,9 @@ module.exports = {
               .catch(err=>console.log("error in joinGroup socket.on", err, err.stack))
             })
           })
+          return allGroups;
         })
+        .then(allGroups => socket.emit('joinGroupFromServer', allGroups))
         .catch(err=>console.log("error in joinGroup socket.on", err, err.stack))
       })
 

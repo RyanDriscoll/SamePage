@@ -6,16 +6,21 @@ export default class CircleComponent extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      cirlceColor: '',
+      circleColor: '',
       // colors: ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4caf50', '#558b2f', '#ef6c00', '#ff5722', '#795548']
     };
     this.handleClick = this.handleClick.bind(this);
     // this.hashNameToColorIndex = this.hashNameToColorIndex.bind(this);
   }
 
+  componentWillMount(){
+    // this.setState({circleColor: this.props.nameToColor(this.props.name)});
+    // console.log('this state color in mount', this.state.circleColor, "__", this.props.name)
+  }
+
   componentWillReceiveProps(nextProps) {
-    this.setState({cirlceColor: this.props.nameToColor(nextProps.name)});
-    // console.log(nextProps, this.props)
+    // this.setState({circleColor: this.props.nameToColor(nextProps.name)});
+    // console.log('this state color', this.state.circleColor)
     if (this.props.message && !this.props.active) {
       // TweenMax.to(this.circle, 0, {transformOrigin: 'center center -150px'});
       TweenMax.to(this.circle, 0.5, {
@@ -52,10 +57,11 @@ export default class CircleComponent extends React.Component{
   }
 
   render(){
+    // console.log("color", this.state.circleColor, this.props.name)
     return (
       <div
         ref={el => {this.circle = el;}}
-        style={ {backgroundColor: this.state.cirlceColor} }
+        style={ {backgroundColor: this.props.nameToColor(this.props.name)} }
         className="circle-component shadow"
         onClick={this.handleClick}>
         {this.props.letter} {this.props.message || ''}

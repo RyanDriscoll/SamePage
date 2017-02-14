@@ -22,9 +22,9 @@ const initialState = {
   0: {
     activeGroup: 0,
     main: 0,
-    0: { 
-      circle: null, 
-      users:[], 
+    0: {
+      circle: null,
+      users:[],
       messages: [] },
   }
 }
@@ -32,17 +32,17 @@ export default function reducer (tabs = initialState, action) {
 	switch (action.type) {
     case ADD_USER: {
       let newTabs = Object.assign({}, tabs);
-      let group = newTabs[tab][action.groupId]
+      let group = newTabs[tabs.active][action.groupId]
       for(let tab in newTabs){
         if(group && group.users.indexOf(action.user.id) < 0){
           newTabs = Object.assign({}, newTabs, {
             [tab]: Object.assign({}, newTabs[tab], {
-              [action.groupId]: Object.assign({}, group, 
+              [action.groupId]: Object.assign({}, group,
                 {users: [...group.users, action.userId]}
               )
             })
           })
-        } 
+        }
       }
       return newTabs;
     }
@@ -57,7 +57,7 @@ export default function reducer (tabs = initialState, action) {
           if(tab == 'active' || tab == 0) continue;
           if(tabs[tab][action.groupId]) {
             newTabs[tab] = Object.assign({}, {
-              [action.groupId]: Object.assign({}, newTabs[tab][action.groupId], 
+              [action.groupId]: Object.assign({}, newTabs[tab][action.groupId],
                 {user: newTabs[tab][action.groupId].users.filter(id => id != action.userId)}
               )
             })
@@ -80,7 +80,7 @@ export default function reducer (tabs = initialState, action) {
         if(newTabs[tab][action.groupId]){
           newTabs = Object.assign({}, newTabs, {
             [tab]: Object.assign({}, newTabs[tab], {
-              [action.groupId]: Object.assign({}, newTabs[tab][action.groupId], 
+              [action.groupId]: Object.assign({}, newTabs[tab][action.groupId],
                 {messages: [...newTabs[tab][action.groupId].messages, action.msg.id]}
               )
             })
@@ -103,8 +103,8 @@ export default function reducer (tabs = initialState, action) {
           if(group.circle_id){
             return {[group.id]: {circle: group.circle_id, users: [], messages: []}}
           }else return {
-            activeGroup: group.id, 
-            main: group.id, 
+            activeGroup: group.id,
+            main: group.id,
             [group.id]: {circle: null, users: [], messages: []}
           }
         }))
