@@ -43,8 +43,8 @@ class CircleContainer extends React.Component{
         if(group === 'main' || group === 'activeGroup') continue;
         if(group == nextTab.main) newGroups[group] = {
             id: group,
-            letter: 'M',
-            name: "Main Page",
+            letter: null,
+            name: "SamePage",
             message: 0,
             group: true}
         else newGroups[group] = {
