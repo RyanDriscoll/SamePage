@@ -1,8 +1,13 @@
-import { GET_USER, GET_MSG, CHANGE_ACTIVE } from './tabs.js';
+import { GET_USER } from './users.js';
+import { GET_MSG } from './messages.js';
+import { GET_CIRCLE } from './circles.js';
+import { CHANGE_ACTIVE } from './tabs.js';
 import rootPath from './httpServer.jsx';
 import axios from 'axios';
 import store from './store.js';
 import socket from './sockets/io';
+
+/* ------------   ACTION CREATORS     ------------------ */
 
 export const get_user = (users, userIds, tabId, groupIds) => {
   return {
@@ -48,12 +53,10 @@ export const getMsg = (tabId, groups) => {
   .then(res => res.data)
   .then(foundMessages => {
     const messageIds = foundMessages.reduce((obj, msg) => {
-      if(obj[msg.group_id]){
-        obj[msg.group_id].messages.push(msg);
-      } else {
-        obj[msg.group_id] = {};
-        obj[msg.group_id].messages = [msg];
-      }
+      if(obj[msg.group_id]) obj[msg.group_id].messages.push(msg);
+      else obj[msg.group_id] = {messages: [msg]}
+        // obj[msg.group_id] = {};
+        // obj[msg.group_id].messages = [msg];
       return obj;
 		}, {})
     const users = foundMessages.map(message => message.user);
@@ -64,12 +67,23 @@ export const getMsg = (tabId, groups) => {
 };
 
 
-export const addGroup = (url) => {
-  let circleIds = [null, ...Object.keys(store.getState().circles)]
-  socket.emit('joinGroup', {url: url, user_id: store.getState().auth.id, circleIds:circleIds});
+export const addGroup = url => {
+  console.log("addgroup before emit")
+  let circleIds = Object.keys(store.getState().circles).filter(id => id != 0)
+  socket.emit('joinGroup', {url, circleIds, user_id: store.getState().auth.id});
 };
 
 export const removeUser = (groupId, userId) => {
   axios.delete(rootPath + 'groups/users', {data: {groupId, userId}})
   .catch(err => console.log(err, err.stack))
+}
+
+export const getCircle = user_id => {
+  axios.get(rootPath + 'circles', {params: {user_id: user_id}})
+  .then (res => res.data)
+  .then(circles => {
+    let mappedCircles = circles.map( (circle) => circle.circle )
+    store.dispatch({type: GET_CIRCLE, circles: mappedCircles})
+  })
+  .catch(err => console.error(`Error fetching circles for user ${user_id} unsuccessful`, err))
 }

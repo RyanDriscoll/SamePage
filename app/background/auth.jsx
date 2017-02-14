@@ -1,9 +1,9 @@
 import axios from 'axios'
 import rootPath from './httpServer.jsx';
-import {getCircle} from './circles'
+import {getCircle} from './actionAndDispatch'
 
 
-/* -----------------    ACTIONS     ------------------ */
+/* -----------------    CONSTANTS     ------------------ */
 const AUTHENTICATED = 'AUTHENTICATED'
 
 /* ------------   ACTION CREATORS     ------------------ */
