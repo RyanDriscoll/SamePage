@@ -39,6 +39,7 @@ export default function setListeners(){
 
   chrome.runtime.onMessage.addListener(function(request, sender, response){
     if (request.type === 'joinRoom'){
+      console.log("bbbbbbbbbbbbbbbbbb")
       addGroup(sender.url)
     }else if(request.type === 'changeActiveGroup'){
       store.dispatch({type: SWITCH_ACTIVE_GROUP, groupId: request.groupId})

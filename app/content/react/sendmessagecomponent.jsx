@@ -15,7 +15,7 @@ class SendMessageComponent extends React.Component{
     this.sendChat = this.sendChat.bind(this);
     this.handleChatChange = this.handleChatChange.bind(this);
     this.handleEnter = this.handleEnter.bind(this);
-    this.displayTypers = this.displayTypers.bind(this);
+    // this.displayTypers = this.displayTypers.bind(this);
 
     // this.sendChatComponent = {
     //   width: '100%',
@@ -87,9 +87,7 @@ class SendMessageComponent extends React.Component{
   }
 
   handleEnter(e){
-    if (e.keyCode === 13){
-      this.sendChat(e);
-    }
+    if (e.keyCode === 13) this.sendChat(e)
   }
 
   displayTypers(){
@@ -140,18 +138,12 @@ class SendMessageComponent extends React.Component{
   }
 }
 
-const mapStateToProps = function(state){
-  return {
-    user: state.auth,
-    active: state.active,
-    tabs: state.tabs
-  }
-}
+// const mapStateToProps = function(state){
+//   return {
+//     user: state.auth,
+//     // active: state.active,
+//     tabs: state.tabs
+//   }
+// }
 
-const mapDispatchToProps = function(dispatch){
-  return {
-
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SendMessageComponent);
+export default connect(({tabs, auth})=>({tabs, user: auth}))(SendMessageComponent);

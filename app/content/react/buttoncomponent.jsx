@@ -15,8 +15,8 @@ class ButtonComponent extends React.Component{
     }
     this.toggleChatDisplay = this.toggleChatDisplay.bind(this);
     this.animateButtonIn = this.animateButtonIn.bind(this);
-    this.animateButtonOut = this.animateButtonOut.bind(this);
-    this.handleMouseEnter = this.handleMouseEnter.bind(this);
+    // this.animateButtonOut = this.animateButtonOut.bind(this);
+    // this.handleMouseEnter = this.handleMouseEnter.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.joinRoom = this.joinRoom.bind(this);
   }
@@ -28,18 +28,20 @@ class ButtonComponent extends React.Component{
           TweenLite.to(this.button, 1.5, {height: 100, width: 100, borderRadius: '50%', ease: Elastic.easeOut});
           TweenLite.to(this.img, 1.5, {height: 60, width: 60, ease: Elastic.easeOut});
         }
-        this.setState({displayChat: false})
+        this.setState( {displayChat: false} )
       }
     });
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.user) {
-      this.animateButtonIn();
-    }
-    if (!nextProps.user) {
-      this.animateButtonOut();
-    }
+    if (nextProps.user) this.animateButtonIn();
+    else this.animateButtonOut();
+    // if (nextProps.user) {
+    //   this.animateButtonIn();
+    // }
+    // if (!nextProps.user) {
+    //   this.animateButtonOut();
+    // }
   }
 
   animateButtonIn() {
@@ -61,22 +63,23 @@ class ButtonComponent extends React.Component{
 
   }
 
-  joinRoom(userId){chrome.runtime.sendMessage({type: 'joinRoom', user: userId}, null)} //need user?
+  // joinRoom(userId){chrome.runtime.sendMessage({type: 'joinRoom', user: userId}, null)} //need user?
+  joinRoom(){chrome.runtime.sendMessage({type: 'joinRoom'}, null)}
 
   toggleChatDisplay(e){
     e.preventDefault();
     if (!this.state.displayChat) {
-      TweenLite.to(this.button, 1.5, {height: 50, width: 75, borderRadius: 3, ease: Elastic.easeOut});
-      TweenLite.to(this.img, 1.5, {height: 30, width: 30, ease: Elastic.easeOut});
+      TweenLite.to(this.button,1.5, {height:50, width:75, ease: Elastic.easeOut, borderRadius: 3});
+      TweenLite.to(this.img , 1.5 , {height:30, width:30, ease: Elastic.easeOut});
       this.joinRoom(this.props.user.id)
     } else {
-      TweenLite.to(this.button, 1.5, {height: 100, width: 100, borderRadius: '50%', ease: Elastic.easeOut});
-      TweenLite.to(this.img, 1.5, {height: 60, width: 60, ease: Elastic.easeOut});
+      TweenLite.to(this.button,1.5, {height:100, width:100, ease: Elastic.easeOut, borderRadius:'50%'});
+      TweenLite.to(this.img , 1.5 , {height: 60, width: 60, ease: Elastic.easeOut});
     }
     // chrome.runtime.sendMessage({type: 'joinRoom', user: this.props.user.id}, null)
 
 
-    this.setState({displayChat: !this.state.displayChat});
+    this.setState( {displayChat: !this.state.displayChat} );
 
   }
 
@@ -114,16 +117,10 @@ class ButtonComponent extends React.Component{
   }
 }
 
-const mapStateToProps = function(state){
-  return {
-    user: state.auth
-  }
-}
+// const mapStateToProps = function(state){
+//   return {
+//     user: state.auth
+//   }
+// }
 
-const mapDispatchToProps = function(dispatch){
-  return {
-
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ButtonComponent);
+export default connect(({auth})=>({user: auth}))(ButtonComponent);

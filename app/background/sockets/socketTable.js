@@ -6,14 +6,14 @@ import {REMOVE_GROUP, REMOVE_TAB, LOGOUT} from '../tabs.js';
 
 export default function(table) {
   for (const action of actions) {
-    socket.on(`${action}:${table}`, record => {
+    socket.on(action + ':' + table, record => {
       const currentStore = store.getState();
       if (table === 'user' && record.user_id === currentStore.auth.id) {
         return;
       }
       store.dispatch({
-        type: `${action.toUpperCase()}_${table.toUpperCase()}`,
-        [table]: record.row || null,
+        type: action.toUpperCase() + '_' + table.toUpperCase(),
+        [table]: record[table] || null,
         groupId: record.groupId || null,
         userId: record.user_id || null,
         tabId: currentStore.tabs.active
@@ -47,6 +47,7 @@ export function socketListeners(){
   })
 
   socket.on('joinGroupFromServer', groups => {
+    console.log("ooooooooooooo")
     let currentStore = store.getState();
     store.dispatch({
       type: 'ADD_GROUP',

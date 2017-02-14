@@ -8,25 +8,22 @@ class CircleTitle extends React.Component{
     super(props);
     this.state = {
       titleColor: '',
-      colors: ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4caf50', '#558b2f', '#ef6c00', '#ff5722', '#795548']
+      // colors: ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4caf50', '#558b2f', '#ef6c00', '#ff5722', '#795548']
     };
-    this.hashNameToColorIndex = this.hashNameToColorIndex.bind(this);
+    // this.hashNameToColorIndex = this.hashNameToColorIndex.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    const index = this.hashNameToColorIndex(nextProps.name);
-    this.setState({
-      titleColor: this.state.colors[index]
-    });
+    this.setState( {titleColor: this.props.nameToColor(nextProps.name)} );
   }
 
-  hashNameToColorIndex(name){
-    let total = 0;
-    for (let i = 0; i < name.length; i++) {
-      total += name.charCodeAt(i);
-    }
-    return total % this.state.colors.length;
-  }
+  // hashNameToColorIndex(name){
+  //   let total = 0;
+  //   for (let i = 0; i < name.length; i++) {
+  //     total += name.charCodeAt(i);
+  //   }
+  //   return total % this.state.colors.length;
+  // }
 
 
 
