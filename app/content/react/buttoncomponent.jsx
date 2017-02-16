@@ -52,7 +52,9 @@ class ButtonComponent extends React.Component{
 
   }
 
-  joinRoom(){chrome.runtime.sendMessage({type: 'joinRoom'}, null)}
+  joinRoom(){
+    if(this.props.user.id) chrome.runtime.sendMessage({type: 'joinRoom'}, null)
+  }
 
   toggleChatDisplay(e){
     e.preventDefault();
@@ -66,7 +68,6 @@ class ButtonComponent extends React.Component{
       TweenLite.to(this.xImg, 0.5, {height: 0, width: 0, autoAlpha: 0});
       TweenLite.to(this.bubImg, 1.5, {height: 60, width: 60, autoAlpha: 1, ease: Elastic.easeOut});
     }
-
 
     this.setState( {displayChat: !this.state.displayChat} );
 

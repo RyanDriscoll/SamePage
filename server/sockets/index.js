@@ -62,7 +62,7 @@ module.exports = {
 
       socket.on('joinGroup', ({url, user_id, circleIds}) => {
         circleIds.push(null);
-        console.log("kkkkkkkkkkk in join", circleIds)
+        console.log("kkkkkkkkkkk in join", user_id)
         Group.findAll({where: {url:url, circle_id: {$or: [{$eq: null}, {$in:circleIds}]} }})
         .then(groups => {
                   console.log("kkkkklllllllk in found grop", groups.length)
