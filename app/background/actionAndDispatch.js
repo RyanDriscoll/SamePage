@@ -55,6 +55,7 @@ export const getMsg = (tabId, groups) => {
 
 export const addGroup = url => {
   let circleIds = Object.keys(store.getState().circles).filter(id => id != 0)
+  console.log("addGroupxxxxxx", store.getState().auth.id)
   socket.emit('joinGroup', {url, circleIds, user_id: store.getState().auth.id});
 };
 

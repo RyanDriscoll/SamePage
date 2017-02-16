@@ -8,10 +8,7 @@ export default function(table) {
   for (const action of actions) {
     socket.on(action + ':' + table, record => {
       const currentStore = store.getState();
-      // if (table === 'user' && record.user_id === currentStore.auth.id) {
-      //   return;
-      // }
-      console.log("lll")
+      if (action + ':' + table == 'add:user') console.log("lll", userId)
       store.dispatch({
         type: action.toUpperCase() + '_' + table.toUpperCase(),
         [table]: record[table] || null,
