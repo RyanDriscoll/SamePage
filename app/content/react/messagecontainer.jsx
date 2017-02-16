@@ -9,19 +9,29 @@ import MessageComponent from './messagecomponent.jsx';
 class MessageContainer extends React.Component{
   constructor(props){
     super(props);
+    this.state = {
+      localTab: 0
+    }
   }
 
+  componentWillMount() {
+    this.setState({localTab: this.props.tabs.active})
+  }
+  
   componentDidMount() {
     this.messageContainer.scrollTop = this.messageContainer.scrollHeight;
+    console.log("9oooooooooo",this.messageContainer)
   }
 
   componentDidUpdate() {
 
     // conditionally set scroll height if new message comes in
+    if(this.props.tabs.active==this.state.localTab )
     this.messageContainer.scrollTop = this.messageContainer.scrollHeight;
   }
 
   componentWillReceiveProps(nextProps) {
+    if(this.props.tabs.active==this.state.localTab)
     this.messageContainer.scrollTop = this.messageContainer.scrollHeight;
   }
 
@@ -31,7 +41,7 @@ class MessageContainer extends React.Component{
   //     console.log('true', this.props.tabs[this.props.tabs.active].activeGroup, nextProps.tabs[nextProps.tabs.active].activeGroup)
   //     return true;
   //   }
-  //   console.log('false', Object.keys(nextProps.messages).length, Object.keys(this.props.messages).length)
+  //   console.log('faSlse', Object.keys(nextProps.messages).length, Object.keys(this.props.messages).length)
   //     console.log('false', this.props.tabs[this.props.tabs.active].activeGroup, nextProps.tabs[nextProps.tabs.active].activeGroup)
   //   return false;
   // }
@@ -40,16 +50,19 @@ class MessageContainer extends React.Component{
     const tabs = this.props.tabs;
     const activeGroupId = tabs[tabs.active].activeGroup
     const group = tabs[tabs.active][activeGroupId]
-    const messages = this.props.messages //.map(message => message.groupId === group.id);
+    const messages = this.props.messages//.map(message => message.groupId === group.id);
     let messageIds = group ? group.messages.sort((a, b) => a - b) : [];
     const users = this.props.users;
-    return (
+    
+    console.log("gggggggggggggg",this.props.tabs.active, this.state.localTab)
+    return this.props.tabs.active==this.state.localTab && (
       <div
         className="message-container"
         ref={el => {this.messageContainer = el;}}>
         {
           group && users && messages && messageIds.map(id => {
-            return users[messages[id].user_id] && (
+            console.log("ggmmmmm", id, messages)
+            return messages[id] && users[messages[id].user_id] && (
               <div key={id}>
                 <MessageComponent
                   content={messages[id].content}

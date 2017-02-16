@@ -22,6 +22,7 @@ class ChatContainer extends React.Component{
   componentDidMount(){
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       if (request.action === 'rerender') {
+        console.log("rerenderrrrr")
         this.props.joinRoomMessage()
       }
     });

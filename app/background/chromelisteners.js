@@ -1,5 +1,5 @@
 import store from './store.js';
-import { addGroup, change_active, getMsg, getUser, removeUser } from './actionAndDispatch.js';
+import { addGroup, change_active, getMsg, removeUser } from './actionAndDispatch.js';
 import { ADD_GROUP } from './groups.js';
 import { CHANGE_ACTIVE, REMOVE_TAB, REMOVE_GROUP, SWITCH_ACTIVE_GROUP } from './tabs.js';
 import socket from './sockets/io';
@@ -21,7 +21,7 @@ export default function setListeners(){
           }
         }
         if (deleteGroup) {
-          socket.emit('leaveGroup', {group_id, tabId, user_id: currStore.auth.id});
+          socket.emit('leaveGroup', {group_id:groupId, tabId, user_id: currStore.auth.id}); //////wtf
         }
         socket.emit('doneTyping', {username: store.getState().auth.username, group: groupId})
       }
@@ -30,7 +30,8 @@ export default function setListeners(){
 
   chrome.tabs.onActivated.addListener(function({tabId, windowId}){
     store.dispatch(change_active(tabId));
-    if (Object.keys(store.getState().tabs[tabId]) > 2){
+    console.log("rerender tabs: ", store.getState().tabs[tabId])
+    if (Object.keys(store.getState().tabs[tabId]).length > 2){
       chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
           chrome.tabs.sendMessage(tabs[0].id, {action: "rerender"}, function(response) {});
       });
@@ -39,7 +40,6 @@ export default function setListeners(){
 
   chrome.runtime.onMessage.addListener(function(request, sender, response){
     if (request.type === 'joinRoom'){
-      console.log("bbbbbbbbbbbbbbbbbb")
       addGroup(sender.url)
     }else if(request.type === 'changeActiveGroup'){
       store.dispatch({type: SWITCH_ACTIVE_GROUP, groupId: request.groupId})
@@ -47,6 +47,11 @@ export default function setListeners(){
       socket.emit('typing', {username: store.getState().auth.username, group: request.groupId})
     }else if(request.type === 'doneTyping'){
       socket.emit('doneTyping', {username: store.getState().auth.username, group: request.groupId})
+    }else if(request.type === 'login'){
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+        console.log("kkkkkkkkkkkkkk", tabs[0].id)
+        store.dispatch(change_active(tabs[0].id))
+      });
     }else if(request.type === 'logout'){
       chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
         chrome.tabs.sendMessage(tabs[0].id, {action: "displayChatboxFalse"}, function(response) {});

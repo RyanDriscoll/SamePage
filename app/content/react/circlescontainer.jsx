@@ -28,7 +28,6 @@ class CircleContainer extends React.Component{
   }
 
   componentWillMount(){
-    console.log("local tab", this.props.tabs.active)
     this.setState({localTab: this.props.tabs.active})
   }
 
@@ -38,9 +37,9 @@ class CircleContainer extends React.Component{
     let activeGroup = nextTab.activeGroup;
     let newGroups = Object.assign({}, this.state.groups);
 
-    if(activeGroup && !Object.keys(newGroups).length && (this.state.localTab == nextProps.tabs.active)){
+    if(this.props.tabs[this.state.localTab].activeGroup && !Object.keys(newGroups).length){// && (this.state.localTab == nextProps.tabs.active)){
       for (let group in nextTab){
-        if(group === 'main' || group === 'activeGroup') continue;
+        if(group === 'main' || group === 'activeGroup' || group === 'circle') continue;
         if(group == nextTab.main) newGroups[group] = {
             id: group,
             letter: null,
@@ -54,13 +53,15 @@ class CircleContainer extends React.Component{
             message: 0,
             group: false}
       }
-    }else if(Object.keys(this.props.messages).length + 1 === Object.keys(nextProps.messages).length && (this.state.localTab == nextProps.tabs.active)){
+    }else if(this.state.localTab == nextProps.tabs.active
+      && Object.keys(this.props.messages).length + 1 == Object.keys(nextProps.messages).length){
       for (let group in nextTab){
         if (group === 'main' || group === 'activeGroup' || group == activeGroup) continue;
         if(thisTab[group].messages.length !== nextTab[group].messages.length)
           if(newGroups[activeGroup]) newGroups[group].message++;
       }
-    }else if(thisTab.activeGroup !== activeGroup && this.props.tabs.active === nextProps.tabs.active && (this.state.localTab == nextProps.tabs.active))
+    }else if(thisTab.activeGroup !== activeGroup 
+      && this.state.localTab == nextProps.tabs.active)
         if(newGroups[activeGroup]) newGroups[activeGroup].message = 0;
     else return;
 
@@ -68,19 +69,19 @@ class CircleContainer extends React.Component{
   }
 
   render(){
-    let activeTab = this.props.tabs[this.props.tabs.active]
+    const tabs = this.props.tabs;
+    let activeTab = tabs[tabs.active]
     let theActiveGroup = activeTab.activeGroup;
     let groups = this.state.groups;
     let mainGroup = activeTab.main;
+    const group = tabs[tabs.active][theActiveGroup];
 
-    const tabs = this.props.tabs;
-    const activeGroupId = tabs[tabs.active].activeGroup;
-    const group = tabs[tabs.active][activeGroupId];
-
-    if( !Object.keys(groups).length || !groups[theActiveGroup] || this.state.localTab != this.props.tabs.active){
-      return (
-        <div />
-      );
+    if( !Object.keys(groups).length 
+      || !groups[theActiveGroup] 
+      || this.state.localTab != this.props.tabs.active){
+        return (
+          <div />
+        );
     }
     let groupList = [];
     for (let group in groups){

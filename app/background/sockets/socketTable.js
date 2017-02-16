@@ -8,9 +8,10 @@ export default function(table) {
   for (const action of actions) {
     socket.on(action + ':' + table, record => {
       const currentStore = store.getState();
-      if (table === 'user' && record.user_id === currentStore.auth.id) {
-        return;
-      }
+      // if (table === 'user' && record.user_id === currentStore.auth.id) {
+      //   return;
+      // }
+      console.log("lll")
       store.dispatch({
         type: action.toUpperCase() + '_' + table.toUpperCase(),
         [table]: record[table] || null,
@@ -47,11 +48,11 @@ export function socketListeners(){
   })
 
   socket.on('joinGroupFromServer', groups => {
-    console.log("ooooooooooooo")
+    console.log("wwwwwwtfffffs")
     let currentStore = store.getState();
     store.dispatch({
       type: 'ADD_GROUP',
-      group: groups, //
+      groups: groups, //
       tabId: currentStore.tabs.active
     });
     getMsg(currentStore.tabs.active, groups.map(group => group.id));

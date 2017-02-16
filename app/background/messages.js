@@ -14,13 +14,11 @@ const initialState = {
 }
 export default function reducer (messages = initialState, action) {
   switch (action.type) {
-    case GET_MSG: {
-      const groupMessages = action.messages.reduce((obj, message) => {
+    case GET_MSG:
+      return action.messages.reduce((obj, message) => {
         obj[message.id] = message;
         return obj;
       }, {});
-      return Object.assign({}, messages, groupMessages);
-    }
     case ADD_MSG: {
       return Object.assign({}, messages, {[action.msg.id]: action.msg})
     }

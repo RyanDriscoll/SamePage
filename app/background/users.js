@@ -14,20 +14,13 @@ const initialState = {
 }
 export default function reducer (users = initialState, action) {
   switch (action.type) {
-    case GET_USER: {
-      const groupUsers = action.users.reduce((obj, user) => {
-        if(action.tabId && !users[user.user_id]){
-          obj[user.user_id] = {id: user.user_id, username: user.user.username};
-        }
-        // else{
-        //   if(!users[user.id]) obj[user.id] = {id: user.id, username: user.username};          
-        // }
-        return obj;
-      }, {});
-      return Object.assign({}, users, groupUsers);
-    }
+    case GET_USER:
+      return Object.assign({}, users, action.users.reduce((obj, GrpUser) => {
+        obj[GrpUser.user_id] = GrpUser.user
+        return obj
+      }, {}))
     case ADD_USER: {
-      return Object.assign({}, users, {[action.user.id]: action.user});
+      return Object.assign({}, users, {[action.userId]: action.user});
     }
     case REMOVE_USER: {
       return users;

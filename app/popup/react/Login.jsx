@@ -14,6 +14,7 @@ class Login extends React.Component {
   }
   handleSubmit(evt) {
     evt.preventDefault();
+    chrome.runtime.sendMessage({type: 'login'});
     this.props.login(evt.target.email.value, evt.target.password.value);
     setTimeout(() => {
       let count = this.state.loginAttempts;

@@ -17,10 +17,7 @@ class UserIcon extends React.Component{
           className="number-of-users-icon"
           style={{background: this.props.nameToColor(this.props.name)}}>
           {
-            this.props.group ?
               this.props.group.users.length
-              :
-              '1'
           }
         </div>
       </div>

@@ -38,6 +38,7 @@ class SendMessageComponent extends React.Component{
         user_id: this.props.user.id,
         group_id: groupId
       });
+      console.log("ppppppppppP", groupId)
       this.setState({currMessage: ''});
       chrome.runtime.sendMessage({type: 'doneTyping', groupId});
     }
