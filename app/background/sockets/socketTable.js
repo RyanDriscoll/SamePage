@@ -8,12 +8,12 @@ export default function(table) {
   for (const action of actions) {
     socket.on(action + ':' + table, record => {
       const currentStore = store.getState();
-      if (action + ':' + table == 'add:user') console.log("lll", record.user_id)
+      if (action + ':' + table == 'add:user') console.log("lll", record.userId)
       store.dispatch({
         type: action.toUpperCase() + '_' + table.toUpperCase(),
         [table]: record[table] || null,
         groupId: record.groupId || null,
-        userId: record.user_id || null,
+        userId: record.userId || null,
         tabId: currentStore.tabs.active
       });
     });
