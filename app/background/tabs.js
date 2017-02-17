@@ -109,7 +109,7 @@ export default function reducer (tabs = initialState, action) {
           newTab[groupId] = Object.assign({}, newTab[groupId], 
             {messages: 
               action.messages
-              .filter(msg => {console.log("llll msg, grouploop ",msg.group_id, groupId);return msg.group_id == groupId})
+              .filter(msg => msg.group_id == groupId)
               .map(msg => msg.id)
             }
           )

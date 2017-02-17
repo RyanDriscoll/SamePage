@@ -30,7 +30,6 @@ export default function setListeners(){
 
   chrome.tabs.onActivated.addListener(function({tabId, windowId}){
     store.dispatch(change_active(tabId));
-    console.log("rerender tabs: ", store.getState().tabs[tabId])
     if (Object.keys(store.getState().tabs[tabId]).length > 2){
       chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
           chrome.tabs.sendMessage(tabs[0].id, {action: "rerender"}, function(response) {});
@@ -49,7 +48,6 @@ export default function setListeners(){
       socket.emit('doneTyping', {username: store.getState().auth.username, group: request.groupId})
     }else if(request.type === 'login'){
       chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-        console.log("kkkkkkkkkkkkkk", tabs[0].id)
         store.dispatch(change_active(tabs[0].id))
       });
     }else if(request.type === 'logout'){

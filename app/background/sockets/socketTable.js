@@ -8,12 +8,12 @@ export default function(table) {
   for (const action of actions) {
     socket.on(action + ':' + table, record => {
       const currentStore = store.getState();
-      if (action + ':' + table == 'add:user') console.log("lll", record.userId)
+
       store.dispatch({
         type: action.toUpperCase() + '_' + table.toUpperCase(),
         [table]: record[table] || null,
-        groupId: record.groupId || null,
-        userId: record.userId || null,
+        groupId: record.group_id || null,
+        userId: record.user_id || null,
         tabId: currentStore.tabs.active
       });
     });
@@ -45,22 +45,21 @@ export function socketListeners(){
   })
 
   socket.on('joinGroupFromServer', groups => {
-    console.log("wwwwwwtfffffs")
     let currentStore = store.getState();
     store.dispatch({
       type: 'ADD_GROUP',
-      groups: groups, //
+      groups: groups,
       tabId: currentStore.tabs.active
     });
     getMsg(currentStore.tabs.active, groups.map(group => group.id));
     getUser(currentStore.tabs.active, groups.map(group => group.id)) //why not include users w groups instead?
   })
 
-  socket.on('leaveGroupFromServer', (groupId, tabId) => {
-    store.dispatch({type: REMOVE_GROUP, tabId: tabId, groupId})
+  socket.on('leaveGroupFromServer', ({group_id, tabId}) => {
+    store.dispatch({type: REMOVE_GROUP, tabId: tabId, groupId: group_id})
   })
 
-  socket.on('closeTabFromServer', (tabId) => {
+  socket.on('closeTabFromServer', tabId => {
     store.dispatch({type: REMOVE_TAB, tabId: tabId})
   })
 

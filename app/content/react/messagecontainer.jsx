@@ -20,7 +20,6 @@ class MessageContainer extends React.Component{
   
   componentDidMount() {
     this.messageContainer.scrollTop = this.messageContainer.scrollHeight;
-    console.log("9oooooooooo",this.messageContainer)
   }
 
   componentDidUpdate() {
@@ -54,14 +53,12 @@ class MessageContainer extends React.Component{
     let messageIds = group ? group.messages.sort((a, b) => a - b) : [];
     const users = this.props.users;
     
-    console.log("gggggggggggggg",this.props.tabs.active, this.state.localTab)
     return this.props.tabs.active==this.state.localTab && (
       <div
         className="message-container"
         ref={el => {this.messageContainer = el;}}>
         {
           group && users && messages && messageIds.map(id => {
-            console.log("ggmmmmm", id, messages)
             return messages[id] && users[messages[id].user_id] && (
               <div key={id}>
                 <MessageComponent
