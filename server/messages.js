@@ -23,8 +23,7 @@ module.exports = require('express').Router()
   .post('/', (req, res, next) => {
     Message.create(req.body)
     .then(msg => {
-      sockets.io.to(+msg.group_id).emit("add:msg", {msg, groupId: msg.group_id});
-      console.log("gjhjghhgh",msg.group_id)
+      sockets.io.to(+msg.group_id).emit("add:msg", {msg, group_id: msg.group_id});
       res.status(201).json(msg);
     })
     .catch(next);

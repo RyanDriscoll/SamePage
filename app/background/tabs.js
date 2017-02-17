@@ -72,23 +72,6 @@ export default function reducer (tabs = initialState, action) {
         }
       }return Object.assign({}, tabs, {[action.tabId]: newTab})
     }
-    // let newTabs = Object.assign({}, tabs)
-    //   for(let tabId in newTabs){
-    //     if(tabId !== 'active' && tabId != 0 && newTabs[tabId][action.groupIds[0]]){
-    //       newTabs[tabId] = Object.assign({}, newTabs[tabId])
-    //       for(let groupId in newTabs[tabId]){
-    //         if (groupId !== 'activeGroup' && groupId !== 'main' && groupId !== 'circle'){
-    //           newTabs[tabId][groupId] = Object.assign({}, newTabs[tabId][groupId], 
-    //             {users: action.users
-    //                     .filter(user => user.group_id == groupId)
-    //                     .map(user => user.user_id)
-    //             }
-    //           )
-    //         } 
-    //       }
-    //     }
-    //   }
-    //   return newTabs
     
     case ADD_MSG: {
       let newTabs = Object.assign({}, tabs);
@@ -104,7 +87,6 @@ export default function reducer (tabs = initialState, action) {
     case GET_MSG: {
       let newTab = Object.assign({}, tabs[action.tabId])
       for(let groupId in newTab){
-        console.log("gggg" , groupId)
         if (groupId !== 'activeGroup' && groupId !== 'main'){
           newTab[groupId] = Object.assign({}, newTab[groupId], 
             {messages: 
