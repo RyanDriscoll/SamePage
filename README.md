@@ -3,7 +3,7 @@
 
 ## **Table of Contents** 
  - [About] (#about)
- - [Link to presentation video] (#link)
+ - [Link to presentation video] (#link-to-presentation-video)
  - [Installation] (#installation) 
  - [Features] (#features)
  - [Contributors] (#contributors)
