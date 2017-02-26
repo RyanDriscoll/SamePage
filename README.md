@@ -1,5 +1,5 @@
 # **SamePage** #
-### Chat with other SamePage users that are currently visiting the same web page ###
+### Use the SamePage chrome extension to chat with other users that are currently visiting the same web page ###
 
 ## **Table of Contents** 
  - [About] (#about)
