@@ -18,14 +18,15 @@
 [![Alt text] (http://i.imgur.com/w1K7mHPl.png)](https://www.youtube.com/watch?v=2_RqDmflhjQ)
 
 ## Installation
-1. Clone the repository.
-2. Run `npm install`(this should also `bower install` and `gulp build` automatically)
-3. Start application with `npm start` (should start on port 1337)
-4. Create bundled files with `npm run build-watch`
-5. Navigate to chrome://extensions/
-6. Check 'Developer Mode'
-7. Select 'Load unpacked extension'
-8. Select the 'public' folder in project directory
+1. Clone the repository
+2. Run `npm install`
+3. Ensure three files are exporting `localhost:1337`. `app/background/httpServer`, `app/content/react/httpServer`, `app/popup/react/httpServer`
+4. Start application with `npm start` (should start on port 1337)
+5. Create bundled files with `npm run build-watch`
+6. Navigate to chrome://extensions/
+7. Check 'Developer Mode'
+8. Select 'Load unpacked extension'
+9. Select the 'public' folder in project directory
 
 ## Features
  - We wanted users to be able to sub-divide themselves into groups (circles) to keep chats private from the main page chat room.
