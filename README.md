@@ -19,9 +19,9 @@
 
 ## Installation
 1. Clone the repository.
-2. Run `npm install' `(this should also `bower install` and `gulp build` automatically)
+2. Run `npm install`(this should also `bower install` and `gulp build` automatically)
 3. Start application with `npm start` (should start on port 1337)
-4. Create bundled files with 'npm build-watch'
+4. Create bundled files with `npm run build-watch`
 5. Navigate to chrome://extensions/
 6. Check 'Developer Mode'
 7. Select 'Load unpacked extension'
