@@ -15,7 +15,7 @@
 ![Landing page] (http://i.imgur.com/55zSSczl.png)
 
 ## Link to presentation video
-[![Alt text] (https://img.youtube.com/vi/2_RqDmflhjQ/mqdefault.jpg)](https://www.youtube.com/watch?v=2_RqDmflhjQ)
+[![Alt text] (http://i.imgur.com/w1K7mHPl.png)](https://www.youtube.com/watch?v=2_RqDmflhjQ)
 
 ## Installation
 1. Clone the repository.
