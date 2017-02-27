@@ -23,7 +23,7 @@
 3. Ensure three files are exporting `localhost:1337`. `app/background/httpServer`, `app/content/react/httpServer`, `app/popup/react/httpServer`
 4. Start application with `npm start` (should start on port 1337)
 5. Create bundled files with `npm run build-watch`
-6. Navigate to ![chrome://extensions/] (chrome://extensions/)
+6. Navigate to chrome://extensions/
 7. Check 'Developer Mode'
 8. Select 'Load unpacked extension'
 9. Select the 'public' folder in project directory
