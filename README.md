@@ -10,7 +10,7 @@
 
 ##  About
  - SamePage is a great way to interact in real time with users that are viewing the same content.
- - Chat with other users about an interesting article, get advice on a recipe or ask for assistance understanding a library or framework's documentation
+ - Chat with other users about an interesting article, get advice on a recipe, or ask for assistance understanding a library or framework's documentation
   
 ![Landing page] (http://i.imgur.com/55zSSczl.png)
 
